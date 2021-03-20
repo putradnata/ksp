@@ -12,4 +12,29 @@ class Anggota extends Model
     protected $table = 'anggota';
 
     protected $primaryKey = 'id';
+
+    public $incrementing = false;
+
+    protected $fillable = [
+        'id',
+        'nama',
+        'alamat',
+        'tempatLahir',
+        'tanggalLahir',
+        'jenisKelamin',
+        'pekerjaan'
+    ];
+
+    public function getDefaultValues()
+    {
+        return [
+            'id' => '',
+            'nama' => '',
+            'alamat' => '',
+            'tempatLahir' => '',
+            'tanggalLahir' => '',
+            'jenisKelamin' => '',
+            'pekerjaan' => ''
+        ];
+    }
 }
