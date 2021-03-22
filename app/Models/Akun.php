@@ -12,4 +12,23 @@ class Akun extends Model
     protected $table = 'akun';
 
     protected $primaryKey = 'noAkun';
+
+    public $incrementing = false;
+
+    protected $fillable = [
+        'noAkun',
+        'nama',
+        'tipe',
+        'saldo'
+    ];
+
+    public function getDefaultValues()
+    {
+        return [
+            'noAkun'  => '',
+            'nama'  => '',
+            'tipe'  => '',
+            'saldo'  => ''
+        ];
+    }
 }

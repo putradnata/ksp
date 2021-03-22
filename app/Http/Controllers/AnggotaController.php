@@ -14,7 +14,13 @@ class AnggotaController extends Controller
      */
     public function index()
     {
-        return view('admin/anggota.index');
+        $anggota = new Anggota();
+
+        $selectAnggota = Anggota::all();
+
+        return view('admin/anggota.index',[
+            'anggota' => $selectAnggota
+        ]);
     }
 
     /**
@@ -24,7 +30,7 @@ class AnggotaController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin/anggota.create');
     }
 
     /**
@@ -35,7 +41,45 @@ class AnggotaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $anggota = new Anggota();
+
+        $messages = array(
+            'id.required' => 'Kode Anggota tidak boleh kosong!',
+            'nama.required' => 'Nama Anggota tidak boleh kosong!',
+            'alamat.required' => 'Alamat Anggota tidak boleh kosong!',
+            'tempatLahir.required' => 'Tempat Lahir Anggota tidak boleh kosong!',
+            'tanggalLahir.required' => 'Tanggal Lahir Anggota tidak boleh kosong!',
+            'jenisKelamin.required' => 'Jenis Kelamin Anggota pilih satu!',
+            'pekerjaan.required' => 'Pekerjaaan Anggota tidak boleh kosong!'
+        );
+
+        $validate = $request->validate([
+            'id'=> 'required',
+            'nama'=> 'required',
+            'alamat' => 'required',
+            'tempatLahir' => 'required',
+            'tanggalLahir' => 'required',
+            'jenisKelamin' => 'required',
+            'pekerjaan' => 'required'
+        ],$messages);
+
+        $data = [
+            'id'=> $request->id,
+            'nama' => $request->nama,
+            'alamat' => $request->alamat,
+            'tempatLahir' => $request->tempatLahir,
+            'tanggalLahir' => $request->tanggalLahir,
+            'jenisKelamin' => $request->jenisKelamin,
+            'pekerjaan' => $request->pekerjaan
+        ];
+
+        $insertData = $anggota::create($data);
+
+        if($insertData){
+            return redirect('admin/anggota')->with('success','Data Berhasil Disimpan');
+        }else{
+            return redirect('admin/anggota.create')->with('error','Data Gagal Disimpan');
+        }
     }
 
     /**

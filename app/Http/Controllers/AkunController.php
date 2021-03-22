@@ -14,7 +14,13 @@ class AkunController extends Controller
      */
     public function index()
     {
-        return view('admin/akun.index');
+        $akun = new Akun();
+
+        $selectAkun = Akun::all();
+
+        return view('admin/akun.index',[
+            'akun' => $selectAkun
+        ]);
     }
 
     /**
@@ -24,7 +30,7 @@ class AkunController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin/akun.create');
     }
 
     /**
@@ -35,7 +41,36 @@ class AkunController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $akun = new Akun();
+
+        $messages = array(
+            'noAkun.required' => 'No Akun tidak boleh kosong!',
+            'nama.required' => 'Nama Akun tidak boleh kosong!',
+            'tipe.required' => 'Tipe Akun tidak boleh kosong!',
+            'saldo.required' => 'Saldo tidak boleh kosong!'
+        );
+
+        $validate = $request->validate([
+            'noAkun'=> 'required',
+            'nama' => 'required',
+            'tipe' => 'required',
+            'saldo' => 'required'
+        ],$messages);
+
+        $data = [
+            'noAkun' => $request->noAkun,
+            'nama' => $request->nama,
+            'tipe' => $request->tipe,
+            'saldo' => $request->saldo
+        ];
+
+        $insertData = $akun::create($data);
+
+        if($insertData){
+            return redirect('admin/akun')->with('success','Data Berhasil Disimpan');
+        }else{
+            return redirect('admin/akun.create')->with('error','Data Gagal Disimpan');
+        }
     }
 
     /**
