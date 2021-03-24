@@ -24,20 +24,34 @@
                 @endforeach
             </div>
         @endif
-        <form method="POST" action="{{ route('anggota.store') }}">
+        @if ($idAnggota != "")
+            <form method="POST" action="{{ route('anggota.store') }}">
+        @else
+            <form method="POST" action="{{ route('anggota.update', $anggota->id) }}">
+                @method('PUT')
+        @endif
             @csrf
-            <div class="form-group">
-                <label for="id">Kode Anggota</label>
-                <label class="form-control" style="border: 0; font-weight: normal;">{{$idAnggota}}</label>
-                <input type="hidden" class="form-control" id="id" name="id" value="{{$idAnggota}}">
-            </div>
+            @if ($idAnggota != "")
+                <div class="form-group">
+                    <label for="id">Kode Anggota</label>
+                    <label class="form-control" style="border: 0; font-weight: normal;">{{$idAnggota}}</label>
+                    <input type="hidden" class="form-control" id="id" name="id" value="{{$idAnggota}}">
+                </div>
+            @else
+                <div class="form-group">
+                    <label for="id">Kode Anggota</label>
+                    <label class="form-control" style="border: 0; font-weight: normal;">{{$anggota->id}}</label>
+                    <input type="hidden" class="form-control" id="id" name="id" value="{{$anggota->id}}">
+                </div>
+            @endif
+
             <div class="form-group">
                 <label for="nama">Nama Anggota</label>
-                <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan nama anggota">
+                <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan nama anggota" value="{{ old('anggota', $anggota->nama) }}">
             </div>
             <div class="form-group">
                 <label for="alamat">Alamat Anggota</label>
-                <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukkan alamat anggota">
+                <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukkan alamat anggota" value="{{ old('anggota', $anggota->alamat) }}">
             </div>
             <div class="form-group">
                 <label>Jenis Kelamin Anggota</label>
@@ -46,22 +60,28 @@
                     <label for="customRadio2" class="custom-control-label" style="font-weight:normal;">Laki-laki</label>
                 </div>
                 <div class="custom-control custom-radio">
-                    <input class="custom-control-input" type="radio" id="customRadio3" name="jenisKelamin" value="P">
-                    <label for="customRadio3" class="custom-control-label" style="font-weight:normal;">Perempuan</label>
+                    <input class="custom-control-input" type="radio" id="customRadio2" name="jenisKelamin" value="P">
+                    <label for="customRadio2" class="custom-control-label" style="font-weight:normal;">Perempuan</label>
                 </div>
             </div>
             <div class="form-group">
                 <label for="tempatLahir">Tempat Lahir Anggota</label>
-                <input type="text" class="form-control" id="tempatLahir" name="tempatLahir" placeholder="Masukkan tempat lahir anggota">
+                <input type="text" class="form-control" id="tempatLahir" name="tempatLahir" placeholder="Masukkan tempat lahir anggota" value="{{ old('anggota', $anggota->tempatLahir) }}">
             </div>
             <div class="form-group">
                 <label for="tanggalLahir">Tanggal Lahir Anggota</label>
-                <input type="date" class="form-control" id="tanggalLahir" name="tanggalLahir">
+                <input type="date" class="form-control" id="tanggalLahir" name="tanggalLahir" value="{{ old('anggota', $anggota->tanggalLahir) }}">
             </div>
             <div class="form-group">
                 <label for="pekerjaan">Pekerjaan Anggota</label>
-                <input type="text" class="form-control" id="pekerjaan" name="pekerjaan" placeholder="Masukkan pekerjaan anggota">
+                <input type="text" class="form-control" id="pekerjaan" name="pekerjaan" placeholder="Masukkan pekerjaan anggota" value="{{ old('anggota', $anggota->pekerjaan) }}">
             </div>
+            @if ($idAnggota == "")
+                <div class="form-group">
+                    <label for="umur">Umur</label>
+                    <input type="text" class="form-control" id="umur" name="umur" placeholder="Masukkan umur anggota" value="{{ old('anggota', $anggota->umur) }}">
+                </div>
+            @endif
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>

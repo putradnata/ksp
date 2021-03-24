@@ -49,7 +49,7 @@
                         @endif
                         <td>
                             <a class="btn btn-sm btn-info light-s" data-toggle="modal" data-id="{{ $anggota->id }}" data-target="#detailModal"><span class="fa fa-eye"></span></a>
-                            <a class="btn btn-sm btn-warning light-s" href="#"><span class="fas fa-pencil-alt"></span></a>
+                            <a class="btn btn-sm btn-warning light-s" href="{{ route('anggota.edit', $anggota->id) }}"><span class="fas fa-pencil-alt"></span></a>
                         </td>
                     </tr>
                 @endforeach

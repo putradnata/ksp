@@ -32,6 +32,10 @@ class AnggotaController extends Controller
      */
     public function create()
     {
+        $anggota = new Anggota();
+
+        $anggota =  (object) $anggota->getDefaultValues();
+
         $code = 'A';
         $last = DB::table('anggota')
                 ->where('id', 'like', '%'.$code.'%')
@@ -47,7 +51,8 @@ class AnggotaController extends Controller
         }
 
         return view('admin/anggota.create',[
-            "idAnggota" => $idAnggota
+            "idAnggota" => $idAnggota,
+            "anggota" => $anggota
         ]);
     }
 
@@ -125,9 +130,18 @@ class AnggotaController extends Controller
      * @param  \App\Models\Anggota  $anggota
      * @return \Illuminate\Http\Response
      */
-    public function edit(Anggota $anggota)
+    public function edit($id)
     {
-        //
+        $idAnggota = "";
+
+        $anggota = new Anggota();
+
+        $findAnggota = Anggota::where('id',$id)->first();
+
+        return view('admin/anggota.create',[
+            'anggota' => $findAnggota,
+            'idAnggota' => $idAnggota
+        ]);
     }
 
     /**
@@ -137,9 +151,50 @@ class AnggotaController extends Controller
      * @param  \App\Models\Anggota  $anggota
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Anggota $anggota)
+    public function update(Request $request, $id)
     {
-        //
+        $anggota = new Anggota();
+
+        $messages = array(
+            'id.required' => 'Kode Anggota tidak boleh kosong!',
+            'nama.required' => 'Nama Anggota tidak boleh kosong!',
+            'alamat.required' => 'Alamat Anggota tidak boleh kosong!',
+            'tempatLahir.required' => 'Tempat Lahir Anggota tidak boleh kosong!',
+            'tanggalLahir.required' => 'Tanggal Lahir Anggota tidak boleh kosong!',
+            'jenisKelamin.required' => 'Jenis Kelamin Anggota pilih satu!',
+            'pekerjaan.required' => 'Pekerjaaan Anggota tidak boleh kosong!',
+            'umur.required' => 'Umur Anggota tidak boleh kosong!'
+        );
+
+        $validate = $request->validate([
+            'id'=> 'required',
+            'nama'=> 'required',
+            'alamat' => 'required',
+            'tempatLahir' => 'required',
+            'tanggalLahir' => 'required',
+            'jenisKelamin' => 'required',
+            'pekerjaan' => 'required',
+            'umur' => 'required'
+        ],$messages);
+
+        $data = [
+            'nama' => $request->nama,
+            'alamat' => $request->alamat,
+            'tempatLahir' => $request->tempatLahir,
+            'tanggalLahir' => $request->tanggalLahir,
+            'jenisKelamin' => $request->jenisKelamin,
+            'pekerjaan' => $request->pekerjaan,
+            'umur' => $request->umur
+        ];
+
+        $insertData = Anggota::where('id', $id)
+                            ->update($data);
+
+        if($insertData){
+            return redirect('admin/anggota')->with('success','Data Berhasil Disimpan');
+        }else{
+            return redirect('admin/anggota.edit')->with('error','Data Gagal Disimpan');
+        }
     }
 
     /**
