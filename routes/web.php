@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\AkunController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SimpananPokokController;
+use App\Http\Controllers\SimpananWajibController;
 
 Route::get('/', function () {
     // return view('auth.login');
@@ -45,6 +47,8 @@ Route::middleware(['auth'])->group(function () {
             Route::resources([
                 'anggota' => AnggotaController::class, #Anggota
                 'akun' => AkunController::class, #Akun
+                'simpananPokok' => SimpananPokokController::class, #Simpanan Pokok
+                'simpananWajib' => SimpananWajibController::class #Simpanan Wajib
             ]);
         });
     });

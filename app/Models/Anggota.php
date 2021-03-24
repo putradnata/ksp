@@ -22,7 +22,9 @@ class Anggota extends Model
         'tempatLahir',
         'tanggalLahir',
         'jenisKelamin',
-        'pekerjaan'
+        'pekerjaan',
+        'umur',
+        'idAdmin'
     ];
 
     public function getDefaultValues()
@@ -34,7 +36,9 @@ class Anggota extends Model
             'tempatLahir' => '',
             'tanggalLahir' => '',
             'jenisKelamin' => '',
-            'pekerjaan' => ''
+            'pekerjaan' => '',
+            'umur' => '',
+            'idAdmin' => ''
         ];
     }
 }

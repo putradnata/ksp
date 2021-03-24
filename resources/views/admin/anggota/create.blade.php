@@ -27,8 +27,9 @@
         <form method="POST" action="{{ route('anggota.store') }}">
             @csrf
             <div class="form-group">
-                <label for="id">Kode Anggota Anggota</label>
-                <input type="text" class="form-control" id="id" name="id" placeholder="Masukkan kode anggota">
+                <label for="id">Kode Anggota</label>
+                <label class="form-control" style="border: 0; font-weight: normal;">{{$idAnggota}}</label>
+                <input type="hidden" class="form-control" id="id" name="id" value="{{$idAnggota}}">
             </div>
             <div class="form-group">
                 <label for="nama">Nama Anggota</label>

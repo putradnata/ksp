@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Anggota;
 use Illuminate\Http\Request;
+use Auth;
+use DB;
 
 class AnggotaController extends Controller
 {
@@ -30,7 +32,23 @@ class AnggotaController extends Controller
      */
     public function create()
     {
-        return view('admin/anggota.create');
+        $code = 'A';
+        $last = DB::table('anggota')
+                ->where('id', 'like', '%'.$code.'%')
+                ->max('id');
+
+        if($last == null)
+        {
+            $idAnggota = $code.'001';
+        } else {
+            $new = substr($last,-3);
+            $new +=1;
+            $idAnggota = $code.sprintf("%03d", $new);
+        }
+
+        return view('admin/anggota.create',[
+            "idAnggota" => $idAnggota
+        ]);
     }
 
     /**
@@ -63,6 +81,8 @@ class AnggotaController extends Controller
             'pekerjaan' => 'required'
         ],$messages);
 
+        $age = \Carbon\Carbon::parse($request->tanggalLahir)->diff(\Carbon\Carbon::now())->format("%y");
+
         $data = [
             'id'=> $request->id,
             'nama' => $request->nama,
@@ -70,7 +90,9 @@ class AnggotaController extends Controller
             'tempatLahir' => $request->tempatLahir,
             'tanggalLahir' => $request->tanggalLahir,
             'jenisKelamin' => $request->jenisKelamin,
-            'pekerjaan' => $request->pekerjaan
+            'pekerjaan' => $request->pekerjaan,
+            'umur' => $age,
+            'idAdmin' => Auth::user()->id
         ];
 
         $insertData = $anggota::create($data);
@@ -88,9 +110,13 @@ class AnggotaController extends Controller
      * @param  \App\Models\Anggota  $anggota
      * @return \Illuminate\Http\Response
      */
-    public function show(Anggota $anggota)
+    public function show($id)
     {
-        //
+        $anggota = new Anggota();
+
+        $selectAnggota = Anggota::where('id',$id)->get();
+
+        return view('admin/anggota.show',['anggota'=>$selectAnggota])->render();
     }
 
     /**

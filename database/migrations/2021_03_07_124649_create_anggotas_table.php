@@ -14,14 +14,19 @@ class CreateAnggotasTable extends Migration
     public function up()
     {
         Schema::create('anggota', function (Blueprint $table) {
-            $table->char('id', 20)->primary();
+            $table->string('id', 20)->primary();
             $table->string('nama', 50);
             $table->text('alamat');
             $table->string('tempatLahir', 50);
             $table->date('tanggalLahir');
             $table->enum('jenisKelamin', ['L', 'P']);
             $table->string('pekerjaan', '30');
+            $table->char('umur', '2');
             $table->timestamps();
+
+            $table->foreignId('idAdmin')->constrained('users')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 

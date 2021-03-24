@@ -17,7 +17,7 @@ class CreateAkunsTable extends Migration
             $table->id('noAkun');
             $table->string('nama', 50);
             $table->string('tipe', 50);
-            $table->float('saldo');
+            $table->bigInteger('saldo');
             $table->timestamps();
         });
     }

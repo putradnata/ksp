@@ -52,6 +52,20 @@
                             <p>Akun</p>
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('simpananPokok.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-book"></i>
+                            <p>Simpanan Pokok</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('simpananWajib.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-book"></i>
+                            <p>Simpanan Wajib</p>
+                        </a>
+                    </li>
                 </ul>
             @endif
         </nav>
