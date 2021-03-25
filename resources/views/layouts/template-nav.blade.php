@@ -54,6 +54,13 @@
                     </li>
 
                     <li class="nav-item">
+                        <a href="{{ route('simpanan.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-book"></i>
+                            <p>Simpanan</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
                         <a href="{{ route('simpananPokok.index') }}" class="nav-link">
                             <i class="nav-icon fas fa-book"></i>
                             <p>Simpanan Pokok</p>

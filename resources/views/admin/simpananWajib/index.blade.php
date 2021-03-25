@@ -37,9 +37,9 @@
                 {{-- <th>Aksi</th> --}}
             </thead>
             <tbody>
-                @foreach ($simpananWajib as $sp => $simpananWajib)
+                @foreach ($simpananWajib as $spw => $simpananWajib)
                     <tr>
-                        <td>{{ ++$sp }}.</td>
+                        <td>{{ ++$spw }}.</td>
                         <td>{{ $simpananWajib->kode }}</td>
                         <td>{{ $simpananWajib->tanggal }}</td>
                         <td>({{ $simpananWajib->idAnggota }}) {{ $simpananWajib->namaAnggota }}</td>

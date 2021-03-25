@@ -2,9 +2,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AnggotaController;
-use App\Http\Controllers\AkunController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AkunController;
+use App\Http\Controllers\AnggotaController;
+use App\Http\Controllers\SimpananController;
 use App\Http\Controllers\SimpananPokokController;
 use App\Http\Controllers\SimpananWajibController;
 
@@ -47,6 +48,7 @@ Route::middleware(['auth'])->group(function () {
             Route::resources([
                 'anggota' => AnggotaController::class, #Anggota
                 'akun' => AkunController::class, #Akun
+                'simpanan' => SimpananController::class, #Simpanan
                 'simpananPokok' => SimpananPokokController::class, #Simpanan Pokok
                 'simpananWajib' => SimpananWajibController::class #Simpanan Wajib
             ]);
