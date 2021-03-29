@@ -28,23 +28,24 @@
             @csrf
             <div class="form-group">
                 <label for="noAkun">No Akun</label>
-                <input type="number" class="form-control" id="noAkun" name="noAkun" placeholder="Enter Akun Number">
+                <input type="number" class="form-control" id="noAkun" name="noAkun" placeholder="Masukkan nomor akun">
             </div>
             <div class="form-group">
                 <label for="nama">Nama Akun</label>
-                <input type="text" class="form-control" id="nama" name="nama" placeholder="Enter Akun Name">
+                <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan nama akun">
             </div>
             <div class="form-group">
                 <label for="tipe">Tipe Akun</label>
                 <select name="tipe" class="form-control">
                     <option value="">-- Pilih Satu --</option>
-                    <optgroup label="Aktiva">
-                        <option value="Aktiva Lancar">Aktiva Lancar</option>
-                        <option value="Aktiva Tetap">Aktiva Tetap</option>
+                    <optgroup label="Aset">
+                        <option value="Aset Lancar">Aset Lancar</option>
+                        <option value="Aset Tetap">Aset Tetap</option>
+                        <option value="Harta Tak Berwujud">Harta Tak Berwujud</option>
                     </optgroup>
                     <optgroup label="Pasiva">
-                        <option value="Kewajiban">Kewajiban</option>
-                        <option value="Modal Sendiri">Modal Sendiri</option>
+                        <option value="Kewajiban">Kewajiban (Utang)</option>
+                        <option value="Ekuitas">Ekuitas (Modal)</option>
                     </optgroup>
                     <option value="Pendapatan">Pendapatan</option>
                     <option value="Beban">Beban</option>
@@ -52,7 +53,7 @@
             </div>
             <div class="form-group">
                 <label for="saldo">Saldo</label>
-                <input type="number" class="form-control" id="saldo" name="saldo" placeholder="Enter Saldo Amount">
+                <input type="number" class="form-control" id="saldo" name="saldo" placeholder="Masukkan saldo akun">
             </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Submit</button>

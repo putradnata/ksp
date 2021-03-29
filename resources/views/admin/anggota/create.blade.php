@@ -56,12 +56,12 @@
             <div class="form-group">
                 <label>Jenis Kelamin Anggota</label>
                 <div class="custom-control custom-radio">
-                    <input class="custom-control-input" type="radio" id="customRadio2" name="jenisKelamin" value="L" checked>
+                    <input class="custom-control-input" type="radio" id="customRadio2" name="jenisKelamin" value="L" checked {{( old('anggota', $anggota->jenisKelamin) == 'L') ? 'checked' : ''}}>
                     <label for="customRadio2" class="custom-control-label" style="font-weight:normal;">Laki-laki</label>
                 </div>
                 <div class="custom-control custom-radio">
-                    <input class="custom-control-input" type="radio" id="customRadio2" name="jenisKelamin" value="P">
-                    <label for="customRadio2" class="custom-control-label" style="font-weight:normal;">Perempuan</label>
+                    <input class="custom-control-input" type="radio" id="customRadio3" name="jenisKelamin" value="P" {{( old('anggota', $anggota->jenisKelamin) == 'P') ? 'checked' : ''}}>
+                    <label for="customRadio3" class="custom-control-label" style="font-weight:normal;">Perempuan</label>
                 </div>
             </div>
             <div class="form-group">

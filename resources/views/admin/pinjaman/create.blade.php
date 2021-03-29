@@ -1,12 +1,12 @@
 @extends('layouts.template')
 
 @section('title','KSP')
-@section('pageName','Simpanan Pokok')
+@section('pageName','Pinjaman')
 
 @section('contentHere')
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">Data Simpanan Pokok</h3>
+        <h3 class="card-title">Data Pinjaman</h3>
 
         <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip"
@@ -24,14 +24,13 @@
                 @endforeach
             </div>
         @endif
-        <form method="POST" action="{{ route('simpananPokok.store') }}">
+        <form method="POST" action="{{ route('pinjaman.store') }}">
             @csrf
             <div class="form-group">
-                <label for="kode">Kode Simpanan Pokok</label>
-                <label class="form-control" style="border: 0; font-weight: normal;">{{$simpananPokok}}</label>
-                <input type="hidden" class="form-control" id="kode" name="kode" value="{{$simpananPokok}}">
+                <label for="kode">Kode Pinjaman</label>
+                <label class="form-control" style="border: 0; font-weight: normal;">{{$pinjaman}}</label>
+                <input type="hidden" class="form-control" id="kode" name="kode" value="{{$pinjaman}}">
             </div>
-
             <div class="form-group">
                 <label for="idAnggota">Nama Anggota</label>
                 <select name="idAnggota" class="form-control">
@@ -42,16 +41,16 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="tanggal">Tanggal Penyimpanan</label>
+                <label for="tanggal">Tanggal Pinjaman</label>
                 <input type="date" class="form-control" id="tanggal" name="tanggal">
             </div>
             <div class="form-group">
-                <label for="syarat">Syarat</label>
-                <input type="text" class="form-control" id="syarat" name="syarat" placeholder="Masukkan syarat simpanan">
+                <label for="jaminan">Jaminan</label>
+                <input type="text" class="form-control" id="jaminan" name="jaminan" placeholder="Masukkan jaminan">
             </div>
             <div class="form-group">
                 <label for="jumlah">Jumlah</label>
-                <input type="text" class="form-control" id="jumlah" name="jumlah" placeholder="Masukkan jumlah simpanan">
+                <input type="text" class="form-control" id="jumlah" name="jumlah" placeholder="Masukkan jumlah pinjaman">
             </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Submit</button>

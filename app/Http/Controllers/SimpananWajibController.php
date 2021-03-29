@@ -64,8 +64,6 @@ class SimpananWajibController extends Controller
      */
     public function store(Request $request)
     {
-        $simpananWajib = new SimpananWajib();
-
         $messages = array(
             'tanggal.required' => 'Tanggal simpanan tidak boleh kosong!',
             'idAnggota.required' => 'Nama anggota tidak boleh kosong!',
@@ -88,7 +86,7 @@ class SimpananWajibController extends Controller
             'jumlah' => $request->jumlah
         ];
 
-        $insertData = $simpananWajib::create($data);
+        $insertData = SimpananWajib::create($data);
 
         if($insertData){
             return redirect('admin/simpananWajib')->with('success','Data Berhasil Disimpan');

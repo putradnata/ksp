@@ -34,6 +34,6 @@ class CreateSimpananPokoksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('simpanan_pokoks');
+        Schema::dropIfExists('simpanan_pokok');
     }
 }

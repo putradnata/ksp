@@ -15,12 +15,26 @@ class UserController extends Controller
      */
     public function index()
     {
-        $Staff = new User();
-
         $selectStaff = User::all();
 
         return view('admin/staff.index', [
             'staff' => $selectStaff
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $user = new User();
+
+        $user =  (object) $user->getDefaultValues();
+
+        return view('admin/staff.create',[
+            "staff" => $user
         ]);
     }
 
@@ -32,34 +46,107 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-        $staff = new User();
-
         $messages = array(
             'nama.required' => 'Nama admin tidak boleh kosong!',
             'username.required' => 'Username tidak boleh kosong!',
-            'password.required' => 'Password tidak boleh kosong!'
+            'email.required' => 'Email tidak boleh kosong!',
+            'password.required' => 'Password tidak boleh kosong!',
+            'jabatan.required' => 'Jabatan tidak boleh kosong!'
         );
 
         $validate = $request->validate([
             'nama' => 'required',
             'username' => 'required',
-            'password' => 'required'
+            'email' => 'required',
+            'password' => 'required',
+            'jabatan' => 'required'
         ], $messages);
 
         $data = [
             'name' => $request->nama,
             'username' => $request->username,
+            'email' => $request->email,
             'password' => Hash::make($request->password),
-            'jabatan' => 'A'
+            'jabatan' => $request->jabatan
         ];
 
-        $insertData = $staff::create($data);
+        $insertData = User::create($data);
 
         if ($insertData) {
-            return redirect('admin/akun')->with('success', 'Data Berhasil Disimpan');
+            return redirect('admin/staff')->with('success', 'Data Berhasil Disimpan');
         } else {
-            return redirect('admin/akun.create')->with('error', 'Data Gagal Disimpan');
+            return redirect('admin/staff.create')->with('error', 'Data Gagal Disimpan');
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $selectStaff = User::where('id',$id)->get();
+
+        return view('admin/staff.show',['staff'=>$selectStaff])->render();
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $findStaff = User::where('id',$id)->first();
+
+        return view('admin/staff.create',[
+            'staff' => $findStaff
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $messages = array(
+            'nama.required' => 'Nama admin tidak boleh kosong!',
+            'username.required' => 'Username tidak boleh kosong!',
+            'email.required' => 'Email tidak boleh kosong!',
+            'password.required' => 'Password tidak boleh kosong!',
+            'jabatan.required' => 'Jabatan tidak boleh kosong!'
+        );
+
+        $validate = $request->validate([
+            'nama' => 'required',
+            'username' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+            'jabatan' => 'required'
+        ], $messages);
+
+        $data = [
+            'name' => $request->nama,
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'jabatan' => $request->jabatan
+        ];
+
+        $insertData = User::where('id', $id)
+                            ->update($data);
+
+        if($insertData){
+            return redirect('admin/staff')->with('success','Data Berhasil Disimpan');
+        }else{
+            return redirect('admin/staff.edit')->with('error','Data Gagal Disimpan');
         }
     }
 }

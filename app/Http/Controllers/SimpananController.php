@@ -64,8 +64,6 @@ class SimpananController extends Controller
      */
     public function store(Request $request)
     {
-        $simpanan = new Simpanan();
-
         $messages = array(
             'tanggal.required' => 'Tanggal simpanan tidak boleh kosong!',
             'idAnggota.required' => 'Nama anggota tidak boleh kosong!',
@@ -89,7 +87,7 @@ class SimpananController extends Controller
             'saldo' => $request->saldo
         ];
 
-        $insertData = $simpanan::create($data);
+        $insertData = Simpanan::create($data);
 
         if($insertData){
             return redirect('admin/simpanan')->with('success','Data Berhasil Disimpan');

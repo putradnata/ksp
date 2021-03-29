@@ -14,7 +14,6 @@ class CreateSimpananWajibsTable extends Migration
     public function up()
     {
         Schema::create('simpanan_wajib', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             $table->char('kode',20)->primary();
             $table->string('idAnggota', 20);
             $table->char('syarat',20);
@@ -35,6 +34,6 @@ class CreateSimpananWajibsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('simpanan_wajibs');
+        Schema::dropIfExists('simpanan_wajib');
     }
 }

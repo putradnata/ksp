@@ -32,10 +32,6 @@
                 <input type="hidden" class="form-control" id="kode" name="kode" value="{{$simpananWajib}}">
             </div>
             <div class="form-group">
-                <label for="tanggal">Tanggal Penyimpanan</label>
-                <input type="date" class="form-control" id="tanggal" name="tanggal">
-            </div>
-            <div class="form-group">
                 <label for="idAnggota">Nama Anggota</label>
                 <select name="idAnggota" class="form-control">
                     <option value="">-- Pilih Satu --</option>
@@ -45,12 +41,16 @@
                 </select>
             </div>
             <div class="form-group">
+                <label for="tanggal">Tanggal Penyimpanan</label>
+                <input type="date" class="form-control" id="tanggal" name="tanggal">
+            </div>
+            <div class="form-group">
                 <label for="syarat">Syarat</label>
                 <input type="text" class="form-control" id="syarat" name="syarat" placeholder="Masukkan syarat simpanan">
             </div>
             <div class="form-group">
                 <label for="jumlah">Jumlah</label>
-                <input type="text" class="form-control uang" id="jumlah" name="jumlah" placeholder="Masukkan jumlah simpanan">
+                <input type="text" class="form-control" id="jumlah" name="jumlah" placeholder="Masukkan jumlah simpanan">
             </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Submit</button>

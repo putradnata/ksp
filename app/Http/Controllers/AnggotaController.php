@@ -16,8 +16,6 @@ class AnggotaController extends Controller
      */
     public function index()
     {
-        $anggota = new Anggota();
-
         $selectAnggota = Anggota::all();
 
         return view('admin/anggota.index',[
@@ -64,16 +62,14 @@ class AnggotaController extends Controller
      */
     public function store(Request $request)
     {
-        $anggota = new Anggota();
-
         $messages = array(
-            'id.required' => 'Kode Anggota tidak boleh kosong!',
-            'nama.required' => 'Nama Anggota tidak boleh kosong!',
-            'alamat.required' => 'Alamat Anggota tidak boleh kosong!',
-            'tempatLahir.required' => 'Tempat Lahir Anggota tidak boleh kosong!',
-            'tanggalLahir.required' => 'Tanggal Lahir Anggota tidak boleh kosong!',
-            'jenisKelamin.required' => 'Jenis Kelamin Anggota pilih satu!',
-            'pekerjaan.required' => 'Pekerjaaan Anggota tidak boleh kosong!'
+            'id.required' => 'Kode anggota tidak boleh kosong!',
+            'nama.required' => 'Nama anggota tidak boleh kosong!',
+            'alamat.required' => 'Alamat anggota tidak boleh kosong!',
+            'tempatLahir.required' => 'Tempat Lahir anggota tidak boleh kosong!',
+            'tanggalLahir.required' => 'Tanggal Lahir anggota tidak boleh kosong!',
+            'jenisKelamin.required' => 'Jenis Kelamin anggota pilih satu!',
+            'pekerjaan.required' => 'Pekerjaaan anggota tidak boleh kosong!'
         );
 
         $validate = $request->validate([
@@ -100,7 +96,7 @@ class AnggotaController extends Controller
             'idAdmin' => Auth::user()->id
         ];
 
-        $insertData = $anggota::create($data);
+        $insertData = Anggota::create($data);
 
         if($insertData){
             return redirect('admin/anggota')->with('success','Data Berhasil Disimpan');
@@ -117,8 +113,6 @@ class AnggotaController extends Controller
      */
     public function show($id)
     {
-        $anggota = new Anggota();
-
         $selectAnggota = Anggota::where('id',$id)->get();
 
         return view('admin/anggota.show',['anggota'=>$selectAnggota])->render();
@@ -133,8 +127,6 @@ class AnggotaController extends Controller
     public function edit($id)
     {
         $idAnggota = "";
-
-        $anggota = new Anggota();
 
         $findAnggota = Anggota::where('id',$id)->first();
 
@@ -153,17 +145,15 @@ class AnggotaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $anggota = new Anggota();
-
         $messages = array(
-            'id.required' => 'Kode Anggota tidak boleh kosong!',
-            'nama.required' => 'Nama Anggota tidak boleh kosong!',
-            'alamat.required' => 'Alamat Anggota tidak boleh kosong!',
-            'tempatLahir.required' => 'Tempat Lahir Anggota tidak boleh kosong!',
-            'tanggalLahir.required' => 'Tanggal Lahir Anggota tidak boleh kosong!',
-            'jenisKelamin.required' => 'Jenis Kelamin Anggota pilih satu!',
-            'pekerjaan.required' => 'Pekerjaaan Anggota tidak boleh kosong!',
-            'umur.required' => 'Umur Anggota tidak boleh kosong!'
+            'id.required' => 'Kode anggota tidak boleh kosong!',
+            'nama.required' => 'Nama anggota tidak boleh kosong!',
+            'alamat.required' => 'Alamat anggota tidak boleh kosong!',
+            'tempatLahir.required' => 'Tempat lahir anggota tidak boleh kosong!',
+            'tanggalLahir.required' => 'Tanggal lahir anggota tidak boleh kosong!',
+            'jenisKelamin.required' => 'Jenis kelamin anggota pilih satu!',
+            'pekerjaan.required' => 'Pekerjaaan anggota tidak boleh kosong!',
+            'umur.required' => 'Umur anggota tidak boleh kosong!'
         );
 
         $validate = $request->validate([

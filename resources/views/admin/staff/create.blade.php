@@ -24,24 +24,41 @@
                 @endforeach
             </div>
         @endif
-        <form method="POST" action="{{ route('staff.store') }}">
-            @csrf
-            <div class="form-group">
-                <label for="nama">Nama Admin</label>
-                <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan nama admin">
-            </div>
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan username">
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan password">
-            </div>
-            <div class="card-footer">
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-        </form>
+            @if ($staff->id != "")
+                <form method="POST" action="{{ route('staff.store') }}">
+            @else
+                <form method="POST" action="{{ route('staff.update', $staff->id) }}">
+                    @method('PUT')
+            @endif
+                @csrf
+                <div class="form-group">
+                    <label for="nama">Nama Admin</label>
+                    <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan nama admin" value="{{ old('staff', $staff->name) }}">
+                </div>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan username" value="{{ old('staff', $staff->username) }}">
+                </div>
+                <div class="form-group">
+                    <label for="username">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Masukkan email" value="{{ old('staff', $staff->email) }}">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan password">
+                </div>
+                <div class="form-group">
+                    <label for="jabatan">Jabatan</label>
+                    <select name="jabatan" class="form-control kp">
+                        <option value="" {{( old('staff', $staff->jabatan) == '') ? 'selected' : ''}}>-- Pilih Satu --</option>
+                        <option value="K" {{( old('staff', $staff->jabatan) == 'K') ? 'selected' : ''}}>Ketua</option>
+                        <option value="A" {{( old('staff', $staff->jabatan) == 'A') ? 'selected' : ''}}>Admin</option>
+                    </select>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
     </div>
     <!-- /.card-body -->
 </div>

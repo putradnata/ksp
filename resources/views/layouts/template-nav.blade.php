@@ -73,6 +73,20 @@
                             <p>Simpanan Wajib</p>
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('pinjaman.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-book"></i>
+                            <p>Pinjaman</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('angsuran.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-book"></i>
+                            <p>Angsuran</p>
+                        </a>
+                    </li>
                 </ul>
             @endif
         </nav>

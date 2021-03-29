@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSimpanansTable extends Migration
+class CreatePinjamenTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateSimpanansTable extends Migration
      */
     public function up()
     {
-        Schema::create('simpanan', function (Blueprint $table) {
+        Schema::create('pinjaman', function (Blueprint $table) {
             $table->char('kode',20)->primary();
             $table->string('idAnggota', 20);
             $table->date('tanggal');
-            $table->integer('jumlah');
-            $table->integer('saldo');
-            $table->float('bunga');
+            $table->char('jaminan',20);
+            $table->bigInteger('jumlah');
             $table->timestamps();
 
             $table->foreign('idAnggota')->references('id')->on('anggota')
@@ -35,6 +34,6 @@ class CreateSimpanansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('simpanan');
+        Schema::dropIfExists('pinjaman');
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SimpananPokok;
+use App\Models\Pinjaman;
 use Illuminate\Http\Request;
 use DB;
 
-class SimpananPokokController extends Controller
+class PinjamanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,15 +15,14 @@ class SimpananPokokController extends Controller
      */
     public function index()
     {
-        $dataSimpananPokok = DB::table('simpanan_pokok')
-                                ->join('anggota', 'simpanan_pokok.idAnggota', '=', 'anggota.id')
-                                ->select('simpanan_pokok.*','anggota.nama as namaAnggota','anggota.id as idAnggota')
+        $dataPinjaman = DB::table('pinjaman')
+                                ->join('anggota', 'pinjaman.idAnggota', '=', 'anggota.id')
+                                ->select('pinjaman.*','anggota.nama as namaAnggota','anggota.id as idAnggota')
                                 ->get();
 
-        return view('admin/simpananPokok.index',[
-            'simpananPokok' => $dataSimpananPokok
+        return view('admin/pinjaman.index',[
+            'pinjaman' => $dataPinjaman
         ]);
-
     }
 
     /**
@@ -33,27 +32,34 @@ class SimpananPokokController extends Controller
      */
     public function create()
     {
-        $selectAnggota = DB::table('anggota')
+        // $pinjaman = DB::table('pinjaman')->count();
+
+        // if($pinjaman == 0){
+            $selectAnggota = DB::table('anggota')
                             ->select('id','nama')
                             ->get();
+        // }else{
+        //     $selectPinjaman = DB::table('pinjaman')->pluck('idAnggota')->all();
+        //     $selectAnggota = DB::table('anggota')->whereNotIn('id', $selectPinjaman)->select('id','nama')->get();
+        // }
 
-        $code = 'SP';
-        $last = DB::table('simpanan_pokok')
+        $code = 'P';
+        $last = DB::table('pinjaman')
                 ->where('kode', 'like', '%'.$code.'%')
                 ->max('kode');
 
         if($last == null)
         {
-            $kodeSimpananPokok = $code.'001';
+            $kodePinjaman = $code.'001';
         } else {
             $new = substr($last,-3);
             $new +=1;
-            $kodeSimpananPokok = $code.sprintf("%03d", $new);
+            $kodePinjaman = $code.sprintf("%03d", $new);
         }
 
-        return view('admin/simpananPokok.create',[
+        return view('admin/pinjaman.create',[
             'anggota' => $selectAnggota,
-            'simpananPokok' => $kodeSimpananPokok
+            'pinjaman' => $kodePinjaman,
         ]);
     }
 
@@ -66,43 +72,43 @@ class SimpananPokokController extends Controller
     public function store(Request $request)
     {
         $messages = array(
-            'tanggal.required' => 'Tanggal simpanan tidak boleh kosong!',
             'idAnggota.required' => 'Nama anggota tidak boleh kosong!',
-            'syarat.required' => 'Syarat tidak boleh kosong!',
-            'jumlah.required' => 'Jumlah simpanan tidak boleh kosong!'
+            'tanggal.required' => 'Tanggal pinjaman tidak boleh kosong!',
+            'jaminan.required' => 'Syarat tidak boleh kosong!',
+            'jumlah.required' => 'Jumlah pinjaman tidak boleh kosong!'
         );
 
         $validate = $request->validate([
-            'tanggal' => 'required',
             'idAnggota'=> 'required',
-            'syarat' => 'required',
+            'tanggal' => 'required',
+            'jaminan' => 'required',
             'jumlah' => 'required'
         ],$messages);
 
         $data = [
             'kode'=> $request->kode,
             'idAnggota' => $request->idAnggota,
-            'syarat' => $request->syarat,
             'tanggal' => $request->tanggal,
+            'jaminan' => $request->jaminan,
             'jumlah' => $request->jumlah
         ];
 
-        $insertData = SimpananPokok::create($data);
+        $insertData = Pinjaman::create($data);
 
         if($insertData){
-            return redirect('admin/simpananPokok')->with('success','Data Berhasil Disimpan');
+            return redirect('admin/pinjaman')->with('success','Data Berhasil Disimpan');
         }else{
-            return redirect('admin/simpananPokok.create')->with('error','Data Gagal Disimpan');
+            return redirect('admin/pinjaman.create')->with('error','Data Gagal Disimpan');
         }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\SimpananPokok  $simpananPokok
+     * @param  \App\Models\Pinjaman  $pinjaman
      * @return \Illuminate\Http\Response
      */
-    public function show(SimpananPokok $simpananPokok)
+    public function show(Pinjaman $pinjaman)
     {
         //
     }
@@ -110,10 +116,10 @@ class SimpananPokokController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\SimpananPokok  $simpananPokok
+     * @param  \App\Models\Pinjaman  $pinjaman
      * @return \Illuminate\Http\Response
      */
-    public function edit(SimpananPokok $simpananPokok)
+    public function edit(Pinjaman $pinjaman)
     {
         //
     }
@@ -122,10 +128,10 @@ class SimpananPokokController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\SimpananPokok  $simpananPokok
+     * @param  \App\Models\Pinjaman  $pinjaman
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, SimpananPokok $simpananPokok)
+    public function update(Request $request, Pinjaman $pinjaman)
     {
         //
     }
@@ -133,10 +139,10 @@ class SimpananPokokController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\SimpananPokok  $simpananPokok
+     * @param  \App\Models\Pinjaman  $pinjaman
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SimpananPokok $simpananPokok)
+    public function destroy(Pinjaman $pinjaman)
     {
         //
     }

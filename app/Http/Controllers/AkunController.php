@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Akun;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class AkunController extends Controller
 {
@@ -14,8 +15,6 @@ class AkunController extends Controller
      */
     public function index()
     {
-        $akun = new Akun();
-
         $selectAkun = Akun::all();
 
         return view('admin/akun.index',[
@@ -41,12 +40,10 @@ class AkunController extends Controller
      */
     public function store(Request $request)
     {
-        $akun = new Akun();
-
         $messages = array(
-            'noAkun.required' => 'No Akun tidak boleh kosong!',
-            'nama.required' => 'Nama Akun tidak boleh kosong!',
-            'tipe.required' => 'Tipe Akun tidak boleh kosong!',
+            'noAkun.required' => 'Nomor akun tidak boleh kosong!',
+            'nama.required' => 'Nama akun tidak boleh kosong!',
+            'tipe.required' => 'Tipe akun tidak boleh kosong!',
             'saldo.required' => 'Saldo tidak boleh kosong!'
         );
 
@@ -64,7 +61,7 @@ class AkunController extends Controller
             'saldo' => $request->saldo
         ];
 
-        $insertData = $akun::create($data);
+        $insertData = Akun::create($data);
 
         if($insertData){
             return redirect('admin/akun')->with('success','Data Berhasil Disimpan');
