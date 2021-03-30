@@ -10,6 +10,7 @@ use App\Http\Controllers\SimpananPokokController;
 use App\Http\Controllers\SimpananWajibController;
 use App\Http\Controllers\PinjamanController;
 use App\Http\Controllers\AngsuranController;
+use App\Http\Controllers\PenarikanController;
 
 Route::get('/', function () {
     // return view('auth.login');
@@ -42,10 +43,6 @@ Route::middleware(['auth'])->group(function () {
                 return view('admin.index');
             })->name('indexAdmin');
 
-            // Route::get('/index-admin', [UserController::class, 'index'])->name('staff.index');
-            // Route::get('/create-admin', 'admin/staff.create')->name('staff.create');
-            // Route::post('/insert-admin', [UserController::class, 'store'])->name('staff.store');
-
             //All Resource Controller
             Route::resources([
                 'staff' => UserController::class, #Staff
@@ -55,7 +52,8 @@ Route::middleware(['auth'])->group(function () {
                 'simpananPokok' => SimpananPokokController::class, #Simpanan Pokok
                 'simpananWajib' => SimpananWajibController::class, #Simpanan Wajib
                 'pinjaman' => PinjamanController::class, #Pinjaman
-                'angsuran' => AngsuranController::class #Angsuran
+                'angsuran' => AngsuranController::class, #Angsuran
+                'penarikan' => PenarikanController::class #Penarikan
             ]);
         });
     });

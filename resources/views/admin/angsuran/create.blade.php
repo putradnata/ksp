@@ -42,7 +42,7 @@
             </div>
             <div class="form-group">
                 <label for="tanggal">Tanggal Pembayaran</label>
-                <input type="date" class="form-control tp" id="tanggal" name="tanggal">
+                <input type="date" class="form-control tp" id="tanggal" name="tanggal" onkeydown="return false">
             </div>
             <div class="form-group hde">
                 <label for="tanggalTempo">Tanggal Jatuh Tempo</label>
@@ -95,9 +95,8 @@
 
         function angsuran(){
             var kodePinjaman = $('select[name="kodePinjaman"]').val();
-            var tanggalBayar = new Date($('input[name="tanggal"]').val()).toISOString().split('T')[0];
 
-            if((kodePinjaman != "") && (tanggalBayar != "")){
+            if((kodePinjaman != "") && ($('input[name="tanggal"]').val() != "")){
                 $('.hde').show(450);
                 var totalPinjaman = [
                     @foreach($dataPinjaman as $dp)
@@ -146,10 +145,27 @@
                     pembayaranKe = parseInt(convertPembayaranKe) + 1;
                 }
 
-                console.log(pembayaranKe);
+                var sisaHutang = [
+                    @foreach($dataSisaHutang as $sh)
+                    [ "{{$sh->kodePinjaman}}", "{{$sh->sisaHutang}}"],
+                    @endforeach
+                ];
 
-                pokok = arr[0][1] / 10
-                bunga = arr[0][1] * 3/100
+                var arr4 = sisaHutang.filter( function( el ) {
+                    return !!~el.indexOf( kodePinjaman );
+                });
+
+                if(arr4 == 0){
+                    var sisaHutang = [
+                        @foreach($dataPinjaman as $dp)
+                            [ "{{$dp->kode}}", "{{$dp->jumlah}}" ],
+                        @endforeach
+                    ];
+
+                    var arr4 = sisaHutang.filter( function( el ) {
+                        return !!~el.indexOf( kodePinjaman );
+                    });
+                }
 
                 convertTanggal = new Date(arr3[0][1]);
                 tambahBulan = convertTanggal.setMonth(convertTanggal.getMonth()+1);
@@ -157,11 +173,16 @@
 
                 $('input[name="tanggalTempo"]').val(tanggalTempo);
 
+                var tanggalBayar = new Date($('input[name="tanggal"]').val()).toISOString().split('T')[0];
                 tanggalTempo = new Date (tambahBulan);
                 batasDenda = new Date (tanggalTempo).toISOString().split('T')[0];
 
                 d1 = new Date (tanggalTempo);
                 d2 = new Date($('input[name="tanggal"]').val());
+
+                pokok = arr[0][1] / 10;
+                bunga = arr[0][1] * 3/100;
+                sisaHutang = arr4[0][1];
 
                 if(tanggalBayar > batasDenda){
                     var months;
@@ -169,21 +190,29 @@
                     months -= d1.getMonth();
                     months += d2.getMonth();
                     months <= 0 ? 0 : months;
-                    months +=1
+                    months +=1;
 
                     if(months > 10){
-                        pokok = pokok * 10
-                        bunga = bunga * 10
-                        denda = ((pokok + bunga) * 5/100) * 10;
+                        pokok = pokok * 10;
+                        if(pokok>sisaHutang){
+                            pokok = sparseInt(sisaHutang);
+                        }
+                        bunga = bunga * 10;
+                        denda = ((pokok + bunga) * 5/100) * months;
                         jumlah = pokok + bunga + denda;
                     }else {
-                        pokok = pokok * months
-                        bunga = bunga * months
+                        pokok = pokok * months;
+                        if(pokok>sisaHutang){
+                            pokok = parseInt(sisaHutang);
+                        }
+                        bunga = bunga * months;
                         denda = ((pokok + bunga) * 5/100) * months;
                         jumlah = pokok + bunga + denda;
                     }
-
                 } else {
+                    if(pokok>sisaHutang){
+                        pokok = parseInt(sisaHutang);
+                    }
                     denda = 0;
                     jumlah = pokok + bunga + denda;
                 }
@@ -199,10 +228,48 @@
                 $('input[name="jumlah"]').val(jumlah);
             }else{
                 $('.hde').hide(450);
+                $('input[name="tanggalTempo"]').val("");
+                $('input[name="pembayaranKe"]').val("");
+                $('input[name="pokok"]').val("");
+                $('input[name="bunga"]').val("");
+                $('input[name="denda"]').val("");
+                $('input[name="jumlah"]').val("");
             }
         }
 
         $(document).on('change select', '.kp', function() {
+            $('input[name="tanggal"]').val("")
+
+            var kodePinjaman = $('select[name="kodePinjaman"]').val();
+
+            if(kodePinjaman != ""){
+                var tanggalAwal = [
+                    @foreach($dataTanggalTempo as $ct)
+                    [ "{{$ct->kodePinjaman}}", "{{$ct->tanggalBayar}}"],
+                    @endforeach
+                ];
+
+                var arr5 = tanggalAwal.filter( function( el ) {
+                    return !!~el.indexOf( kodePinjaman );
+                });
+
+                if(arr5 == 0){
+                    var tanggalAwal = [
+                        @foreach($dataPinjaman as $dp)
+                            [ "{{$dp->kode}}", "{{$dp->tanggal}}" ],
+                        @endforeach
+                    ];
+
+                    var arr5 = tanggalAwal.filter( function( el ) {
+                        return !!~el.indexOf( kodePinjaman );
+                    });
+                }
+
+                convertTanggalAwal = new Date(arr5[0][1]);
+                tanggalTempoAwal = new Date (convertTanggalAwal).toISOString().split('T')[0];
+
+                $('#tanggal').attr('min', tanggalTempoAwal);
+            }
             angsuran();
         });
 

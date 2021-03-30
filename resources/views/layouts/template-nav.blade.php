@@ -87,6 +87,13 @@
                             <p>Angsuran</p>
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('penarikan.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-book"></i>
+                            <p>Penarikan</p>
+                        </a>
+                    </li>
                 </ul>
             @endif
         </nav>
