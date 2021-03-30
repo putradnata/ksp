@@ -120,7 +120,6 @@ class UserController extends Controller
             'nama.required' => 'Nama admin tidak boleh kosong!',
             'username.required' => 'Username tidak boleh kosong!',
             'email.required' => 'Email tidak boleh kosong!',
-            'password.required' => 'Password tidak boleh kosong!',
             'jabatan.required' => 'Jabatan tidak boleh kosong!'
         );
 
@@ -128,17 +127,25 @@ class UserController extends Controller
             'nama' => 'required',
             'username' => 'required',
             'email' => 'required',
-            'password' => 'required',
             'jabatan' => 'required'
         ], $messages);
 
-        $data = [
-            'name' => $request->nama,
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'jabatan' => $request->jabatan
-        ];
+        if($request->password != null){
+            $data = [
+                'name' => $request->nama,
+                'username' => $request->username,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'jabatan' => $request->jabatan
+            ];
+        }else{
+            $data = [
+                'name' => $request->nama,
+                'username' => $request->username,
+                'email' => $request->email,
+                'jabatan' => $request->jabatan
+            ];
+        }
 
         $insertData = User::where('id', $id)
                             ->update($data);

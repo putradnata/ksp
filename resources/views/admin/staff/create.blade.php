@@ -24,7 +24,7 @@
                 @endforeach
             </div>
         @endif
-            @if ($staff->id != "")
+            @if ($staff->id == "")
                 <form method="POST" action="{{ route('staff.store') }}">
             @else
                 <form method="POST" action="{{ route('staff.update', $staff->id) }}">
