@@ -45,17 +45,13 @@
                 <input type="date" class="form-control" id="tanggal" name="tanggal">
             </div>
             <div class="form-group">
-                <label for="jumlah">Jumlah</label>
-                <input type="text" class="form-control" id="jumlah" name="jumlah" placeholder="Masukkan jumlah simpanan">
-            </div>
-            <div class="form-group">
                 <label for="bunga">Bunga</label>
                 <label class="form-control" style="border: 0; font-weight: normal;">0.3%</label>
                 <input type="hidden" class="form-control" id="bunga" name="bunga" value="0.3">
             </div>
             <div class="form-group">
-                <label for="saldo">Saldo</label>
-                <input type="text" class="form-control" id="saldo" name="saldo" placeholder="Masukkan saldo simpanan">
+                <label for="jumlah">Jumlah</label>
+                <input type="number" class="form-control" id="jumlah" name="jumlah" placeholder="Masukkan jumlah simpanan">
             </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Submit</button>

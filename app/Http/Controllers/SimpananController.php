@@ -64,18 +64,28 @@ class SimpananController extends Controller
      */
     public function store(Request $request)
     {
+        $lastSimpanan = DB::table('simpanan')
+                        ->select('kode','idAnggota','saldo')
+                        ->where('idAnggota', $request->idAnggota)
+                        ->orderBy('kode','desc')
+                        ->first();
+
+        if($lastSimpanan != null){
+            $Totalsaldo = $lastSimpanan->saldo + $request->jumlah;
+        }else{
+            $Totalsaldo = $request->jumlah;
+        }
+
         $messages = array(
             'tanggal.required' => 'Tanggal simpanan tidak boleh kosong!',
             'idAnggota.required' => 'Nama anggota tidak boleh kosong!',
-            'jumlah.required' => 'Jumlah simpanan tidak boleh kosong!',
-            'saldo.required' => 'Syarat tidak boleh kosong!'
+            'jumlah.required' => 'Jumlah simpanan tidak boleh kosong!'
         );
 
         $validate = $request->validate([
             'tanggal' => 'required',
             'idAnggota'=> 'required',
-            'jumlah' => 'required',
-            'saldo' => 'required'
+            'jumlah' => 'required'
         ],$messages);
 
         $data = [
@@ -84,7 +94,7 @@ class SimpananController extends Controller
             'tanggal' => $request->tanggal,
             'jumlah' => $request->jumlah,
             'bunga' => $request->bunga,
-            'saldo' => $request->saldo
+            'saldo' => $Totalsaldo
         ];
 
         $insertData = Simpanan::create($data);

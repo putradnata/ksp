@@ -33,10 +33,17 @@ class PenarikanController extends Controller
      */
     public function create()
     {
-        $dataPenarikan = DB::table('simpanan')
-                                ->join('anggota', 'simpanan.idAnggota', '=', 'anggota.id')
-                                ->select('simpanan.kode','anggota.nama as namaAnggota','anggota.id as idAnggota')
-                                ->get();
+        $dataPenarikan = DB::select("
+            SELECT MAX(simpanan.kode) as kode, MAX(simpanan.saldo) as saldo, anggota.id as idAnggota, anggota.nama as namaAnggota FROM `simpanan` INNER JOIN anggota ON simpanan.idAnggota = anggota.id GROUP BY anggota.id
+        ");
+
+        $dataSisaSaldo = DB::select("
+            SELECT MAX(penarikan.kodeSimpanan) as kodeSimpanan, anggota.id as idAnggota, penarikan.saldo, penarikan.saldoAkhir FROM `penarikan`
+            INNER JOIN simpanan ON simpanan.kode = penarikan.kodeSimpanan
+            INNER JOIN anggota ON simpanan.idAnggota = anggota.id
+            WHERE penarikan.kode=(SELECT MAX(penarikan.kode) as kode FROM penarikan)
+            GROUP BY anggota.id
+        ");
 
         $code = 'P';
         $last = DB::table('penarikan')
@@ -54,7 +61,10 @@ class PenarikanController extends Controller
 
         return view('admin/penarikan.create',[
             'anggota' => $dataPenarikan,
-            'penarikan' => $kodePenarikan
+            'ap' => $dataPenarikan,
+            'app' => $dataPenarikan,
+            'penarikan' => $kodePenarikan,
+            'sisaSaldo' => $dataSisaSaldo
         ]);
     }
 
@@ -66,7 +76,37 @@ class PenarikanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->saldo = intval(preg_replace('/[^0-9]+/', '', $request->saldo), 10);
+        $request->saldoAkhir = intval(preg_replace('/[^0-9]+/', '', $request->saldoAkhir), 10);
+
+        $messages = array(
+            'tanggal.required' => 'Tanggal penarikan tidak boleh kosong!',
+            'idAnggota.required' => 'Nama anggota tidak boleh kosong!',
+            'jumlah.required' => 'Jumlah penarikan tidak boleh kosong!'
+        );
+
+        $validate = $request->validate([
+            'tanggal' => 'required',
+            'idAnggota' => 'required',
+            'jumlah'=> 'required'
+        ],$messages);
+
+        $data = [
+            'kode' => $request->kode,
+            'kodeSimpanan' => $request->kodeSimpanan,
+            'tanggal' => $request->tanggal,
+            'jumlah' => $request->jumlah,
+            'saldo' => $request->saldo,
+            'saldoAkhir' => $request->saldoAkhir
+        ];
+
+        $insertData = Penarikan::create($data);
+
+        if($insertData){
+            return redirect('admin/penarikan')->with('success','Data Berhasil Disimpan');
+        }else{
+            return redirect('admin/penarikan.create')->with('error','Data Gagal Disimpan');
+        }
     }
 
     /**
