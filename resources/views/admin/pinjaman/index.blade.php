@@ -41,7 +41,7 @@
                     <tr>
                         <td>{{ ++$pj }}.</td>
                         <td>{{ $pinjaman->kode }}</td>
-                        <td>{{ $pinjaman->tanggal }}</td>
+                        <td>{{ \Carbon\Carbon::parse($pinjaman->tanggal)->format('d-m-Y') }}</td>
                         <td>({{ $pinjaman->idAnggota }}) {{ $pinjaman->namaAnggota }}</td>
                         <td>{{ $pinjaman->jaminan }}</td>
                         <td>@currency($pinjaman->jumlah)</td>

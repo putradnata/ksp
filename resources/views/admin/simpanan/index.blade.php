@@ -42,7 +42,7 @@
                     <tr>
                         <td>{{ ++$sp }}.</td>
                         <td>{{ $simpanan->kode }}</td>
-                        <td>{{ $simpanan->tanggal }}</td>
+                        <td>{{ \Carbon\Carbon::parse($simpanan->tanggal)->format('d-m-Y') }}</td>
                         <td>({{ $simpanan->idAnggota }}) {{ $simpanan->namaAnggota }}</td>
                         <td>@currency($simpanan->jumlah)</td>
                         <td>{{ $simpanan->bunga }}</td>

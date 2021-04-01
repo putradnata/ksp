@@ -42,7 +42,7 @@
                     <tr>
                         <td>{{ ++$pk }}.</td>
                         <td>{{ $penarikan->kodeSimpanan }}</td>
-                        <td>{{ $penarikan->tanggal }}</td>
+                        <td>{{ \Carbon\Carbon::parse($penarikan->tanggal)->format('d-m-Y') }}</td>
                         <td>({{ $penarikan->idAnggota }}) {{ $penarikan->namaAnggota }}</td>
                         <td>@currency($penarikan->saldo)</td>
                         <td>@currency($penarikan->jumlah)</td>

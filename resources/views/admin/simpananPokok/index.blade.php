@@ -41,7 +41,7 @@
                     <tr>
                         <td>{{ ++$spp }}.</td>
                         <td>{{ $simpananPokok->kode }}</td>
-                        <td>{{ $simpananPokok->tanggal }}</td>
+                        <td>{{ \Carbon\Carbon::parse($simpananPokok->tanggal)->format('d-m-Y') }}</td>
                         <td>({{ $simpananPokok->idAnggota }}) {{ $simpananPokok->namaAnggota }}</td>
                         <td>{{ $simpananPokok->syarat }}</td>
                         <td>@currency($simpananPokok->jumlah)</td>

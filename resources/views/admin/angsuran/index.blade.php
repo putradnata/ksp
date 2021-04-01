@@ -51,8 +51,8 @@
                                 <td>{{++$ans}}.</td>
                                 <td>{{$angsuran->kode}}</td>
                                 <td>{{$angsuran->kodePinjaman}}/({{$angsuran->idAnggota}}) {{$angsuran->namaAnggota}}</td>
-                                <td>{{$angsuran->tanggalTempo}}</td>
-                                <td>{{$angsuran->tanggalBayar}}</td>
+                                <td>{{\Carbon\Carbon::parse($angsuran->tanggalTempo)->format('d-m-Y')}}</td>
+                                <td>{{\Carbon\Carbon::parse($angsuran->tanggalBayar)->format('d-m-Y')}}</td>
                                 <td>@currency($p->jumlah)</td>
                                 <td>@currency($angsuran->pokok)</td>
                                 <td>@currency($angsuran->denda)</td>

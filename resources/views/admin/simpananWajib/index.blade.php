@@ -41,7 +41,7 @@
                     <tr>
                         <td>{{ ++$spw }}.</td>
                         <td>{{ $simpananWajib->kode }}</td>
-                        <td>{{ $simpananWajib->tanggal }}</td>
+                        <td>{{ \Carbon\Carbon::parse($simpananWajib->tanggal)->format('d-m-Y') }}</td>
                         <td>({{ $simpananWajib->idAnggota }}) {{ $simpananWajib->namaAnggota }}</td>
                         <td>{{ $simpananWajib->syarat }}</td>
                         <td>@currency($simpananWajib->jumlah)</td>
