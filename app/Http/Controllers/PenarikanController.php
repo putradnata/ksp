@@ -47,6 +47,12 @@ class PenarikanController extends Controller
             )
         ");
 
+        $dataSisaSaldo2 = DB::select("
+            SELECT kode, kodeSimpanan, idAnggota, saldo, saldoAkhir, SUM(jumlah) as jumlah
+            FROM penarikan
+            GROUP BY idAnggota
+        ");
+
         $code = 'P';
         $last = DB::table('penarikan')
                 ->where('kode', 'like', '%'.$code.'%')
@@ -66,7 +72,8 @@ class PenarikanController extends Controller
             'ap' => $dataPenarikan,
             'app' => $dataPenarikan,
             'penarikan' => $kodePenarikan,
-            'sisaSaldo' => $dataSisaSaldo
+            'sisaSaldo' => $dataSisaSaldo,
+            'sisaSaldo2' => $dataSisaSaldo2
         ]);
     }
 
