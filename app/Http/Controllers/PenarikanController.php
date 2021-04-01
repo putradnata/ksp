@@ -38,11 +38,13 @@ class PenarikanController extends Controller
         ");
 
         $dataSisaSaldo = DB::select("
-            SELECT MAX(penarikan.kodeSimpanan) as kodeSimpanan, anggota.id as idAnggota, penarikan.saldo, penarikan.saldoAkhir FROM `penarikan`
-            INNER JOIN simpanan ON simpanan.kode = penarikan.kodeSimpanan
-            INNER JOIN anggota ON simpanan.idAnggota = anggota.id
-            WHERE penarikan.kode=(SELECT MAX(penarikan.kode) as kode FROM penarikan)
-            GROUP BY anggota.id
+            SELECT kode, kodeSimpanan, idAnggota, saldo, saldoAkhir, jumlah
+            FROM penarikan
+            WHERE penarikan.kode IN (
+                SELECT MAX(penarikan.kode)
+                FROM penarikan
+                GROUP BY penarikan.idAnggota
+            )
         ");
 
         $code = 'P';
@@ -94,6 +96,7 @@ class PenarikanController extends Controller
         $data = [
             'kode' => $request->kode,
             'kodeSimpanan' => $request->kodeSimpanan,
+            'idAnggota' => $request->idAnggota,
             'tanggal' => $request->tanggal,
             'jumlah' => $request->jumlah,
             'saldo' => $request->saldo,

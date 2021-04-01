@@ -132,7 +132,7 @@
                 }else{
                     var saldoPenarikan1 = [
                         @foreach($sisaSaldo as $sss)
-                        [ "{{$ss->idAnggota}}", "{{$sss->kodeSimpanan}}", "{{$sss->saldoAkhir}}"],
+                        [ "{{$sss->idAnggota}}", "{{$sss->kodeSimpanan}}", "{{$sss->saldoAkhir}}", "{{$sss->jumlah}}"],
                         @endforeach
                     ];
 
@@ -141,7 +141,7 @@
                     });
 
                     console.log("salah");
-                    $saldoBaru = (parseInt(arr2[0][2]) - parseInt(arr1[0][2])) + parseInt(arr4[0][2])
+                    $saldoBaru = (parseInt(arr4[0][2]) + parseInt(arr4[0][3]))
                     $saldoBaru = convert($saldoBaru);
                     $('input[name="saldo"]').val($saldoBaru);
                 }

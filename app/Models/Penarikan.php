@@ -18,6 +18,7 @@ class Penarikan extends Model
     protected $fillable = [
         'kode',
         'kodeSimpanan',
+        'idAnggota',
         'tanggal',
         'jumlah',
         'saldo',
@@ -29,6 +30,7 @@ class Penarikan extends Model
         return [
             'kode'  => '',
             'kodeSimpanan'  => '',
+            'idAnggota'  => '',
             'tanggal'  => '',
             'jumlah' => '',
             'saldo'  => '',
