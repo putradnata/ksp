@@ -34,14 +34,12 @@
             @if ($idAnggota != "")
                 <div class="form-group">
                     <label for="id">Kode Anggota</label>
-                    <label class="form-control" style="border: 0; font-weight: normal;">{{$idAnggota}}</label>
-                    <input type="hidden" class="form-control" id="id" name="id" value="{{$idAnggota}}">
+                    <input type="text" class="form-control" id="id" name="id" value="{{$idAnggota}}" readonly style="border: 0; background-color: transparent;">
                 </div>
             @else
                 <div class="form-group">
                     <label for="id">Kode Anggota</label>
-                    <label class="form-control" style="border: 0; font-weight: normal;">{{$anggota->id}}</label>
-                    <input type="hidden" class="form-control" id="id" name="id" value="{{$anggota->id}}">
+                    <input type="text" class="form-control" id="id" name="id" value="{{$anggota->id}}" readonly style="border: 0; background-color: transparent;">
                 </div>
             @endif
 

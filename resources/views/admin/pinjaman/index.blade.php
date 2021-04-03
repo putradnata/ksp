@@ -34,6 +34,7 @@
                 <th>Nama Anggota</th>
                 <th>Jaminan</th>
                 <th>Jumlah</th>
+                <th>Status Pinjaman</th>
                 {{-- <th>Aksi</th> --}}
             </thead>
             <tbody>
@@ -45,6 +46,7 @@
                         <td>({{ $pinjaman->idAnggota }}) {{ $pinjaman->namaAnggota }}</td>
                         <td>{{ $pinjaman->jaminan }}</td>
                         <td>@currency($pinjaman->jumlah)</td>
+                        <td>{{$pinjaman->statusPinjaman}}</td>
                         {{-- <td>
                             <a class="btn btn-sm btn-info light-s" data-toggle="modal" data-id="#" data-target="#"><span class="fa fa-eye"></span></a>
                             <a class="btn btn-sm btn-warning light-s" href="#"><span class="fas fa-pencil-alt"></span></a>

@@ -28,8 +28,7 @@
             @csrf
             <div class="form-group">
                 <label for="kode">Kode Pinjaman</label>
-                <label class="form-control" style="border: 0; font-weight: normal;">{{$pinjaman}}</label>
-                <input type="hidden" class="form-control" id="kode" name="kode" value="{{$pinjaman}}">
+                <input type="text" class="form-control" id="kode" name="kode" value="{{$pinjaman}}" readonly style="border: 0; background-color: transparent;">
             </div>
             <div class="form-group">
                 <label for="idAnggota">Nama Anggota</label>

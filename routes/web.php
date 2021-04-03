@@ -11,6 +11,7 @@ use App\Http\Controllers\SimpananWajibController;
 use App\Http\Controllers\PinjamanController;
 use App\Http\Controllers\AngsuranController;
 use App\Http\Controllers\PenarikanController;
+use App\Http\Controllers\SimpananKhususController;
 
 Route::get('/', function () {
     // return view('auth.login');
@@ -53,7 +54,8 @@ Route::middleware(['auth'])->group(function () {
                 'simpananWajib' => SimpananWajibController::class, #Simpanan Wajib
                 'pinjaman' => PinjamanController::class, #Pinjaman
                 'angsuran' => AngsuranController::class, #Angsuran
-                'penarikan' => PenarikanController::class #Penarikan
+                'penarikan' => PenarikanController::class, #Penarikan
+                'simpananKhusus' => SimpananKhususController::class #Simpanan Khusus
             ]);
         });
     });

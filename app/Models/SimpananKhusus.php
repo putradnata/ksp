@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Pinjaman extends Model
+class SimpananKhusus extends Model
 {
     use HasFactory;
 
-    protected $table = 'pinjaman';
+    protected $table = 'simpanan_khusus';
 
     protected $primaryKey = 'kode';
 
@@ -19,9 +19,8 @@ class Pinjaman extends Model
         'kode',
         'idAnggota',
         'tanggal',
-        'jaminan',
         'jumlah',
-        'statusPinjaman'
+        'saldo'
     ];
 
     public function getDefaultValues()
@@ -30,9 +29,8 @@ class Pinjaman extends Model
             'kode'  => '',
             'idAnggota'  => '',
             'tanggal'  => '',
-            'jaminan'  => '',
             'jumlah' => '',
-            'statusPinjaman' => ''
+            'saldo'  => ''
         ];
     }
 }

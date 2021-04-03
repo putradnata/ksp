@@ -32,16 +32,21 @@ class PinjamanController extends Controller
      */
     public function create()
     {
-        // $pinjaman = DB::table('pinjaman')->count();
+        $pinjaman = DB::table('pinjaman')->count();
 
-        // if($pinjaman == 0){
+        if($pinjaman == 0){
             $selectAnggota = DB::table('anggota')
                             ->select('id','nama')
                             ->get();
-        // }else{
-        //     $selectPinjaman = DB::table('pinjaman')->pluck('idAnggota')->all();
-        //     $selectAnggota = DB::table('anggota')->whereNotIn('id', $selectPinjaman)->select('id','nama')->get();
-        // }
+        }else{
+            $selectAnggota = DB::select("
+                SELECT anggota.id , anggota.nama
+                FROM anggota
+                LEFT OUTER JOIN pinjaman
+                ON (anggota.id = pinjaman.idAnggota)
+                WHERE pinjaman.idAnggota IS NULL OR pinjaman.statusPinjaman = 'Lunas'
+            ");
+        }
 
         $code = 'P';
         $last = DB::table('pinjaman')
@@ -90,7 +95,8 @@ class PinjamanController extends Controller
             'idAnggota' => $request->idAnggota,
             'tanggal' => $request->tanggal,
             'jaminan' => $request->jaminan,
-            'jumlah' => $request->jumlah
+            'jumlah' => $request->jumlah,
+            'statusPinjaman' => "Belum Lunas"
         ];
 
         $insertData = Pinjaman::create($data);

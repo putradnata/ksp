@@ -85,8 +85,12 @@ class PenarikanController extends Controller
      */
     public function store(Request $request)
     {
-        $request->saldo = intval(preg_replace('/[^0-9]+/', '', $request->saldo), 10);
-        $request->saldoAkhir = intval(preg_replace('/[^0-9]+/', '', $request->saldoAkhir), 10);
+        if($request->saldoAkhir == "Saldo tidak mencukupi!"){
+            return back()->withErrors('Saldo anggota tidak mencukupi !');
+        }else{
+            $request->saldo = intval(preg_replace('/[^0-9]+/', '', $request->saldo), 10);
+            $request->saldoAkhir = intval(preg_replace('/[^0-9]+/', '', $request->saldoAkhir), 10);
+        }
 
         $messages = array(
             'tanggal.required' => 'Tanggal penarikan tidak boleh kosong!',

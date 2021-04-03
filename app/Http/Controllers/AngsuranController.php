@@ -83,6 +83,8 @@ class AngsuranController extends Controller
         $request->bunga = intval(preg_replace('/[^0-9]+/', '', $request->bunga), 10);
         $request->jumlah = intval(preg_replace('/[^0-9]+/', '', $request->jumlah), 10);
 
+        $checkerHutang = DB::table('pinjaman')->where('kode', $request->kodePinjaman)->value('jumlah');
+
         $data = [
             'kode' => $request->kode,
             'kodePinjaman' => $request->kodePinjaman,
@@ -96,6 +98,19 @@ class AngsuranController extends Controller
         ];
 
         $insertData = Angsuran::create($data);
+
+        $dataAngsuran = DB::table('angsuran')
+        ->where('kodePinjaman', $request->kodePinjaman)
+        ->sum('pokok');
+
+        if($checkerHutang == $dataAngsuran){
+            $data = [
+                'statusPinjaman' => 'Lunas'
+            ];
+
+            $updateData = Pinjaman::where('kode', $request->kodePinjaman)
+                                ->update($data);
+        }
 
         if($insertData){
             return redirect('admin/angsuran')->with('success','Data Berhasil Disimpan');

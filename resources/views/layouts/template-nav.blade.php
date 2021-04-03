@@ -56,7 +56,7 @@
                     <li class="nav-item">
                         <a href="{{ route('simpanan.index') }}" class="nav-link">
                             <i class="nav-icon fas fa-book"></i>
-                            <p>Simpanan</p>
+                            <p>Simpanan Harian</p>
                         </a>
                     </li>
 
@@ -75,6 +75,20 @@
                     </li>
 
                     <li class="nav-item">
+                        <a href="{{ route('simpananKhusus.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-book"></i>
+                            <p>Simpanan Khusus</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('penarikan.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-book"></i>
+                            <p>Penarikan</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
                         <a href="{{ route('pinjaman.index') }}" class="nav-link">
                             <i class="nav-icon fas fa-book"></i>
                             <p>Pinjaman</p>
@@ -88,12 +102,6 @@
                         </a>
                     </li>
 
-                    <li class="nav-item">
-                        <a href="{{ route('penarikan.index') }}" class="nav-link">
-                            <i class="nav-icon fas fa-book"></i>
-                            <p>Penarikan</p>
-                        </a>
-                    </li>
                 </ul>
             @endif
         </nav>

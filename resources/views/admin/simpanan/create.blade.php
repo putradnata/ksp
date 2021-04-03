@@ -1,12 +1,12 @@
 @extends('layouts.template')
 
 @section('title','KSP')
-@section('pageName','Simpanan')
+@section('pageName','Simpanan Harian')
 
 @section('contentHere')
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">Data Simpanan</h3>
+        <h3 class="card-title">Data Simpanan Harian</h3>
 
         <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip"
@@ -27,9 +27,8 @@
         <form method="POST" action="{{ route('simpanan.store') }}">
             @csrf
             <div class="form-group">
-                <label for="kode">Kode Simpanan</label>
-                <label class="form-control" style="border: 0; font-weight: normal;">{{$simpanan}}</label>
-                <input type="hidden" class="form-control" id="kode" name="kode" value="{{$simpanan}}">
+                <label for="kode">Kode Simpanan Harian</label>
+                <input type="text" class="form-control" id="kode" name="kode" value="{{$simpanan}}" readonly style="border: 0; background-color: transparent;">
             </div>
             <div class="form-group">
                 <label for="idAnggota">Nama Anggota</label>

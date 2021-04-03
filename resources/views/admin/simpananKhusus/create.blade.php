@@ -1,12 +1,12 @@
 @extends('layouts.template')
 
 @section('title','KSP')
-@section('pageName','Simpanan Pokok')
+@section('pageName','Simpanan Khusus')
 
 @section('contentHere')
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">Data Simpanan Wajib</h3>
+        <h3 class="card-title">Data Simpanan Khusus</h3>
 
         <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip"
@@ -24,11 +24,11 @@
                 @endforeach
             </div>
         @endif
-        <form method="POST" action="{{ route('simpananWajib.store') }}">
+        <form method="POST" action="{{ route('simpananKhusus.store') }}">
             @csrf
             <div class="form-group">
-                <label for="kode">Kode Simpanan Wajib</label>
-                <input type="text" class="form-control" id="kode" name="kode" value="{{$simpananWajib}}" readonly style="border: 0; background-color: transparent;">
+                <label for="kode">Kode Simpanan Khusus</label>
+                <input type="text" class="form-control" id="kode" name="kode" value="{{$simpananKhusus}}" readonly style="border: 0; background-color: transparent;">
             </div>
             <div class="form-group">
                 <label for="idAnggota">Nama Anggota</label>
@@ -44,12 +44,8 @@
                 <input type="date" class="form-control" id="tanggal" name="tanggal">
             </div>
             <div class="form-group">
-                <label for="syarat">Syarat</label>
-                <input type="text" class="form-control" id="syarat" name="syarat" placeholder="Masukkan syarat simpanan">
-            </div>
-            <div class="form-group">
                 <label for="jumlah">Jumlah</label>
-                <input type="text" class="form-control" id="jumlah" name="jumlah" placeholder="Masukkan jumlah simpanan">
+                <input type="number" class="form-control" id="jumlah" name="jumlah" placeholder="Masukkan jumlah simpanan">
             </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Submit</button>
