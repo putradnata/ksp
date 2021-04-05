@@ -48,57 +48,75 @@
 
                     <li class="nav-item">
                         <a href="{{ route('akun.index') }}" class="nav-link">
-                            <i class="nav-icon fas fa-book"></i>
+                            <i class="nav-icon fas fa-file-invoice"></i>
                             <p>Akun</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{ route('simpanan.index') }}" class="nav-link">
-                            <i class="nav-icon fas fa-book"></i>
-                            <p>Simpanan Harian</p>
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-piggy-bank"></i>
+                            <p>
+                                Simpanan
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
                         </a>
-                    </li>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('simpanan.index') }}" class="nav-link">
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Simpanan Harian</p>
+                                </a>
+                            </li>
 
-                    <li class="nav-item">
-                        <a href="{{ route('simpananPokok.index') }}" class="nav-link">
-                            <i class="nav-icon fas fa-book"></i>
-                            <p>Simpanan Pokok</p>
-                        </a>
-                    </li>
+                            <li class="nav-item">
+                                <a href="{{ route('simpananPokok.index') }}" class="nav-link">
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Simpanan Pokok</p>
+                                </a>
+                            </li>
 
-                    <li class="nav-item">
-                        <a href="{{ route('simpananWajib.index') }}" class="nav-link">
-                            <i class="nav-icon fas fa-book"></i>
-                            <p>Simpanan Wajib</p>
-                        </a>
-                    </li>
+                            <li class="nav-item">
+                                <a href="{{ route('simpananWajib.index') }}" class="nav-link">
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Simpanan Wajib</p>
+                                </a>
+                            </li>
 
-                    <li class="nav-item">
-                        <a href="{{ route('simpananKhusus.index') }}" class="nav-link">
-                            <i class="nav-icon fas fa-book"></i>
-                            <p>Simpanan Khusus</p>
-                        </a>
+                            <li class="nav-item">
+                                <a href="{{ route('simpananKhusus.index') }}" class="nav-link">
+                                    <i class="nav-icon far fa-circle"></i>
+                                    <p>Simpanan Khusus</p>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
 
                     <li class="nav-item">
                         <a href="{{ route('penarikan.index') }}" class="nav-link">
-                            <i class="nav-icon fas fa-book"></i>
+                            <i class="nav-icon fas fa-money-bill-wave"></i>
                             <p>Penarikan</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a href="{{ route('pinjaman.index') }}" class="nav-link">
-                            <i class="nav-icon fas fa-book"></i>
+                            <i class="nav-icon fas fa-money-check-alt"></i>
                             <p>Pinjaman</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a href="{{ route('angsuran.index') }}" class="nav-link">
-                            <i class="nav-icon fas fa-book"></i>
+                            <i class="nav-icon fas fa-hand-holding-usd"></i>
                             <p>Angsuran</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('jurnal-umum.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-book-open"></i>
+                            <p>Jurnal Umum</p>
                         </a>
                     </li>
 

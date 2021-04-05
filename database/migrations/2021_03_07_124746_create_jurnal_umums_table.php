@@ -15,20 +15,21 @@ class CreateJurnalUmumsTable extends Migration
     {
         Schema::create('jurnal_umum', function (Blueprint $table) {
             $table->id();
-            $table->char('noTransaksi', '20');
-            $table->float('jumlah');
-            $table->enum('status', ['debet', 'kredit']);
+            $table->string('noTransaksi');
+            $table->date('tanggal');
+            $table->integer('jumlah');
+            $table->enum('status', ['DEBIT', 'KREDIT']);
             $table->string('keterangan');
             $table->unsignedBigInteger('noAkun');
+            $table->foreignId('idAdmin')->constrained('users')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
             $table->timestamps();
 
             $table->foreign('noAkun')->references('noAkun')->on('akun')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
-            $table->foreignId('idAdmin')->constrained('users')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
         });
     }
 
