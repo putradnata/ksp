@@ -1,7 +1,7 @@
 @extends('layouts.template')
 
 @section('title','KSP')
-@section('pageName','penarikan')
+@section('pageName','Penarikan')
 
 @section('customStyle')
     <style>
@@ -29,7 +29,7 @@
         <table class="table table-stripped" id="tabelData">
             <thead>
                 <th>No. </th>
-                <th>Kode Simpanan</th>
+                <th>Kode Penarikan</th>
                 <th>Tanggal</th>
                 <th>Nama Anggota</th>
                 <th>Saldo Awal</th>
@@ -41,7 +41,7 @@
                 @foreach ($penarikan as $pk => $penarikan)
                     <tr>
                         <td>{{ ++$pk }}.</td>
-                        <td>{{ $penarikan->kodeSimpanan }}</td>
+                        <td>{{ $penarikan->kode }}</td>
                         <td>{{ \Carbon\Carbon::parse($penarikan->tanggal)->format('d-m-Y') }}</td>
                         <td>({{ $penarikan->idAnggota }}) {{ $penarikan->namaAnggota }}</td>
                         <td>@currency($penarikan->saldo)</td>

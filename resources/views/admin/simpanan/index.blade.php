@@ -25,7 +25,8 @@
         </div>
     </div>
     <div class="card-body">
-        <a class="btn btn-primary" id="tambahButton" href="{{ route('simpanan.create') }}"> <i class="fa fa-book"></i>Tambah Simpanan Harian</a>
+        <a class="btn btn-primary" id="tambahButton" href="{{ route('simpanan.create') }}"> <i class="fa fa-book"></i> Tambah Simpanan Harian</a>
+        <a class="btn btn-primary" id="tambahButton" href="{{ route('simpanan.bankRates') }}"> <i class="fa fa-book"></i> Update Bunga</a>
         <table class="table table-stripped" id="tabelData">
             <thead>
                 <th>No. </th>

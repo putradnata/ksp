@@ -57,7 +57,7 @@ class LoginController extends Controller
             if (auth()->user()->jabatan == 'K') {
                 return redirect()->route('indexKetua');
             } else if (auth()->user()->jabatan == 'A') {
-                return redirect()->route('indexAdmin');
+                return redirect()->route('dashboard.staff');
             }
         }else{
             return redirect()->route('login');

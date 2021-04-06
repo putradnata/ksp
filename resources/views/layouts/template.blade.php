@@ -24,6 +24,12 @@
     <!--data table-->
     <link href="{{ asset('template/plugins/datatables-bs4/css/dataTables.bootstrap4.css')}}" rel="stylesheet">
 
+    <!--highchart-->
+    <script src="{{ asset('template/code/highcharts.js')}}"></script>
+    <script src="{{ asset('template/code/modules/exporting.js')}}"></script>
+    <script src="{{ asset('template/code/modules/export-data.js')}}"></script>
+    <script src="{{ asset('template/code/modules/accessibility.js')}}"></script>
+
     @yield('customStyle')
 </head>
 

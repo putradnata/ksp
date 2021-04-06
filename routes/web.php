@@ -13,6 +13,7 @@ use App\Http\Controllers\AngsuranController;
 use App\Http\Controllers\JurnalUmumController;
 use App\Http\Controllers\PenarikanController;
 use App\Http\Controllers\SimpananKhususController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     // return view('auth.login');
@@ -30,9 +31,9 @@ Route::middleware(['auth'])->group(function () {
         //give 'ketua' prefix into url
         Route::prefix('ketua')->group(function () {
             //index ketua
-            Route::get('/', function () {
-                return view('ketua.index');
-            })->name('indexKetua');
+                Route::get('/', function () {
+                    return view('ketua.index');
+                })->name('indexKetua');
         });
     });
 
@@ -41,9 +42,12 @@ Route::middleware(['auth'])->group(function () {
         //give 'admin' prefix into url
         Route::prefix('admin')->group(function () {
             //index admin
-            Route::get('/', function () {
-                return view('admin.index');
-            })->name('indexAdmin');
+            // Route::get('/', function () {
+            //     return view('admin.index');
+            // })->name('indexAdmin');
+
+            Route::get('/', [DashboardController::class, 'indexAdmin'])->name('dashboard.staff');
+            Route::get('/bank-rates', [SimpananController::class, 'bankRates'])->name('simpanan.bankRates');
 
             //All Resource Controller
             Route::resources([
