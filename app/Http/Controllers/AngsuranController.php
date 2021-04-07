@@ -37,6 +37,7 @@ class AngsuranController extends Controller
         $selectPinjaman = DB::table('pinjaman')
             ->join('anggota', 'pinjaman.idAnggota', '=', 'anggota.id')
             ->select('pinjaman.*','anggota.nama as namaAnggota','anggota.id as idAnggota')
+            ->where('pinjaman.statusPinjaman','Belum Lunas')
             ->get();
 
         $checkerTanggalTempo = DB::select("
