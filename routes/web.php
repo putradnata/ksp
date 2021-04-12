@@ -42,13 +42,16 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['admin'])->group(function () {
         //give 'admin' prefix into url
         Route::prefix('admin')->group(function () {
-            //index admin
-            // Route::get('/', function () {
-            //     return view('admin.index');
-            // })->name('indexAdmin');
 
+            //dashboard
             Route::get('/', [DashboardController::class, 'indexAdmin'])->name('dashboard.staff');
+
+            //bunga
             Route::get('/bank-rates', [SimpananController::class, 'bankRates'])->name('simpanan.bankRates');
+
+            //report
+            Route::get('/simpanan-pokok/{id}', [SimpananPokokController::class, 'PrintReport'])->name('simpananPokok.report');
+            Route::get('/simpanan-wajib/{id}', [SimpananWajibController::class, 'PrintReport'])->name('simpananWajib.report');
 
             //sisa hasil usaha
             Route::get('/sisa-hasil-usaha',[SisaHasilUsahaController::class,'index'])->name('sisaHasilUsaha.index');

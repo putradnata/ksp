@@ -33,6 +33,10 @@ class SimpananPokokController extends Controller
      */
     public function create()
     {
+        $simpananPokok = new SimpananPokok();
+
+        $simpananPokok =  (object) $simpananPokok->getDefaultValues();
+
         $selectAnggota = DB::table('anggota')
                             ->select('id','nama')
                             ->get();
@@ -53,7 +57,8 @@ class SimpananPokokController extends Controller
 
         return view('admin/simpananPokok.create',[
             'anggota' => $selectAnggota,
-            'simpananPokok' => $kodeSimpananPokok
+            'simpananPokok' => $kodeSimpananPokok,
+            'simpananP' => $simpananPokok
         ]);
     }
 
@@ -113,9 +118,21 @@ class SimpananPokokController extends Controller
      * @param  \App\Models\SimpananPokok  $simpananPokok
      * @return \Illuminate\Http\Response
      */
-    public function edit(SimpananPokok $simpananPokok)
+    public function edit($id)
     {
-        //
+        $simpananPokok = "";
+
+        $findSimpananPokok = SimpananPokok::where('kode',$id)->first();
+
+        $selectAnggota = DB::table('anggota')
+                            ->select('id','nama')
+                            ->get();
+
+        return view('admin/simpananPokok.create',[
+            'anggota' => $selectAnggota,
+            'simpananPokok' => $simpananPokok,
+            'simpananP' => $findSimpananPokok
+        ]);
     }
 
     /**
@@ -125,9 +142,37 @@ class SimpananPokokController extends Controller
      * @param  \App\Models\SimpananPokok  $simpananPokok
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, SimpananPokok $simpananPokok)
+    public function update(Request $request, $id)
     {
-        //
+        $messages = array(
+            'tanggal.required' => 'Tanggal simpanan tidak boleh kosong!',
+            'idAnggota.required' => 'Nama anggota tidak boleh kosong!',
+            'syarat.required' => 'Syarat tidak boleh kosong!',
+            'jumlah.required' => 'Jumlah simpanan tidak boleh kosong!'
+        );
+
+        $validate = $request->validate([
+            'tanggal' => 'required',
+            'idAnggota'=> 'required',
+            'syarat' => 'required',
+            'jumlah' => 'required'
+        ],$messages);
+
+        $data = [
+            'idAnggota' => $request->idAnggota,
+            'syarat' => $request->syarat,
+            'tanggal' => $request->tanggal,
+            'jumlah' => $request->jumlah
+        ];
+
+        $updateData = SimpananPokok::where('kode', $id)
+                            ->update($data);
+
+        if($updateData){
+            return redirect('admin/simpananPokok')->with('success','Data Berhasil Disimpan');
+        }else{
+            return redirect('admin/simpananPokok.edit')->with('error','Data Gagal Disimpan');
+        }
     }
 
     /**
@@ -139,5 +184,23 @@ class SimpananPokokController extends Controller
     public function destroy(SimpananPokok $simpananPokok)
     {
         //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\SimpananPokok  $simpananPokok
+     * @return \Illuminate\Http\Response
+     */
+    public function PrintReport($id)
+    {
+        $dataSimpananPokok = DB::table('simpanan_pokok')
+                                ->join('anggota', 'simpanan_pokok.idAnggota', '=', 'anggota.id')
+                                ->select('simpanan_pokok.*','anggota.nama as namaAnggota','anggota.id as idAnggota')
+                                ->where('simpanan_pokok.kode',$id)
+                                ->first();
+        return view('admin/simpananPokok.cetak',[
+            'simpananPokok' => $dataSimpananPokok
+        ]);
     }
 }

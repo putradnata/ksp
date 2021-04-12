@@ -24,8 +24,14 @@
                 @endforeach
             </div>
         @endif
-        <form method="POST" action="{{ route('simpananKhusus.store') }}">
+        @if ($simpananKhusus != "")
+            <form method="POST" action="{{ route('simpananKhusus.store') }}">
+        @else
+            <form method="POST" action="{{ route('simpananKhusus.update', $simpananK->kode) }}">
+                @method('PUT')
+        @endif
             @csrf
+            @if ($simpananKhusus != "")
             <div class="form-group">
                 <label for="kode">Kode Simpanan Khusus</label>
                 <input type="text" class="form-control" id="kode" name="kode" value="{{$simpananKhusus}}" readonly style="border: 0; background-color: transparent;">
@@ -47,6 +53,29 @@
                 <label for="jumlah">Jumlah</label>
                 <input type="number" class="form-control" id="jumlah" name="jumlah" placeholder="Masukkan jumlah simpanan">
             </div>
+            @else
+            <div class="form-group">
+                <label for="kode">Kode Simpanan Khusus</label>
+                <input type="text" class="form-control" id="kode" name="kode" value="{{$simpananK->kode}}" readonly style="border: 0; background-color: transparent;">
+            </div>
+            <div class="form-group">
+                <label for="idAnggota">Nama Anggota</label>
+                <select name="idAnggota" class="form-control" disabled>
+                    <option value="">-- Pilih Satu --</option>
+                    @foreach($anggota as $anggota)
+                        <option value="{{$anggota->id}}" {{( old('simpananK', $simpananK->idAnggota) == $anggota->id) ? 'selected' : ''}}>{{$anggota->id}} / {{$anggota->nama}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="tanggal">Tanggal Penyimpanan</label>
+                <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{ old('simpananK', $simpananK->tanggal) }}">
+            </div>
+            <div class="form-group">
+                <label for="jumlah">Jumlah</label>
+                <input type="number" class="form-control" id="jumlah" name="jumlah" placeholder="Masukkan jumlah simpanan" value="{{ old('simpananK', $simpananK->jumlah) }}" readonly style="border: 0; background-color: transparent;">
+            </div>
+            @endif
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>

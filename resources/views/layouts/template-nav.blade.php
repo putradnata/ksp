@@ -4,7 +4,7 @@
     <a href="#" class="brand-link">
         <img src="{{ asset('images/Logo-Koperasi-1.png') }}" alt="logo ksp"
             class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">KSP Artha Rahayu Sejahtera Abadi</span>
+        <span class="brand-text font-weight-light"><center><small>Artha Rahayu Sejahtera<br>Abadi</small></center></span>
     </a>
 
     <!-- Sidebar -->

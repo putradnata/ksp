@@ -34,7 +34,7 @@
                 <th>Nama Anggota</th>
                 <th>Jumlah</th>
                 <th>Saldo</th>
-                {{-- <th>Aksi</th> --}}
+                <th>Aksi</th>
             </thead>
             <tbody>
                 @foreach ($simpananKhusus as $spk => $simpananKhusus)
@@ -45,10 +45,10 @@
                         <td>({{ $simpananKhusus->idAnggota }}) {{ $simpananKhusus->namaAnggota }}</td>
                         <td>@currency($simpananKhusus->jumlah)</td>
                         <td>@currency($simpananKhusus->saldo)</td>
-                        {{-- <td>
-                            <a class="btn btn-sm btn-info light-s" data-toggle="modal" data-id="#" data-target="#"><span class="fa fa-eye"></span></a>
-                            <a class="btn btn-sm btn-warning light-s" href="#"><span class="fas fa-pencil-alt"></span></a>
-                        </td> --}}
+                        <td>
+                            <a class="btn btn-sm btn-warning light-s" href="{{ route('simpananKhusus.edit', $simpananKhusus->kode) }}"><span class="fas fa-pencil-alt"></span></a>
+                            <a class="btn btn-sm btn-primary light-s" href="#" target="blank"><span class="fas fa-print"></span></a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

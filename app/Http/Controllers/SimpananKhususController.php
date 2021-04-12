@@ -32,6 +32,10 @@ class SimpananKhususController extends Controller
      */
     public function create()
     {
+        $simpananKhusus = new SimpananKhusus();
+
+        $simpananKhusus =  (object) $simpananKhusus->getDefaultValues();
+
         $selectAnggota = DB::table('anggota')
                             ->select('id','nama')
                             ->get();
@@ -52,7 +56,8 @@ class SimpananKhususController extends Controller
 
         return view('admin/simpananKhusus.create',[
             'anggota' => $selectAnggota,
-            'simpananKhusus' => $kodeSimpananKhusus
+            'simpananKhusus' => $kodeSimpananKhusus,
+            'SimpananK' => $simpananKhusus
         ]);
     }
 
@@ -93,7 +98,6 @@ class SimpananKhususController extends Controller
             'idAnggota' => $request->idAnggota,
             'tanggal' => $request->tanggal,
             'jumlah' => $request->jumlah,
-            'bunga' => $request->bunga,
             'saldo' => $Totalsaldo
         ];
 
@@ -123,9 +127,21 @@ class SimpananKhususController extends Controller
      * @param  \App\Models\SimpananKhusus  $simpananKhusus
      * @return \Illuminate\Http\Response
      */
-    public function edit(SimpananKhusus $simpananKhusus)
+    public function edit($id)
     {
-        //
+        $simpananKhusus = "";
+
+        $findSimpananKhusus = SimpananKhusus::where('kode',$id)->first();
+
+        $selectAnggota = DB::table('anggota')
+                            ->select('id','nama')
+                            ->get();
+
+        return view('admin/simpananKhusus.create',[
+            'anggota' => $selectAnggota,
+            'simpananKhusus' => $simpananKhusus,
+            'simpananK' => $findSimpananKhusus
+        ]);
     }
 
     /**
@@ -135,9 +151,28 @@ class SimpananKhususController extends Controller
      * @param  \App\Models\SimpananKhusus  $simpananKhusus
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, SimpananKhusus $simpananKhusus)
+    public function update(Request $request, $id)
     {
-        //
+        $messages = array(
+            'tanggal.required' => 'Tanggal simpanan tidak boleh kosong!'
+        );
+
+        $validate = $request->validate([
+            'tanggal' => 'required'
+        ],$messages);
+
+        $data = [
+            'tanggal' => $request->tanggal,
+        ];
+
+        $updateData = SimpananKhusus::where('kode', $id)
+                            ->update($data);
+
+        if($updateData){
+            return redirect('admin/simpananKhusus')->with('success','Data Berhasil Disimpan');
+        }else{
+            return redirect('admin/simpananKhusus.edit')->with('error','Data Gagal Disimpan');
+        }
     }
 
     /**

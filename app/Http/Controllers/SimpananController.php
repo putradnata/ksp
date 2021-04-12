@@ -33,24 +33,28 @@ class SimpananController extends Controller
      */
     public function bankRates()
     {
-        $previousMonth = \Carbon\Carbon::now()->startOfMonth()->subMonth()->format('m');
-        $thisYear = \Carbon\Carbon::now()->format('Y');
+        $firstDayThisMonth = \Carbon\Carbon::now()->startOfMonth()->toDateString();
+        $thisDay = \Carbon\Carbon::now()->toDateString();
 
-        $idAnggota = [];
-        $anggota_search = DB::table('simpanan')->select('idAnggota')->groupBy('idAnggota')->get();
+        if($firstDayThisMonth == $thisDay){
+            $previousMonth = \Carbon\Carbon::now()->startOfMonth()->subMonth()->format('m');
+            $thisYear = \Carbon\Carbon::now()->format('Y');
 
-        foreach ($anggota_search as $key1 => $as) {
+            $idAnggota = [];
+            $anggota_search = DB::table('simpanan')->select('idAnggota')->groupBy('idAnggota')->get();
 
-            $idAnggota[$key1]['idAnggota'] = $as->idAnggota;
+            foreach ($anggota_search as $key1 => $as) {
 
-            $checkerPenarikan = DB::table('penarikan')
-                ->join('simpanan', 'simpanan.idAnggota', '=', 'penarikan.idAnggota')
-                ->selectRaw('cast(MIN(penarikan.saldoAkhir)as UNSIGNED) as penarikanSaldoRendah')
-                ->where('simpanan.idAnggota', $as->idAnggota)
-                ->whereMonth('penarikan.tanggal', $previousMonth)
-                ->whereYear('penarikan.tanggal', $thisYear)
-                ->groupBy('simpanan.idAnggota')
-                ->get();
+                $idAnggota[$key1]['idAnggota'] = $as->idAnggota;
+
+                $checkerPenarikan = DB::table('penarikan')
+                    ->join('simpanan', 'simpanan.idAnggota', '=', 'penarikan.idAnggota')
+                    ->selectRaw('cast(MIN(penarikan.saldoAkhir)as UNSIGNED) as penarikanSaldoRendah')
+                    ->where('simpanan.idAnggota', $as->idAnggota)
+                    ->whereMonth('penarikan.tanggal', $previousMonth)
+                    ->whereYear('penarikan.tanggal', $thisYear)
+                    ->groupBy('simpanan.idAnggota')
+                    ->get();
 
                 if (@$checkerPenarikan[0]->penarikanSaldoRendah != null) {
                     $checkerSimpanan = DB::table('simpanan')
@@ -82,43 +86,45 @@ class SimpananController extends Controller
                         $idAnggota[$key1]['bunga'] = 0;
                     }
                 }
-        }
+            }
 
-        $count=count($idAnggota);
+            $count=count($idAnggota);
 
-        $endDayofPreviousMonth = \Carbon\Carbon::now()->endOfMonth()->subMonth()->toDateString();
+            $endDayofPreviousMonth = \Carbon\Carbon::now()->endOfMonth()->subMonth()->toDateString();
 
-        for ($i=0; $i < $count; $i++) {
-            if ($idAnggota[$i]['saldoTerendah'] != 0) {
-                $code = 'S';
-                $last = DB::table('simpanan')
-                        ->where('kode', 'like', '%'.$code.'%')
-                        ->max('kode');
+            for ($i=0; $i < $count; $i++) {
+                if ($idAnggota[$i]['saldoTerendah'] != 0) {
+                    $code = 'S';
+                    $last = DB::table('simpanan')
+                            ->where('kode', 'like', '%'.$code.'%')
+                            ->max('kode');
 
-                $new = substr($last,-3);
-                $new +=1;
-                $kodeSimpanan = $code.sprintf("%03d", $new);
+                    $new = substr($last,-3);
+                    $new +=1;
+                    $kodeSimpanan = $code.sprintf("%03d", $new);
 
-                $lastSimpanan = DB::table('simpanan')
-                            ->select('saldo')
-                            ->where('idAnggota', $idAnggota[$i]['idAnggota'])
-                            ->orderBy('kode','desc')
-                            ->first();
+                    $lastSimpanan = DB::table('simpanan')
+                                ->select('saldo')
+                                ->where('idAnggota', $idAnggota[$i]['idAnggota'])
+                                ->orderBy('kode','desc')
+                                ->first();
 
-                $Totalsaldo = $lastSimpanan->saldo + $idAnggota[$i]['bunga'];
+                    $Totalsaldo = $lastSimpanan->saldo + $idAnggota[$i]['bunga'];
 
-                DB::table('simpanan')->insert([
-                    'kode'=> $kodeSimpanan,
-                    'idAnggota' => $idAnggota[$i]['idAnggota'],
-                    'tanggal' => $endDayofPreviousMonth,
-                    'jumlah' => $idAnggota[$i]['bunga'],
-                    'bunga' => '0.3',
-                    'saldo' => $Totalsaldo,
-                    'created_at' => $endDayofPreviousMonth,
-                    'updated_at' => $endDayofPreviousMonth
-                ]);
+                    DB::table('simpanan')->insert([
+                        'kode'=> $kodeSimpanan,
+                        'idAnggota' => $idAnggota[$i]['idAnggota'],
+                        'tanggal' => $endDayofPreviousMonth,
+                        'jumlah' => $idAnggota[$i]['bunga'],
+                        'bunga' => '0.3',
+                        'saldo' => $Totalsaldo,
+                        'created_at' => $endDayofPreviousMonth,
+                        'updated_at' => $endDayofPreviousMonth
+                    ]);
+                }
             }
         }
+
         return redirect('admin/simpanan')->with('success','Data Berhasil Disimpan');
     }
 

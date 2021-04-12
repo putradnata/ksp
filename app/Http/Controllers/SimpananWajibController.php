@@ -32,6 +32,10 @@ class SimpananWajibController extends Controller
      */
     public function create()
     {
+        $simpananWajib = new SimpananWajib();
+
+        $simpananWajib =  (object) $simpananWajib->getDefaultValues();
+
         $selectAnggota = DB::table('anggota')
                             ->select('id','nama')
                             ->get();
@@ -52,7 +56,8 @@ class SimpananWajibController extends Controller
 
         return view('admin/simpananWajib.create',[
             'anggota' => $selectAnggota,
-            'simpananWajib' => $kodeSimpananWajib
+            'simpananWajib' => $kodeSimpananWajib,
+            'simpananW' => $simpananWajib
         ]);
     }
 
@@ -112,9 +117,21 @@ class SimpananWajibController extends Controller
      * @param  \App\Models\SimpananWajib  $simpananWajib
      * @return \Illuminate\Http\Response
      */
-    public function edit(SimpananWajib $simpananWajib)
+    public function edit($id)
     {
-        //
+        $simpananWajib = "";
+
+        $findSimpananWajib = SimpananWajib::where('kode',$id)->first();
+
+        $selectAnggota = DB::table('anggota')
+                            ->select('id','nama')
+                            ->get();
+
+        return view('admin/simpananWajib.create',[
+            'anggota' => $selectAnggota,
+            'simpananWajib' => $simpananWajib,
+            'simpananW' => $findSimpananWajib
+        ]);
     }
 
     /**
@@ -124,9 +141,37 @@ class SimpananWajibController extends Controller
      * @param  \App\Models\SimpananWajib  $simpananWajib
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, SimpananWajib $simpananWajib)
+    public function update(Request $request, $id)
     {
-        //
+        $messages = array(
+            'tanggal.required' => 'Tanggal simpanan tidak boleh kosong!',
+            'idAnggota.required' => 'Nama anggota tidak boleh kosong!',
+            'syarat.required' => 'Syarat tidak boleh kosong!',
+            'jumlah.required' => 'Jumlah simpanan tidak boleh kosong!'
+        );
+
+        $validate = $request->validate([
+            'tanggal' => 'required',
+            'idAnggota'=> 'required',
+            'syarat' => 'required',
+            'jumlah' => 'required'
+        ],$messages);
+
+        $data = [
+            'idAnggota' => $request->idAnggota,
+            'syarat' => $request->syarat,
+            'tanggal' => $request->tanggal,
+            'jumlah' => $request->jumlah
+        ];
+
+        $updateData = SimpananWajib::where('kode', $id)
+                            ->update($data);
+
+        if($updateData){
+            return redirect('admin/simpananWajib')->with('success','Data Berhasil Disimpan');
+        }else{
+            return redirect('admin/simpananWajib.edit')->with('error','Data Gagal Disimpan');
+        }
     }
 
     /**
@@ -138,5 +183,24 @@ class SimpananWajibController extends Controller
     public function destroy(SimpananWajib $simpananWajib)
     {
         //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\SimpananWajib  $simpananWajib
+     * @return \Illuminate\Http\Response
+     */
+    public function PrintReport($id)
+    {
+        $dataSimpananWajib = DB::table('simpanan_wajib')
+                                ->join('anggota', 'simpanan_wajib.idAnggota', '=', 'anggota.id')
+                                ->select('simpanan_wajib.*','anggota.nama as namaAnggota','anggota.id as idAnggota')
+                                ->where('simpanan_wajib.kode', $id)
+                                ->first();
+
+        return view('admin/simpananWajib.cetak',[
+            'simpananWajib' => $dataSimpananWajib
+        ]);
     }
 }

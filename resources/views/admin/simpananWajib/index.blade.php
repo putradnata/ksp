@@ -34,7 +34,7 @@
                 <th>Nama Anggota</th>
                 <th>Syarat</th>
                 <th>Jumlah</th>
-                {{-- <th>Aksi</th> --}}
+                <th>Aksi</th>
             </thead>
             <tbody>
                 @foreach ($simpananWajib as $spw => $simpananWajib)
@@ -45,10 +45,10 @@
                         <td>({{ $simpananWajib->idAnggota }}) {{ $simpananWajib->namaAnggota }}</td>
                         <td>{{ $simpananWajib->syarat }}</td>
                         <td>@currency($simpananWajib->jumlah)</td>
-                        {{-- <td>
-                            <a class="btn btn-sm btn-info light-s" data-toggle="modal" data-id="#" data-target="#"><span class="fa fa-eye"></span></a>
-                            <a class="btn btn-sm btn-warning light-s" href="#"><span class="fas fa-pencil-alt"></span></a>
-                        </td> --}}
+                        <td>
+                            <a class="btn btn-sm btn-warning light-s" href="{{ route('simpananWajib.edit', $simpananWajib->kode) }}"><span class="fas fa-pencil-alt"></span></a>
+                            <a class="btn btn-sm btn-primary light-s" href="{{ route('simpananWajib.report', $simpananWajib->kode) }}" target="blank"><span class="fas fa-print"></span></a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

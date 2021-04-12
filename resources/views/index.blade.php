@@ -26,7 +26,7 @@
             </div>
             <div class="col-12 text-center">
                 <center>
-                    <h6>Jln. Padma, Br. Dlodtangluk, Sukawati - Gianyar</h6>
+                    <h6>Jln. Lettu Nengah Duaji I, Br. Pekuwudan, Sukawati, Gianyar</h6>
                 </center>
             </div>
             <div class="col-12 text-center" style="margin-top: 10px">
