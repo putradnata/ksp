@@ -43,6 +43,8 @@
                 @php
                     $firstDebit = 0;
                     $firstKredit = 0;
+                    $totalDebit = 0;
+                    $totalKredit = 0;
                 @endphp
 
                 @foreach ($showJurnal as $jurnal)
@@ -55,11 +57,19 @@
                         <td>{{ $jurnal->keterangan }}</td>
                         <td>{{ $jurnal->namaAkun }}</td>
                         @if ($jurnal->status == 'DEBIT')
-                            <td>{{ "Rp".number_format($totalDebit = $firstDebit+=$jurnal->jumlah, 0,",",".") }}</td>
+                            @php
+                                $totalDebit = $firstDebit+=$jurnal->jumlah
+                            @endphp
+
+                            <td>{{ "Rp".number_format($jurnal->jumlah, 0,",",".") }}</td>
                             <td> - </td>
                         @else
+                            @php
+                                $totalKredit = $firstKredit+=$jurnal->jumlah
+                            @endphp
+
                             <td> - </td>
-                            <td>{{ "Rp".number_format($totalKredit = $firstKredit+=$jurnal->jumlah, 0,",",".") }}</td>
+                            <td>{{ "Rp".number_format($jurnal->jumlah, 0,",",".") }}</td>
                         @endif
                     </tr>
                 @endforeach

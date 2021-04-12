@@ -4,7 +4,7 @@
     <a href="#" class="brand-link">
         <img src="{{ asset('images/Logo-Koperasi-1.png') }}" alt="logo ksp"
             class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">KSP</span>
+        <span class="brand-text font-weight-light">KSP Artha Rahayu Sejahtera Abadi</span>
     </a>
 
     <!-- Sidebar -->
@@ -123,6 +123,13 @@
                         <a href="{{ route('jurnal-umum.index') }}" class="nav-link">
                             <i class="nav-icon fas fa-book-open"></i>
                             <p>Jurnal Umum</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('sisaHasilUsaha.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-dollar-sign"></i>
+                            <p>Sisa Hasil Usaha</p>
                         </a>
                     </li>
 

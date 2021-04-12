@@ -32,7 +32,7 @@
                 <th>No Akun </th>
                 <th>Nama Akun</th>
                 <th>Tipe Akun</th>
-                <th>Saldo</th>
+                {{-- <th>Saldo</th> --}}
                 {{-- <th>Aksi</th> --}}
             </thead>
             <tbody>
@@ -42,7 +42,7 @@
                         <td>{{ $akun->noAkun }}</td>
                         <td>{{ $akun->nama }}</td>
                         <td>{{ $akun->tipe }}</td>
-                        <td>@currency($akun->saldo)</td>
+                        {{-- <td>@currency($akun->saldo)</td> --}}
                         {{-- <td>
                             <a class="btn btn-sm btn-info light-s" data-toggle="modal" data-id="#" data-target="#"><span class="fa fa-eye"></span></a>
                             <a class="btn btn-sm btn-warning light-s" href="#"><span class="fas fa-pencil-alt"></span></a>

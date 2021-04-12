@@ -14,6 +14,7 @@ use App\Http\Controllers\JurnalUmumController;
 use App\Http\Controllers\PenarikanController;
 use App\Http\Controllers\SimpananKhususController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\SisaHasilUsahaController;
 
 Route::get('/', function () {
     // return view('auth.login');
@@ -48,6 +49,11 @@ Route::middleware(['auth'])->group(function () {
 
             Route::get('/', [DashboardController::class, 'indexAdmin'])->name('dashboard.staff');
             Route::get('/bank-rates', [SimpananController::class, 'bankRates'])->name('simpanan.bankRates');
+
+            //sisa hasil usaha
+            Route::get('/sisa-hasil-usaha',[SisaHasilUsahaController::class,'index'])->name('sisaHasilUsaha.index');
+            Route::post('/sisa-hasil-usaha',[SisaHasilUsahaController::class,'SHUDateBased'])->name('sisaHasilUsaha.shu-dateBased');
+            Route::post('/sisa-hasil-usaha/cetak',[SisaHasilUsahaController::class,'cetakSHU'])->name('sisaHasilUsaha.cetak');
 
             //All Resource Controller
             Route::resources([

@@ -26,42 +26,78 @@
         @endif
         <form method="POST" action="{{ route('jurnal-umum.store') }}">
             @csrf
-            <div class="form-group">
-                <label for="tanggal">Tanggal Pembayaran</label>
-                <input type="date" class="form-control  col-xl-2 tp" id="tanggal" name="tanggal" onkeydown="return false">
-            </div>
-            <div class="form-group">
-                <label for="akun">Akun</label>
-                <select class="form-control col-xl-4" name="akun">
-                    @foreach ($showAkun as $akun)
-                        <option value="{{ $akun->noAkun }}"> {{ $akun->noAkun }} - {{ $akun->nama }} </option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="posisi">Posisi</label>
-                <select class="form-control col-xl-2" name="posisi">
-                    <option value="DEBIT">DEBIT</option>
-                    <option value="KREDIT">KREDIT</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="jumlah">Jumlah Transaksi</label>
-                <div class="input-group mb-3 col-xl-2">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Rp </span>
+            <div class="row">
+                <div class="col-xl-4">
+                    <div class="form-group">
+                        <label for="tanggal">Tanggal Pembayaran</label>
+                        <input type="date" class="form-control" id="tanggal" name="tanggal[]" onkeydown="return false">
                     </div>
-                    <input type="text" name="jumlah" class="form-control">
+                    <div class="form-group">
+                        <label for="akun">Akun</label>
+                        <select class="form-control" name="akun[]">
+                            @foreach ($showAkun as $akun)
+                                <option value="{{ $akun->noAkun }}"> {{ $akun->noAkun }} - {{ $akun->nama }} </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="posisi">Posisi</label>
+                        <select class="form-control" name="posisi[]">
+                            <option value="DEBIT">DEBIT</option>
+                            <option value="KREDIT">KREDIT</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="jumlah">Jumlah Transaksi</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Rp </span>
+                            </div>
+                            <input type="text" name="jumlah[]" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="keterangan">Keterangan</label>
+                        <textarea class="form-control" name="keterangan[]"></textarea>
+                    </div>
+                </div>
+                <div class="col-xl-4">
+                    <div class="form-group">
+                        <label for="tanggal">Tanggal Pembayaran</label>
+                        <input type="date" class="form-control" id="tanggal" name="tanggal[]" onkeydown="return false">
+                    </div>
+                    <div class="form-group">
+                        <label for="akun">Akun</label>
+                        <select class="form-control" name="akun[]">
+                            @foreach ($showAkun as $akun)
+                                <option value="{{ $akun->noAkun }}"> {{ $akun->noAkun }} - {{ $akun->nama }} </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="posisi">Posisi</label>
+                        <select class="form-control" name="posisi[]">
+                            <option value="DEBIT">DEBIT</option>
+                            <option value="KREDIT">KREDIT</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="jumlah">Jumlah Transaksi</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Rp </span>
+                            </div>
+                            <input type="text" name="jumlah[]" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="keterangan">Keterangan</label>
+                        <textarea class="form-control" name="keterangan[]"></textarea>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="keterangan">Keterangan</label>
-                <textarea class="form-control col-xl-5" name="keterangan"></textarea>
-            </div>
 
-            <div class="card-footer">
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
     <!-- /.card-body -->

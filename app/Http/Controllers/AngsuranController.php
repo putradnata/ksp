@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Angsuran;
 use App\Models\Pinjaman;
 use Illuminate\Http\Request;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class AngsuranController extends Controller
 {

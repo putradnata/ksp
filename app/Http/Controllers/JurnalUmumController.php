@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\JurnalUmum;
 use Illuminate\Http\Request;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Helpers\Helper;
 
@@ -54,17 +54,22 @@ class JurnalUmumController extends Controller
      */
     public function store(Request $request)
     {
+
         $messages = array(
-            'tanggal.required' => 'Tanggal simpanan tidak boleh kosong!',
-            'jumlah.required' => 'Jumlah simpanan tidak boleh kosong!',
-            'jumlah.numeric' => 'Harap memasukkan Angka!',
-            'keterangan.required' => 'Keterangan tidak boleh kosong!',
+            'tanggal.0.required' => 'Tanggal simpanan tidak boleh kosong!',
+            'jumlah.0.required' => 'Jumlah simpanan tidak boleh kosong!',
+            'jumlah.0.numeric' => 'Harap memasukkan Angka!',
+            'keterangan.0.required' => 'Keterangan tidak boleh kosong!',
+            'tanggal.1.required' => 'Tanggal simpanan tidak boleh kosong!',
+            'jumlah.1.required' => 'Jumlah simpanan tidak boleh kosong!',
+            'jumlah.1.numeric' => 'Harap memasukkan Angka!',
+            'keterangan.1.required' => 'Keterangan tidak boleh kosong!',
         );
 
         $validate = $request->validate([
-            'tanggal' => 'required',
-            'jumlah' => 'numeric|required',
-            'keterangan'=> 'required'
+            'tanggal.*' => 'required',
+            'jumlah.*' => 'numeric|required',
+            'keterangan.*'=> 'required'
         ],$messages);
 
         //custom number generator
@@ -73,17 +78,21 @@ class JurnalUmumController extends Controller
         $newgeneratedNo = "JU-".str_pad($lastNo+1, 5, "0", STR_PAD_LEFT);
 
         if($validate){
-            $data = [
-                'noTransaksi' => $newgeneratedNo,
-                'noAkun' => $request->akun,
-                'tanggal' => $request->tanggal,
-                'jumlah' => $request->jumlah,
-                'status' => $request->posisi,
-                'keterangan' => $request->keterangan,
-                'idAdmin' => auth()->user()->id
-            ];
+            $x = count($request->tanggal);
 
-            $insertJurnal = JurnalUmum::create($data);
+            for($i=0;$i<$x;$i++){
+                $data = [
+                    'noTransaksi' => $newgeneratedNo,
+                    'noAkun' => $request->akun[$i],
+                    'tanggal' => $request->tanggal[$i],
+                    'jumlah' => $request->jumlah[$i],
+                    'status' => $request->posisi[$i],
+                    'keterangan' => $request->keterangan[$i],
+                    'idAdmin' => auth()->user()->id
+                ];
+
+                $insertJurnal = JurnalUmum::create($data);
+            }
 
             if($insertJurnal){
                 return redirect('admin/jurnal-umum')->with('success','Data Berhasil Disimpan');
