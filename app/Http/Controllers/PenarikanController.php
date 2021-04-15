@@ -15,15 +15,15 @@ class PenarikanController extends Controller
      */
     public function index()
     {
-        $dataPenarikan = DB::table('penarikan')
-                                ->join('simpanan', 'simpanan.kode', '=', 'penarikan.kodeSimpanan')
-                                ->join('anggota', 'simpanan.idAnggota', '=', 'anggota.id')
-                                ->select('penarikan.*','anggota.nama as namaAnggota','anggota.id as idAnggota')
-                                ->get();
+        // $dataPenarikan = DB::table('penarikan')
+        //                         ->join('simpanan', 'simpanan.kode', '=', 'penarikan.kodeSimpanan')
+        //                         ->join('anggota', 'simpanan.idAnggota', '=', 'anggota.id')
+        //                         ->select('penarikan.*','anggota.nama as namaAnggota','anggota.id as idAnggota')
+        //                         ->get();
 
-        return view('admin/penarikan.index',[
-            'penarikan' => $dataPenarikan
-        ]);
+        // return view('admin/penarikan.index',[
+        //     'penarikan' => $dataPenarikan
+        // ]);
     }
 
     /**
@@ -33,48 +33,22 @@ class PenarikanController extends Controller
      */
     public function create()
     {
-        $dataPenarikan = DB::select("
-            SELECT MAX(simpanan.kode) as kode, MAX(simpanan.saldo) as saldo, anggota.id as idAnggota, anggota.nama as namaAnggota FROM `simpanan` INNER JOIN anggota ON simpanan.idAnggota = anggota.id GROUP BY anggota.id
-        ");
+        $dataSimpanan = DB::select('
+            SELECT
+                anggota.id AS idAnggota,
+                anggota.nama AS namaAnggota,
+                simpanan.kode,
+                simpanan.tanggal,
+                detail_simpanan.kode as kodeDetail,
+                detail_simpanan.saldo as saldo
+            FROM detail_simpanan
+            JOIN simpanan ON simpanan.kode = detail_simpanan.kodeSimpanan
+            JOIN anggota ON simpanan.idAnggota = anggota.id
+            WHERE detail_simpanan.kode IN
+            (SELECT MAX(detail_simpanan.kode) FROM detail_simpanan GROUP BY detail_simpanan.kodeSimpanan)
+        ');
 
-        $dataSisaSaldo = DB::select("
-            SELECT kode, kodeSimpanan, idAnggota, saldo, saldoAkhir, jumlah
-            FROM penarikan
-            WHERE penarikan.kode IN (
-                SELECT MAX(penarikan.kode)
-                FROM penarikan
-                GROUP BY penarikan.idAnggota
-            )
-        ");
-
-        $dataSisaSaldo2 = DB::select("
-            SELECT kode, kodeSimpanan, idAnggota, saldo, saldoAkhir, SUM(jumlah) as jumlah
-            FROM penarikan
-            GROUP BY idAnggota
-        ");
-
-        $code = 'P';
-        $last = DB::table('penarikan')
-                ->where('kode', 'like', '%'.$code.'%')
-                ->max('kode');
-
-        if($last == null)
-        {
-            $kodePenarikan = $code.'001';
-        } else {
-            $new = substr($last,-3);
-            $new +=1;
-            $kodePenarikan = $code.sprintf("%03d", $new);
-        }
-
-        return view('admin/penarikan.create',[
-            'anggota' => $dataPenarikan,
-            'ap' => $dataPenarikan,
-            'app' => $dataPenarikan,
-            'penarikan' => $kodePenarikan,
-            'sisaSaldo' => $dataSisaSaldo,
-            'sisaSaldo2' => $dataSisaSaldo2
-        ]);
+        return view('admin/penarikan.create', compact('dataSimpanan'));
     }
 
     /**
@@ -86,7 +60,7 @@ class PenarikanController extends Controller
     public function store(Request $request)
     {
         if($request->saldoAkhir == "Saldo tidak mencukupi!"){
-            return back()->withErrors('Saldo anggota tidak mencukupi !');
+            return redirect('admin/penarikan/create')->withErrors('Saldo anggota tidak mencukupi !');
         }else{
             $request->saldo = intval(preg_replace('/[^0-9]+/', '', $request->saldo), 10);
             $request->saldoAkhir = intval(preg_replace('/[^0-9]+/', '', $request->saldoAkhir), 10);
@@ -104,22 +78,26 @@ class PenarikanController extends Controller
             'jumlah'=> 'required'
         ],$messages);
 
+        $code = 'TRS-'.$request->kodeSimpanan.'-';
+        $new = substr($request->kodeTrx,-3);
+        $new +=1;
+        $kodeDetailSimpanan = $code.sprintf("%03d", $new);
+
         $data = [
-            'kode' => $request->kode,
+            'kode'=> $kodeDetailSimpanan,
             'kodeSimpanan' => $request->kodeSimpanan,
-            'idAnggota' => $request->idAnggota,
             'tanggal' => $request->tanggal,
             'jumlah' => $request->jumlah,
-            'saldo' => $request->saldo,
-            'saldoAkhir' => $request->saldoAkhir
+            'saldo' => $request->saldoAkhir,
+            'keterangan' => 'DB'
         ];
 
         $insertData = Penarikan::create($data);
 
         if($insertData){
-            return redirect('admin/penarikan')->with('success','Data Berhasil Disimpan');
+            return redirect('admin/simpanan')->with('success','Data Berhasil Disimpan');
         }else{
-            return redirect('admin/penarikan.create')->with('error','Data Gagal Disimpan');
+            return redirect('admin/penarikan/create')->with('error','Data Gagal Disimpan');
         }
     }
 

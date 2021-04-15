@@ -106,7 +106,7 @@ class SimpananKhususController extends Controller
         if($insertData){
             return redirect('admin/simpananKhusus')->with('success','Data Berhasil Disimpan');
         }else{
-            return redirect('admin/simpananKhusus.create')->with('error','Data Gagal Disimpan');
+            return redirect('admin/simpananKhusus/create')->with('error','Data Gagal Disimpan');
         }
     }
 
@@ -171,7 +171,7 @@ class SimpananKhususController extends Controller
         if($updateData){
             return redirect('admin/simpananKhusus')->with('success','Data Berhasil Disimpan');
         }else{
-            return redirect('admin/simpananKhusus.edit')->with('error','Data Gagal Disimpan');
+            return redirect('admin/simpananKhusus/edit')->with('error','Data Gagal Disimpan');
         }
     }
 

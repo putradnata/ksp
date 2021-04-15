@@ -27,36 +27,34 @@
         <form method="POST" action="{{ route('penarikan.store') }}">
             @csrf
             <div class="form-group">
-                <label for="kode">Kode Penarikan</label>
-                <input type="text" class="form-control" id="kode" name="kode" value="{{$penarikan}}" readonly style="border: 0; background-color: transparent;">
+                <label for="idAnggota">Nama Anggota</label>
+                <select name="idAnggota" class="form-control ks">
+                    <option value="">-- Pilih Satu --</option>
+                    @foreach($dataSimpanan as $anggota)
+                        <option value="{{$anggota->idAnggota}}">({{$anggota->idAnggota}}){{$anggota->namaAnggota}}</option>
+                    @endforeach
+                </select>
+                <input type="hidden" class="form-control" id="kodeSimpanan" name="kodeSimpanan">
+                <input type="hidden" class="form-control" id="kodeTrx" name="kodeTrx">
             </div>
             <div class="form-group">
                 <label for="tanggal">Tanggal Penarikan</label>
                 <input type="date" class="form-control" id="tanggal" name="tanggal">
             </div>
-            <div class="form-group">
-                <label for="idAnggota">Nama Anggota</label>
-                <select name="idAnggota" class="form-control ks">
-                    <option value="">-- Pilih Satu --</option>
-                    @foreach($anggota as $anggota)
-                        <option value="{{$anggota->idAnggota}}">({{$anggota->idAnggota}}){{$anggota->namaAnggota}}</option>
-                    @endforeach
-                </select>
-                <input type="hidden" class="form-control" id="kodeSimpanan" name="kodeSimpanan">
-            </div>
-            <div class="form-group">
+
+            <div class="form-group hd">
                 <label for="jumlah">Jumlah</label>
-                <input type="number" class="form-control jml" id="jumlah" name="jumlah" placeholder="Masukkan jumlah penarikan">
+                <input type="number" class="form-control jml clr" id="jumlah" name="jumlah" placeholder="Masukkan jumlah penarikan">
             </div>
-            <div class="form-group">
+            <div class="form-group hd">
                 <label for="saldo">Saldo</label>
                 <input type="text" class="form-control" id="saldo" name="saldo" readonly style="border: 0; background-color: transparent;">
             </div>
-            <div class="form-group">
+            <div class="form-group hd">
                 <label for="saldoAkhir">Saldo Akhir</label>
-                <input type="text" class="form-control" id="saldoAkhir" name="saldoAkhir" readonly style="border: 0; background-color: transparent;">
+                <input type="text" class="form-control clr" id="saldoAkhir" name="saldoAkhir" readonly style="border: 0; background-color: transparent;">
             </div>
-            <div class="card-footer">
+            <div class="card-footer hd">
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </form>
@@ -66,6 +64,7 @@
 @endsection
 @section('scriptPlace')
     <script type="text/javascript">
+        $('.hd').hide();
 
         function convert(bilangan){
             var	reverse = bilangan.toString().split('').reverse().join(''),
@@ -81,71 +80,30 @@
         }
 
         $(document).on('change select', '.ks', function() {
+            $('.hd').show(450);
+            $('.clr').val("");
+
             var idAnggota = $('select[name="idAnggota"]').val();
 
             if(idAnggota != ""){
                 var saldoPenarikan = [
-                    @foreach($sisaSaldo as $ss)
-                    [ "{{$ss->idAnggota}}", "{{$ss->kodeSimpanan}}", "{{$ss->saldo}}"],
+                    @foreach($dataSimpanan as $ds)
+                    [ "{{$ds->idAnggota}}", "{{$ds->kode}}", "{{$ds->saldo}}", "{{$ds->kodeDetail}}"],
                     @endforeach
                 ];
 
-                var arr1 = saldoPenarikan.filter( function( el ) {
+                var arr = saldoPenarikan.filter( function( el ) {
                     return !!~el.indexOf( idAnggota );
                 });
 
-                var saldoSimpanan = [
-                    @foreach($ap as $ap)
-                        [ "{{$ap->idAnggota}}", "{{$ap->kode}}", "{{$ap->saldo}}" ],
-                    @endforeach
-                ];
+                $saldoBaru = convert(arr[0][2]);
 
-                var arr2 = saldoSimpanan.filter( function( el ) {
-                    return !!~el.indexOf( idAnggota );
-                });
-
-                if(arr1 == 0 || arr1[0][1]==arr2[0][1]){
-                    var saldoAwal = [
-                        @foreach($sisaSaldo as $ss)
-                        [ "{{$ss->idAnggota}}", "{{$ss->kodeSimpanan}}", "{{$ss->saldoAkhir}}"],
-                        @endforeach
-                    ];
-
-                    var arr3 = saldoAwal.filter( function( el ) {
-                        return !!~el.indexOf( idAnggota );
-                    });
-
-                    if(arr3 == 0 ){
-                        var saldoAwal = [
-                            @foreach($app as $app)
-                                [ "{{$app->idAnggota}}", "{{$app->kode}}", "{{$app->saldo}}" ],
-                            @endforeach
-                        ];
-
-                        var arr3 = saldoAwal.filter( function( el ) {
-                            return !!~el.indexOf( idAnggota );
-                        });
-                    }
-                    console.log("benar");
-                    $saldo = convert(arr3[0][2]);
-                    $('input[name="saldo"]').val($saldo);
-                }else{
-                    var saldoPenarikan1 = [
-                        @foreach($sisaSaldo2 as $sss)
-                        [ "{{$sss->idAnggota}}", "{{$sss->kodeSimpanan}}", "{{$sss->saldoAkhir}}", "{{$sss->jumlah}}"],
-                        @endforeach
-                    ];
-
-                    var arr4 = saldoPenarikan1.filter( function( el ) {
-                        return !!~el.indexOf( idAnggota );
-                    });
-
-                    console.log("salah");
-                    $saldoBaru = (parseInt(arr2[0][2]) - parseInt(arr4[0][3]))
-                    $saldoBaru = convert($saldoBaru);
-                    $('input[name="saldo"]').val($saldoBaru);
-                }
-                $('input[name="kodeSimpanan"]').val(arr2[0][1]);
+                $('input[name="saldo"]').val($saldoBaru);
+                $('input[name="kodeSimpanan"]').val(arr[0][1]);
+                $('input[name="kodeTrx"]').val(arr[0][3]);
+            }else{
+                $('.hd').hide(450);
+                $('.clr').val("");
             }
         });
 

@@ -96,7 +96,7 @@ class SimpananWajibController extends Controller
         if($insertData){
             return redirect('admin/simpananWajib')->with('success','Data Berhasil Disimpan');
         }else{
-            return redirect('admin/simpananWajib.create')->with('error','Data Gagal Disimpan');
+            return redirect('admin/simpananWajib/create')->with('error','Data Gagal Disimpan');
         }
     }
 
@@ -170,7 +170,7 @@ class SimpananWajibController extends Controller
         if($updateData){
             return redirect('admin/simpananWajib')->with('success','Data Berhasil Disimpan');
         }else{
-            return redirect('admin/simpananWajib.edit')->with('error','Data Gagal Disimpan');
+            return redirect('admin/simpananWajib/edit')->with('error','Data Gagal Disimpan');
         }
     }
 

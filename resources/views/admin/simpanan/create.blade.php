@@ -27,12 +27,8 @@
         <form method="POST" action="{{ route('simpanan.store') }}">
             @csrf
             <div class="form-group">
-                <label for="kode">Kode Simpanan Harian</label>
-                <input type="text" class="form-control" id="kode" name="kode" value="{{$simpanan}}" readonly style="border: 0; background-color: transparent;">
-            </div>
-            <div class="form-group">
                 <label for="idAnggota">Nama Anggota</label>
-                <select name="idAnggota" class="form-control">
+                <select name="idAnggota" class="form-control kr">
                     <option value="">-- Pilih Satu --</option>
                     @foreach($anggota as $anggota)
                         <option value="{{$anggota->id}}">{{$anggota->id}} / {{$anggota->nama}}</option>
@@ -43,20 +39,58 @@
                 <label for="tanggal">Tanggal Penyimpanan</label>
                 <input type="date" class="form-control" id="tanggal" name="tanggal">
             </div>
-            <div class="form-group">
+            <div class="form-group hd">
+                <label for="kode" id="labelKode"></label>
+                <input type="text" class="form-control" id="kode" name="kode" readonly style="border: 0; background-color: transparent;">
+            </div>
+            <div class="form-group hd">
                 <label for="bunga">Bunga</label>
                 <label class="form-control" style="border: 0; font-weight: normal;">0.3%</label>
                 <input type="hidden" class="form-control" id="bunga" name="bunga" value="0.3">
             </div>
-            <div class="form-group">
+            <div class="form-group hd">
                 <label for="jumlah">Jumlah</label>
                 <input type="number" class="form-control" id="jumlah" name="jumlah" placeholder="Masukkan jumlah simpanan">
             </div>
-            <div class="card-footer">
+            <div class="card-footer hd">
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </form>
     </div>
     <!-- /.card-body -->
 </div>
+@endsection
+@section('scriptPlace')
+    <script type="text/javascript">
+        $('.hd').hide();
+
+        $(document).on('change select', '.kr', function() {
+            var idAnggota = $('select[name="idAnggota"]').val();
+
+            if(idAnggota != ""){
+                $('.hd').show(450);
+
+                var rekening = [
+                    @foreach($rekeningAnggota as $ra)
+                    [ "{{$ra->idAnggota}}", "{{$ra->kode}}"],
+                    @endforeach
+                ];
+
+                var arr1 = rekening.filter( function( el ) {
+                    return !!~el.indexOf( idAnggota );
+                });
+
+                if(arr1 == 0 ){
+                    var newKode = ["{{$simpanan}}"];
+                    $('input[name="kode"]').val(newKode[0]);
+                    document.getElementById("labelKode").innerHTML = "Kode Simpanan Harian Baru";
+                }else{
+                    $('input[name="kode"]').val(arr1[0][1]);
+                    document.getElementById("labelKode").innerHTML = "Kode Simpanan Harian Nasabah";
+                }
+            }else{
+                $('.hd').hide(450);
+            }
+        });
+    </script>
 @endsection

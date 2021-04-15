@@ -99,9 +99,9 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{ route('penarikan.index') }}" class="nav-link">
+                        <a href="{{ route('sukuBunga.index') }}" class="nav-link">
                             <i class="nav-icon fas fa-money-bill-wave"></i>
-                            <p>Penarikan</p>
+                            <p>Suku Bunga</p>
                         </a>
                     </li>
 

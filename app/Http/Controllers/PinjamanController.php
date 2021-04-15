@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pinjaman;
+use App\Models\JurnalUmum;
 use Illuminate\Http\Request;
 use DB;
 
@@ -40,10 +41,11 @@ class PinjamanController extends Controller
                             ->get();
         }else{
             $selectAnggota = DB::select("
-                SELECT anggota.id , anggota.nama
+                SELECT
+                    anggota.id,
+                    anggota.nama
                 FROM anggota
-                LEFT OUTER JOIN pinjaman
-                ON (anggota.id = pinjaman.idAnggota)
+                LEFT OUTER JOIN pinjaman ON (anggota.id = pinjaman.idAnggota)
                 WHERE pinjaman.idAnggota IS NULL OR pinjaman.statusPinjaman = 'Lunas'
             ");
         }
@@ -101,10 +103,41 @@ class PinjamanController extends Controller
 
         $insertData = Pinjaman::create($data);
 
+        $request->administrasi = intval(preg_replace('/[^0-9]+/', '', $request->administrasi), 10);
+        $request->materai = intval(preg_replace('/[^0-9]+/', '', $request->materai), 10);
+
+        $lastNo = JurnalUmum::select('noTransaksi')->orderByDesc('noTransaksi')->first();
+        $lastNo=(int)substr($lastNo , -5);
+        $newgeneratedNo = "JU-".str_pad($lastNo+1, 5, "0", STR_PAD_LEFT);
+
+        $data1 = [
+            'noTransaksi' => $newgeneratedNo,
+            'noAkun' => '11100',
+            'tanggal' => $request->tanggal,
+            'jumlah' => $request->administrasi + $request->materai,
+            'status' => 'DEBIT',
+            'keterangan' => 'Administrasi pinjaman',
+            'idAdmin' => auth()->user()->id
+        ];
+
+        $insertJurnal1 = JurnalUmum::create($data1);
+
+        $data2 = [
+            'noTransaksi' => $newgeneratedNo,
+            'noAkun' => '61100',
+            'tanggal' => $request->tanggal,
+            'jumlah' => $request->administrasi + $request->materai,
+            'status' => 'KREDIT',
+            'keterangan' => 'Administrasi pinjaman',
+            'idAdmin' => auth()->user()->id
+        ];
+
+        $insertJurnal2 = JurnalUmum::create($data2);
+
         if($insertData){
             return redirect('admin/pinjaman')->with('success','Data Berhasil Disimpan');
         }else{
-            return redirect('admin/pinjaman.create')->with('error','Data Gagal Disimpan');
+            return redirect('admin/pinjaman/create')->with('error','Data Gagal Disimpan');
         }
     }
 
@@ -114,9 +147,15 @@ class PinjamanController extends Controller
      * @param  \App\Models\Pinjaman  $pinjaman
      * @return \Illuminate\Http\Response
      */
-    public function show(Pinjaman $pinjaman)
+    public function show($id)
     {
-        //
+        $dataPinjaman = DB::table('pinjaman')
+                        ->join('anggota', 'pinjaman.idAnggota', '=', 'anggota.id')
+                        ->select('pinjaman.*','anggota.nama as namaAnggota','anggota.id as idAnggota')
+                        ->where('pinjaman.kode', $id)
+                        ->first();
+
+        return view('admin/pinjaman.show',['pinjaman'=>$dataPinjaman])->render();
     }
 
     /**

@@ -25,7 +25,6 @@ class AnggotaSeeder extends Seeder
             'umur' => '57',
             'idAdmin' => '1',
             'created_at' => '2021-02-28',
-            'updated_at' => '2021-02-28'
         ]);
 
         DB::table('anggota')->insert([
@@ -39,7 +38,6 @@ class AnggotaSeeder extends Seeder
             'umur' => '40',
             'idAdmin' => '1',
             'created_at' => '2021-02-28',
-            'updated_at' => '2021-02-28'
         ]);
 
         DB::table('anggota')->insert([
@@ -53,7 +51,6 @@ class AnggotaSeeder extends Seeder
             'umur' => '51',
             'idAdmin' => '1',
             'created_at' => '2021-02-28',
-            'updated_at' => '2021-02-28'
         ]);
 
         DB::table('anggota')->insert([
@@ -67,7 +64,6 @@ class AnggotaSeeder extends Seeder
             'umur' => '34',
             'idAdmin' => '1',
             'created_at' => '2021-02-28',
-            'updated_at' => '2021-02-28'
         ]);
 
         DB::table('anggota')->insert([
@@ -81,7 +77,6 @@ class AnggotaSeeder extends Seeder
             'umur' => '31',
             'idAdmin' => '1',
             'created_at' => '2021-02-28',
-            'updated_at' => '2021-02-28'
         ]);
     }
 }

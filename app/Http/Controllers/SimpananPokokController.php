@@ -97,7 +97,7 @@ class SimpananPokokController extends Controller
         if($insertData){
             return redirect('admin/simpananPokok')->with('success','Data Berhasil Disimpan');
         }else{
-            return redirect('admin/simpananPokok.create')->with('error','Data Gagal Disimpan');
+            return redirect('admin/simpananPokok/create')->with('error','Data Gagal Disimpan');
         }
     }
 
@@ -171,7 +171,7 @@ class SimpananPokokController extends Controller
         if($updateData){
             return redirect('admin/simpananPokok')->with('success','Data Berhasil Disimpan');
         }else{
-            return redirect('admin/simpananPokok.edit')->with('error','Data Gagal Disimpan');
+            return redirect('admin/simpananPokok/edit')->with('error','Data Gagal Disimpan');
         }
     }
 

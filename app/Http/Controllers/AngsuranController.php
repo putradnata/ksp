@@ -41,11 +41,22 @@ class AngsuranController extends Controller
             ->get();
 
         $checkerTanggalTempo = DB::select("
-            SELECT kodePinjaman, MAX(tanggalTempo) as tanggalTempo, MAX(tanggalBayar) as tanggalBayar, MAX(pembayaranKe) as pembayaranKe FROM `angsuran` GROUP BY kodePinjaman
+            SELECT
+                kodePinjaman,
+                MAX(tanggalTempo) as tanggalTempo,
+                MAX(tanggalBayar) as tanggalBayar,
+                MAX(pembayaranKe) as pembayaranKe
+            FROM `angsuran`
+            GROUP BY kodePinjaman
         ");
 
         $checkerSisaHutang = DB::select("
-            SELECT angsuran.kodePinjaman, (pinjaman.jumlah - SUM(angsuran.pokok)) as sisaHutang FROM `angsuran` INNER JOIN pinjaman ON angsuran.kodePinjaman = pinjaman.kode GROUP BY angsuran.kodePinjaman
+            SELECT
+                angsuran.kodePinjaman,
+                (pinjaman.jumlah - SUM(angsuran.pokok)) as sisaHutang
+            FROM `angsuran`
+            INNER JOIN pinjaman ON angsuran.kodePinjaman = pinjaman.kode
+            GROUP BY angsuran.kodePinjaman
         ");
 
         $code = 'ASN';

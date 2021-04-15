@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Penarikan extends Model
+class SukuBunga extends Model
 {
     use HasFactory;
 
@@ -16,7 +16,6 @@ class Penarikan extends Model
     protected $fillable = [
         'kode',
         'kodeSimpanan',
-        'idAnggota',
         'tanggal',
         'jumlah',
         'saldo',
@@ -28,7 +27,6 @@ class Penarikan extends Model
         return [
             'kode'  => '',
             'kodeSimpanan'  => '',
-            'idAnggota'  => '',
             'tanggal'  => '',
             'jumlah' => '',
             'saldo'  => '',

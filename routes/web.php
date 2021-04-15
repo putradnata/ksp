@@ -15,6 +15,7 @@ use App\Http\Controllers\PenarikanController;
 use App\Http\Controllers\SimpananKhususController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SisaHasilUsahaController;
+use App\Http\Controllers\SukuBungaController;
 
 Route::get('/', function () {
     // return view('auth.login');
@@ -70,7 +71,8 @@ Route::middleware(['auth'])->group(function () {
                 'angsuran' => AngsuranController::class, #Angsuran
                 'penarikan' => PenarikanController::class, #Penarikan
                 'simpananKhusus' => SimpananKhususController::class, #Simpanan Khusus
-                'jurnal-umum' => JurnalUmumController::class #Jurnal Umum
+                'jurnal-umum' => JurnalUmumController::class, #Jurnal Umum
+                'sukuBunga' => SukuBungaController::class #Suku Bunga
             ]);
         });
     });

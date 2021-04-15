@@ -18,7 +18,7 @@
         <tr>
             <th>Tempat/Tanggal Lahir</th>
             <td>:</td>
-            <td>{{ $anggota->tempatLahir }}, {{ $anggota->tanggalLahir }}</td>
+            <td>{{ $anggota->tempatLahir }}, {{ \Carbon\Carbon::parse($anggota->tanggalLahir)->format('d-m-Y') }}</td>
         </tr>
         <tr>
             <th>Jenis Kelamin</th>

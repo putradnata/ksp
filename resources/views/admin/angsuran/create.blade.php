@@ -78,10 +78,6 @@
 
 @section('scriptPlace')
     <script type="text/javascript">
-        // var skr = new Date($('input[name="jaminan"]').val());
-        // var tambahBulan = skr.setMonth(skr.getMonth()+2);
-        //     $('input[name="jumlah"]').val(skr.toLocaleDateString('id'));
-
         $('.hde').hide();
 
         function convert(bilangan){
@@ -119,7 +115,7 @@
 
                 var tanggalPinjaman = [
                     @foreach($dataTanggalTempo as $ct)
-                    [ "{{$ct->kodePinjaman}}", "{{$ct->tanggalTempo}}"],
+                    [ "{{$ct->kodePinjaman}}", "{{$ct->tanggalBayar}}"],
                     @endforeach
                 ];
 
@@ -194,10 +190,10 @@
                     if(months > 10){
                         pokok = pokok * 10;
                         if(pokok>sisaHutang){
-                            pokok = sparseInt(sisaHutang);
+                            pokok = parseInt(sisaHutang);
                         }
                         bunga = bunga * 10;
-                        denda = ((pokok + bunga) * 5/100) * months;
+                        denda = (((pokok / months) + (bunga / months)) * 5/100) * months;
                         jumlah = pokok + bunga + denda;
                     }else {
                         pokok = pokok * months;
@@ -205,7 +201,7 @@
                             pokok = parseInt(sisaHutang);
                         }
                         bunga = bunga * months;
-                        denda = ((pokok + bunga) * 5/100) * months;
+                        denda = (((pokok / months) + (bunga / months)) * 5/100) * (months-1);
                         jumlah = pokok + bunga + denda;
                     }
                 } else {

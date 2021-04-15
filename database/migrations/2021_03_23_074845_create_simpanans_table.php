@@ -17,8 +17,6 @@ class CreateSimpanansTable extends Migration
             $table->char('kode',20)->primary();
             $table->string('idAnggota', 20);
             $table->date('tanggal');
-            $table->integer('jumlah');
-            $table->integer('saldo');
             $table->float('bunga');
             $table->timestamps();
 

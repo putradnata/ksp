@@ -66,7 +66,7 @@ class AkunController extends Controller
         if($insertData){
             return redirect('admin/akun')->with('success','Data Berhasil Disimpan');
         }else{
-            return redirect('admin/akun.create')->with('error','Data Gagal Disimpan');
+            return redirect('admin/akun/create')->with('error','Data Gagal Disimpan');
         }
     }
 

@@ -18,17 +18,17 @@ class UsersTableSeeder extends Seeder
     {
         $data = [
             [
-                'name' => 'Ditta',
-                'username' => 'ditta',
-                'email' => 'ditta68@gmail.com',
+                'name' => 'Panila',
+                'username' => 'pani',
+                'email' => 'pani@gmail.com',
                 'password' => Hash::make('asdasd123'),
                 'jabatan' => 'K',
                 'created_at' => Carbon::now(),
             ],
             [
-                'name' => 'Galdi',
+                'name' => 'Panila',
                 'username' => 'admin',
-                'email' => 'galdi666@gmail.com',
+                'email' => 'panila@gmail.com',
                 'password' => Hash::make('asdasd123'),
                 'jabatan' => 'A',
                 'created_at' => Carbon::now(),

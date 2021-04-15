@@ -75,7 +75,7 @@ class UserController extends Controller
         if ($insertData) {
             return redirect('admin/staff')->with('success', 'Data Berhasil Disimpan');
         } else {
-            return redirect('admin/staff.create')->with('error', 'Data Gagal Disimpan');
+            return redirect('admin/staff/create')->with('error', 'Data Gagal Disimpan');
         }
     }
 
@@ -153,7 +153,7 @@ class UserController extends Controller
         if($insertData){
             return redirect('admin/staff')->with('success','Data Berhasil Disimpan');
         }else{
-            return redirect('admin/staff.edit')->with('error','Data Gagal Disimpan');
+            return redirect('admin/staff/edit')->with('error','Data Gagal Disimpan');
         }
     }
 }

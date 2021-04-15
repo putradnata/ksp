@@ -19,8 +19,6 @@ class Simpanan extends Model
         'kode',
         'idAnggota',
         'tanggal',
-        'jumlah',
-        'saldo',
         'bunga'
     ];
 
@@ -30,8 +28,6 @@ class Simpanan extends Model
             'kode'  => '',
             'idAnggota'  => '',
             'tanggal'  => '',
-            'jumlah' => '',
-            'saldo'  => '',
             'bunga' => ''
         ];
     }

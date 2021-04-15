@@ -97,7 +97,7 @@ class JurnalUmumController extends Controller
             if($insertJurnal){
                 return redirect('admin/jurnal-umum')->with('success','Data Berhasil Disimpan');
             }else{
-                return redirect('admin/jurnal-umum.create')->with('error','Data Gagal Disimpan');
+                return redirect('admin/jurnal-umum/create')->with('error','Data Gagal Disimpan');
             }
         }
     }

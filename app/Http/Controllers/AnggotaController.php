@@ -101,7 +101,7 @@ class AnggotaController extends Controller
         if($insertData){
             return redirect('admin/anggota')->with('success','Data Berhasil Disimpan');
         }else{
-            return redirect('admin/anggota.create')->with('error','Data Gagal Disimpan');
+            return redirect('admin/anggota/create')->with('error','Data Gagal Disimpan');
         }
     }
 
@@ -183,7 +183,7 @@ class AnggotaController extends Controller
         if($insertData){
             return redirect('admin/anggota')->with('success','Data Berhasil Disimpan');
         }else{
-            return redirect('admin/anggota.edit')->with('error','Data Gagal Disimpan');
+            return redirect('admin/anggota/edit')->with('error','Data Gagal Disimpan');
         }
     }
 

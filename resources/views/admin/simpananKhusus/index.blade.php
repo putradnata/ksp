@@ -25,7 +25,7 @@
         </div>
     </div>
     <div class="card-body">
-        <a class="btn btn-primary" id="tambahButton" href="{{ route('simpananKhusus.create') }}"> <i class="fa fa-book"></i>Tambah Simpanan Khusus</a>
+        <a class="btn btn-primary" id="tambahButton" href="{{ route('simpananKhusus.create') }}"> <i class="fa fa-book"></i> Tambah Simpanan Khusus </a>
         <table class="table table-stripped" id="tabelData">
             <thead>
                 <th>No. </th>
