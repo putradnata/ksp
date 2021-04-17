@@ -37,7 +37,7 @@
                 <th>Aksi</th>
             </thead>
             <tbody>
-                @foreach ($pinjaman as $pj => $pinjaman)
+                @foreach ($dataPinjaman as $pj => $pinjaman)
                     <tr>
                         <td>{{ ++$pj }}.</td>
                         <td>{{ $pinjaman->kode }}</td>
@@ -46,7 +46,20 @@
                         <td>@currency($pinjaman->jumlah)</td>
                         <td>{{$pinjaman->statusPinjaman}}</td>
                         <td>
-                            <a class="btn btn-sm btn-info light-s" data-toggle="modal" data-id="{{ $pinjaman->kode }}" data-target="#detailModal"><span class="fa fa-eye"></span></a>
+                            <a class="btn btn-sm btn-info light-s" data-toggle="modal" data-id="{{ $pinjaman->kode }}"
+                                data-nama="({{ $pinjaman->idAnggota }}) {{ $pinjaman->namaAnggota }}"
+                                data-tanggal="{{ \Carbon\Carbon::parse($pinjaman->tanggal)->format('d-m-Y') }}"
+                                data-administrasi="@currency($pinjaman->jumlah * (3/100))"
+                                data-materai="@currency(10000)"
+                                data-total="@currency($pinjaman->jumlah - (($pinjaman->jumlah * (3/100) + 10000)))"
+                                @foreach ($dataSisaPinjaman as $dsp)
+                                    @if ($pinjaman->kode == $dsp->kodePinjaman)
+                                        data-sisa="@currency($dsp->sisaHutang)"
+                                    @else
+                                        data-sisa="@currency($pinjaman->jumlah)"
+                                    @endif
+                                @endforeach
+                                data-target="#detailModal"><span class="fa fa-eye"></span></a>
                         </td>
                     </tr>
                 @endforeach
@@ -88,10 +101,68 @@
             $("#detailModal").on('show.bs.modal', function(e){
 
                 var id = $(e.relatedTarget).data('id');
+                var nama = $(e.relatedTarget).data('nama');
+                var tanggal = $(e.relatedTarget).data('tanggal');
+                var administrasi = $(e.relatedTarget).data('administrasi');
+                var materai = $(e.relatedTarget).data('materai');
+                var total = $(e.relatedTarget).data('total');
+                var sisa = $(e.relatedTarget).data('sisa');
 
                 $.get('/admin/pinjaman/'+id, function(data){
-                    $(".modal-body").html(data);
+                    $('.modal-body').append(
+                    '<table class="table table-stripped">'+
+                        '<tr>'+
+                            '<th style="border:0; width:160px;">Kode Pinjaman</th>'+
+                            '<th style="border:0; width:7px;">:</th>'+
+                            '<th style="border:0;">'+id+' | '+nama+'</th>'+
+                        '</tr>'+
+                        '<tr>'+
+                            '<td style="border:0;">Tanggal Pinjaman</td>'+
+                            '<td style="border:0;">:</td>'+
+                            '<td style="border:0;">'+tanggal+'</td>'+
+                        '</tr>'+
+                        '<tr>'+
+                            '<td style="border:0;">Biaya Administrasi</td>'+
+                            '<td style="border:0;">:</td>'+
+                            '<td style="border:0;">'+administrasi+'</td>'+
+                        '</tr>'+
+                        '<tr>'+
+                            '<td style="border:0;">Biaya Materai</td>'+
+                            '<td style="border:0;">:</td>'+
+                            '<td style="border:0;">'+materai+'</td>'+
+                        '</tr>'+
+                        '<tr>'+
+                            '<th style="border:0;">Grand Total</th>'+
+                            '<th style="border:0;">:</th>'+
+                            '<th style="border:0;">'+total+'</th>'+
+                        '</tr>'+
+                        '<tr>'+
+                            '<th style="border:0;">Sisa Pinjaman</th>'+
+                            '<th style="border:0;">:</th>'+
+                            '<th style="border:0;">'+sisa+'</th>'+
+                        '</tr>'+
+                    '<table class="table datatable" id="dataTables-example">'+
+                    '<thead>'+
+                        '<tr>'+
+                            '<th>No. </th>'+
+                            '<th>Kode Angsuran</th>'+
+                            '<th>Tanggal Tempo</th>'+
+                            '<th>Tanggal Pembayaran</th>'+
+                            '<th>Pokok</th>'+
+                            '<th>Denda</th>'+
+                            '<th>Bunga</th>'+
+                        '</tr>'+
+                    '</thead>'+
+                    '<tbody>'+
+                        data+
+                    '</tbody>'+
+                    '</table>');
+                    $('#dataTables-example').DataTable();
                 });
+            });
+
+            $("#detailModal").on("hidden.bs.modal", function(){
+                $(".modal-body").html("");
             });
         });
     </script>

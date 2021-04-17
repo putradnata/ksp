@@ -59,23 +59,39 @@ class AngsuranController extends Controller
             GROUP BY angsuran.kodePinjaman
         ");
 
-        $code = 'ASN';
-        $last = DB::table('angsuran')
-                ->where('kode', 'like', '%'.$code.'%')
-                ->max('kode');
+        $checkerKodeAngsuran = DB::select("
+            SELECT
+                kodePinjaman,
+                MAX(kode) as kode
+            FROM `angsuran`
+            GROUP BY kodePinjaman
+        ");
 
-        if($last == null)
-        {
-            $kodeAngsuran = $code.'001';
-        } else {
-            $new = substr($last,-3);
-            $new +=1;
-            $kodeAngsuran = $code.sprintf("%03d", $new);
+        $angsuran = [];
+        $pinjaman_search = DB::table('pinjaman')->select('kode')->get();
+
+        foreach ($pinjaman_search as $key1 => $ss) {
+
+            $code = 'ANS-'.$ss->kode.'-';
+            $checkerKodeAngsuran = DB::table('angsuran')
+                                    ->where('kode', 'like', '%'.$code.'%')
+                                    ->max('kode');
+
+            if (@$checkerKodeAngsuran != null) {
+                $new = substr($checkerKodeAngsuran,-3);
+                $new +=1;
+                $kodeAngsuran = $code.sprintf("%03d", $new);
+                $angsuran[$key1]['kodePinjaman'] = $ss->kode;
+                $angsuran[$key1]['kode'] = $kodeAngsuran;
+            } else {
+                $angsuran[$key1]['kodePinjaman'] = $ss->kode;
+                $angsuran[$key1]['kode'] = 'ANS-'.$ss->kode.'-001';
+            }
         }
 
         return view('admin/angsuran.create',[
             'pinjaman' => $selectPinjaman,
-            'angsuran' => $kodeAngsuran,
+            'dataKodeAngsuran' => $angsuran,
             'dataPinjaman' => $selectPinjaman,
             'dataTanggalTempo' => $checkerTanggalTempo,
             'dataSisaHutang' => $checkerSisaHutang

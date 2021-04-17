@@ -21,9 +21,16 @@ class PinjamanController extends Controller
                                 ->select('pinjaman.*','anggota.nama as namaAnggota','anggota.id as idAnggota')
                                 ->get();
 
-        return view('admin/pinjaman.index',[
-            'pinjaman' => $dataPinjaman
-        ]);
+        $dataSisaPinjaman = DB::select("
+            SELECT
+                angsuran.kodePinjaman,
+                (pinjaman.jumlah - SUM(angsuran.pokok)) as sisaHutang
+            FROM `angsuran`
+            INNER JOIN pinjaman ON angsuran.kodePinjaman = pinjaman.kode
+            GROUP BY angsuran.kodePinjaman
+        ");
+
+        return view('admin/pinjaman.index', compact('dataPinjaman','dataSisaPinjaman'));
     }
 
     /**
@@ -149,13 +156,14 @@ class PinjamanController extends Controller
      */
     public function show($id)
     {
-        $dataPinjaman = DB::table('pinjaman')
-                        ->join('anggota', 'pinjaman.idAnggota', '=', 'anggota.id')
-                        ->select('pinjaman.*','anggota.nama as namaAnggota','anggota.id as idAnggota')
-                        ->where('pinjaman.kode', $id)
-                        ->first();
+        $dataDetailAngsuran = DB::table('angsuran')
+                            ->where('kodePinjaman', $id)
+                            ->orderBy('kode','ASC')
+                            ->get();
 
-        return view('admin/pinjaman.show',['pinjaman'=>$dataPinjaman])->render();
+        return view('admin/pinjaman.show',[
+            'dataDetailAngsuran' => $dataDetailAngsuran
+        ])->render();
     }
 
     /**

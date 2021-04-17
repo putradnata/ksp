@@ -27,10 +27,6 @@
         <form method="POST" action="{{ route('angsuran.store') }}">
             @csrf
             <div class="form-group">
-                <label for="kode">Kode Angsuran</label>
-                <input type="text" class="form-control" id="kode" name="kode" value="{{$angsuran}}" readonly style="border: 0; background-color: transparent;">
-            </div>
-            <div class="form-group">
                 <label for="kodePinjaman">Kode Pinjaman</label>
                 <select name="kodePinjaman" class="form-control kp">
                     <option value="">-- Pilih Satu --</option>
@@ -42,6 +38,10 @@
             <div class="form-group">
                 <label for="tanggal">Tanggal Pembayaran</label>
                 <input type="date" class="form-control tp" id="tanggal" name="tanggal" onkeydown="return false">
+            </div>
+            <div class="form-group hde">
+                <label for="kode">Kode Angsuran</label>
+                <input type="text" class="form-control" id="kode" name="kode" readonly style="border: 0; background-color: transparent;">
             </div>
             <div class="form-group hde">
                 <label for="tanggalTempo">Tanggal Jatuh Tempo</label>
@@ -162,11 +162,22 @@
                     });
                 }
 
+                var kodeAngsuran = [
+                    @foreach($dataKodeAngsuran as $dka)
+                    [ "{{$dka['kodePinjaman']}}", "{{$dka['kode']}}"],
+                    @endforeach
+                ];
+
+                var arr5 = kodeAngsuran.filter( function( el ) {
+                    return !!~el.indexOf( kodePinjaman );
+                });
+
                 convertTanggal = new Date(arr3[0][1]);
                 tambahBulan = convertTanggal.setMonth(convertTanggal.getMonth()+1);
                 tanggalTempo = new Date (tambahBulan).toISOString().split('T')[0];
 
                 $('input[name="tanggalTempo"]').val(tanggalTempo);
+                $('input[name="kode"]').val(arr5[0][1]);
 
                 var tanggalBayar = new Date($('input[name="tanggal"]').val()).toISOString().split('T')[0];
                 tanggalTempo = new Date (tambahBulan);
