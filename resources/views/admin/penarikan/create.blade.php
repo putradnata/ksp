@@ -44,7 +44,7 @@
 
             <div class="form-group hd">
                 <label for="jumlah">Jumlah</label>
-                <input type="number" class="form-control jml clr" id="jumlah" name="jumlah" placeholder="Masukkan jumlah penarikan">
+                <input type="number" class="form-control jml clr numb" id="jumlah" name="jumlah" placeholder="Masukkan jumlah penarikan">
             </div>
             <div class="form-group hd">
                 <label for="saldo">Saldo</label>

@@ -50,7 +50,7 @@
             </div>
             <div class="form-group hd">
                 <label for="jumlah">Jumlah</label>
-                <input type="number" class="form-control" id="jumlah" name="jumlah" placeholder="Masukkan jumlah simpanan" pattern="[0-9]>
+                <input type="number" class="form-control numb" id="jumlah" name="jumlah" placeholder="Masukkan jumlah simpanan">
             </div>
             <div class="card-footer hd">
                 <button type="submit" class="btn btn-primary">Submit</button>
@@ -62,6 +62,7 @@
 @endsection
 @section('scriptPlace')
     <script type="text/javascript">
+
         $('.hd').hide();
 
         $(document).on('change select', '.kr', function() {

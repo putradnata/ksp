@@ -49,7 +49,7 @@
             </div>
             <div class="form-group">
                 <label for="jumlah">Jumlah</label>
-                <input type="number" class="form-control jml" id="jumlah" name="jumlah" placeholder="Masukkan jumlah pinjaman">
+                <input type="number" class="form-control jml numb" id="jumlah" name="jumlah" placeholder="Masukkan jumlah pinjaman">
             </div>
             <div class="form-group hd">
                 <label for="administrasi">Biaya Administrasi</label>

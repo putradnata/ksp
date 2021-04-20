@@ -110,6 +110,20 @@
     <script src="{{ asset('template/plugins/datatables/jquery.dataTables.js')}}"></script>
     <script src="{{ asset('template/plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
 
+    <script type="text/javascript">
+        $('.numb').keydown(function(e) {
+            var a=[8,9,13,16,17,18,20,27,35,36,37,38,39,40,45,46,91,92];
+            var k = e.which;
+
+            for (i = 48; i < 58; i++)
+                a.push(i);
+            for (i = 96; i < 106; i++)
+                a.push(i);
+
+            if (!(a.indexOf(k)>=0))
+                e.preventDefault();
+        });
+    </script>
     <!-- Script Place -->
     @yield('scriptPlace')
 </body>

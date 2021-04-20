@@ -55,7 +55,7 @@
             </div>
             <div class="form-group">
                 <label for="jumlah">Jumlah</label>
-                <input type="number" class="form-control" id="jumlah" name="jumlah" placeholder="Masukkan jumlah simpanan">
+                <input type="number" class="form-control numb" id="jumlah" name="jumlah" placeholder="Masukkan jumlah simpanan">
             </div>
             @else
             <div class="form-group">
@@ -81,7 +81,7 @@
             </div>
             <div class="form-group">
                 <label for="jumlah">Jumlah</label>
-                <input type="number" class="form-control" id="jumlah" name="jumlah" placeholder="Masukkan jumlah simpanan" value="{{ old('simpananP', $simpananP->jumlah) }}">
+                <input type="number" class="form-control numb" id="jumlah" name="jumlah" placeholder="Masukkan jumlah simpanan" value="{{ old('simpananP', $simpananP->jumlah) }}">
             </div>
             @endif
             <div class="card-footer">
