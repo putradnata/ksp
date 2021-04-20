@@ -37,7 +37,7 @@
             </div>
             <div class="form-group">
                 <label for="tanggal">Tanggal Penyimpanan</label>
-                <input type="date" class="form-control" id="tanggal" name="tanggal">
+                <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{\Carbon\Carbon::now()->toDateString()}}" readonly style="border: 0; background-color: transparent;">
             </div>
             <div class="form-group hd">
                 <label for="kode" id="labelKode"></label>
@@ -50,7 +50,7 @@
             </div>
             <div class="form-group hd">
                 <label for="jumlah">Jumlah</label>
-                <input type="number" class="form-control" id="jumlah" name="jumlah" placeholder="Masukkan jumlah simpanan">
+                <input type="number" class="form-control" id="jumlah" name="jumlah" placeholder="Masukkan jumlah simpanan" pattern="[0-9]>
             </div>
             <div class="card-footer hd">
                 <button type="submit" class="btn btn-primary">Submit</button>

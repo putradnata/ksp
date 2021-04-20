@@ -60,7 +60,16 @@ class SimpananController extends Controller
         $firstDayThisMonth = \Carbon\Carbon::now()->startOfMonth()->toDateString();
         $thisDay = \Carbon\Carbon::now()->toDateString();
 
-        if($firstDayThisMonth == $thisDay){
+        $thisMonth = \Carbon\Carbon::now()->startOfMonth()->format('m');
+        $thisYear = \Carbon\Carbon::now()->format('Y');
+
+        $checkerSukuBunga = DB::table('detail_simpanan')
+                                ->where('keterangan','CRB')
+                                ->whereMonth('tanggal', $thisMonth)
+                                ->whereYear('tanggal', $thisYear)
+                                ->count();
+
+        if($checkerSukuBunga == 0){
             $previousMonth = \Carbon\Carbon::now()->startOfMonth()->subMonth()->format('m');
             $thisYear = \Carbon\Carbon::now()->format('Y');
 
@@ -108,11 +117,11 @@ class SimpananController extends Controller
                     DB::table('detail_simpanan')->insert([
                         'kode'=> $kodeDetailSimpanan,
                         'kodeSimpanan' => $simpanan[$i]['kodeSimpanan'],
-                        'tanggal' => $firstDayThisMonth,
+                        'tanggal' => $thisDay,
                         'jumlah' => $simpanan[$i]['sukuBunga'],
                         'saldo' => $Totalsaldo,
                         'keterangan' => 'CRB',
-                        'created_at' => $firstDayThisMonth
+                        'created_at' => $thisDay
                     ]);
                 }
             }

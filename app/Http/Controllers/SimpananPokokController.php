@@ -41,7 +41,7 @@ class SimpananPokokController extends Controller
                             ->select('id','nama')
                             ->get();
 
-        $code = 'SP';
+        $code = 'SPK';
         $last = DB::table('simpanan_pokok')
                 ->where('kode', 'like', '%'.$code.'%')
                 ->max('kode');

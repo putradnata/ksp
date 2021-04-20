@@ -37,7 +37,7 @@
             </div>
             <div class="form-group">
                 <label for="tanggal">Tanggal Pembayaran</label>
-                <input type="date" class="form-control tp" id="tanggal" name="tanggal" onkeydown="return false">
+                <input type="date" class="form-control tp" id="tanggal" name="tanggal" value="{{\Carbon\Carbon::now()->toDateString()}}" readonly style="border: 0; background-color: transparent;">
             </div>
             <div class="form-group hde">
                 <label for="kode">Kode Angsuran</label>
@@ -244,7 +244,7 @@
         }
 
         $(document).on('change select', '.kp', function() {
-            $('input[name="tanggal"]').val("")
+            /*$('input[name="tanggal"]').val("")*/
 
             var kodePinjaman = $('select[name="kodePinjaman"]').val();
 

@@ -19,7 +19,7 @@ class CreatePinjamenTable extends Migration
             $table->date('tanggal');
             $table->char('jaminan',20);
             $table->bigInteger('jumlah');
-            $table->char('statusPinjaman');
+            $table->enum('statusPinjaman', ['Lunas', 'Belum Lunas']);
             $table->timestamps();
 
             $table->foreign('idAnggota')->references('id')->on('anggota')

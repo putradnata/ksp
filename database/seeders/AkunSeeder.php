@@ -15,7 +15,7 @@ class AkunSeeder extends Seeder
     public function run()
     {
         DB::table('akun')->insert([
-            'noAkun'=> '11100',
+            'noAkun'=> '111',
             'nama' => 'Kas',
             'tipe' => 'Aktiva Lancar',
             'saldo' => '1000000',
@@ -23,7 +23,7 @@ class AkunSeeder extends Seeder
         ]);
 
         DB::table('akun')->insert([
-            'noAkun'=> '61100',
+            'noAkun'=> '400',
             'nama' => 'Pendapatan',
             'tipe' => 'Pendapatan',
             'saldo' => '1000000',

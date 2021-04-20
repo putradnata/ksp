@@ -24,7 +24,25 @@ class AnggotaSeeder extends Seeder
             'pekerjaan' => 'Admin',
             'umur' => '57',
             'idAdmin' => '1',
-            'created_at' => '2021-02-28',
+            'created_at' => '2021-02-28'
+        ]);
+
+        DB::table('simpanan_pokok')->insert([
+            'kode'=> 'SPK001',
+            'idAnggota' => 'A001',
+            'syarat' => 'KTP/KK',
+            'tanggal' => '2021-02-28',
+            'jumlah' => '10000',
+            'created_at' => '2021-02-28'
+        ]);
+
+        DB::table('simpanan_khusus')->insert([
+            'kode'=> 'SPS001',
+            'idAnggota' => 'A001',
+            'tanggal' => '2021-02-28',
+            'jumlah' => '10000000',
+            'saldo' => '10000000',
+            'created_at' => '2021-02-28'
         ]);
 
         DB::table('anggota')->insert([
@@ -40,6 +58,24 @@ class AnggotaSeeder extends Seeder
             'created_at' => '2021-02-28',
         ]);
 
+        DB::table('simpanan_pokok')->insert([
+            'kode'=> 'SPK002',
+            'idAnggota' => 'A002',
+            'syarat' => 'KTP/KK',
+            'tanggal' => '2021-02-28',
+            'jumlah' => '10000',
+            'created_at' => '2021-02-28'
+        ]);
+
+        DB::table('simpanan_khusus')->insert([
+            'kode'=> 'SPS002',
+            'idAnggota' => 'A002',
+            'tanggal' => '2021-02-28',
+            'jumlah' => '5000000',
+            'saldo' => '5000000',
+            'created_at' => '2021-02-28'
+        ]);
+
         DB::table('anggota')->insert([
             'id'=> 'A003',
             'nama' => 'Harto Gadang Prasasta',
@@ -50,7 +86,16 @@ class AnggotaSeeder extends Seeder
             'pekerjaan' => 'HRD',
             'umur' => '51',
             'idAdmin' => '1',
-            'created_at' => '2021-02-28',
+            'created_at' => '2021-03-02',
+        ]);
+
+        DB::table('simpanan_pokok')->insert([
+            'kode'=> 'SPK003',
+            'idAnggota' => 'A003',
+            'syarat' => 'KTP/KK',
+            'tanggal' => '2021-03-02',
+            'jumlah' => '10000',
+            'created_at' => '2021-03-02'
         ]);
 
         DB::table('anggota')->insert([
@@ -63,7 +108,16 @@ class AnggotaSeeder extends Seeder
             'pekerjaan' => 'Pramuniaga',
             'umur' => '34',
             'idAdmin' => '1',
-            'created_at' => '2021-02-28',
+            'created_at' => '2021-03-05',
+        ]);
+
+        DB::table('simpanan_pokok')->insert([
+            'kode'=> 'SPK004',
+            'idAnggota' => 'A004',
+            'syarat' => 'KTP/KK',
+            'tanggal' => '2021-03-05',
+            'jumlah' => '10000',
+            'created_at' => '2021-03-05'
         ]);
 
         DB::table('anggota')->insert([
@@ -76,7 +130,16 @@ class AnggotaSeeder extends Seeder
             'pekerjaan' => 'IT Support',
             'umur' => '31',
             'idAdmin' => '1',
-            'created_at' => '2021-02-28',
+            'created_at' => '2021-03-08',
+        ]);
+
+        DB::table('simpanan_pokok')->insert([
+            'kode'=> 'SPK005',
+            'idAnggota' => 'A005',
+            'syarat' => 'KTP/KK',
+            'tanggal' => '2021-03-08',
+            'jumlah' => '10000',
+            'created_at' => '2021-03-08'
         ]);
     }
 }

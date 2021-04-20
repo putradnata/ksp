@@ -27,7 +27,7 @@
     <div class="card-body">
         <a class="btn btn-primary" id="tambahButton" href="{{ route('simpanan.create') }}"> <i class="fa fa-book"></i> Tambah Simpanan Harian </a>
         <a class="btn btn-primary" id="tambahButton" href="{{ route('penarikan.create') }}"> <i class="fa fa-book"></i> Tambah Penarikan </a>
-        @if (($firstDayThisMonth == $thisDay) && ($checkerSukuBunga == 0))
+        @if ($checkerSukuBunga == 0)
             <a class="btn btn-primary" id="tambahButton" href="{{ route('simpanan.bankRates') }}"> <i class="fa fa-book"></i> Update Bunga </a>
         @endif
         <table class="table table-stripped" id="tabelData">

@@ -19,7 +19,7 @@ class CreateDetailSimpanansTable extends Migration
             $table->date('tanggal');
             $table->integer('jumlah');
             $table->integer('saldo');
-            $table->string('keterangan', 20);
+            $table->enum('keterangan', ['CR', 'DB', 'CRB']);
             $table->timestamps();
 
             $table->foreign('kodeSimpanan')->references('kode')->on('simpanan')

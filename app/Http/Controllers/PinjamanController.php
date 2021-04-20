@@ -105,7 +105,7 @@ class PinjamanController extends Controller
             'tanggal' => $request->tanggal,
             'jaminan' => $request->jaminan,
             'jumlah' => $request->jumlah,
-            'statusPinjaman' => "Belum Lunas"
+            'statusPinjaman' => 'Belum Lunas'
         ];
 
         $insertData = Pinjaman::create($data);
@@ -119,7 +119,7 @@ class PinjamanController extends Controller
 
         $data1 = [
             'noTransaksi' => $newgeneratedNo,
-            'noAkun' => '11100',
+            'noAkun' => '111',
             'tanggal' => $request->tanggal,
             'jumlah' => $request->administrasi + $request->materai,
             'status' => 'DEBIT',
@@ -131,7 +131,7 @@ class PinjamanController extends Controller
 
         $data2 = [
             'noTransaksi' => $newgeneratedNo,
-            'noAkun' => '61100',
+            'noAkun' => '400',
             'tanggal' => $request->tanggal,
             'jumlah' => $request->administrasi + $request->materai,
             'status' => 'KREDIT',

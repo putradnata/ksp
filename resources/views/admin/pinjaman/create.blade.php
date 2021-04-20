@@ -41,7 +41,7 @@
             </div>
             <div class="form-group">
                 <label for="tanggal">Tanggal Pinjaman</label>
-                <input type="date" class="form-control" id="tanggal" name="tanggal">
+                <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{\Carbon\Carbon::now()->toDateString()}}" readonly style="border: 0; background-color: transparent;">
             </div>
             <div class="form-group">
                 <label for="jaminan">Jaminan</label>

@@ -36,12 +36,32 @@
                 <label for="kode">Kode Simpanan Pokok</label>
                 <input type="text" class="form-control" id="kode" name="kode" value="{{$simpananPokok}}" readonly style="border: 0; background-color: transparent;">
             </div>
+            <div class="form-group">
+                <label for="idAnggota">Nama Anggota</label>
+                <select name="idAnggota" class="form-control">
+                    <option value="">-- Pilih Satu --</option>
+                    @foreach($anggota as $anggota)
+                        <option value="{{$anggota->id}}">{{$anggota->id}} / {{$anggota->nama}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="tanggal">Tanggal Penyimpanan</label>
+                <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{\Carbon\Carbon::now()->toDateString()}}" readonly style="border: 0; background-color: transparent;">
+            </div>
+            <div class="form-group">
+                <label for="syarat">Syarat</label>
+                <input type="text" class="form-control" id="syarat" name="syarat" placeholder="Masukkan syarat simpanan">
+            </div>
+            <div class="form-group">
+                <label for="jumlah">Jumlah</label>
+                <input type="number" class="form-control" id="jumlah" name="jumlah" placeholder="Masukkan jumlah simpanan">
+            </div>
             @else
             <div class="form-group">
                 <label for="kode">Kode Simpanan Pokok</label>
                 <input type="text" class="form-control" id="kode" name="kode" value="{{$simpananP->kode}}" readonly style="border: 0; background-color: transparent;">
             </div>
-            @endif
             <div class="form-group">
                 <label for="idAnggota">Nama Anggota</label>
                 <select name="idAnggota" class="form-control">
@@ -63,6 +83,7 @@
                 <label for="jumlah">Jumlah</label>
                 <input type="number" class="form-control" id="jumlah" name="jumlah" placeholder="Masukkan jumlah simpanan" value="{{ old('simpananP', $simpananP->jumlah) }}">
             </div>
+            @endif
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
