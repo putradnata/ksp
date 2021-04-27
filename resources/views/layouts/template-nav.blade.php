@@ -133,6 +133,20 @@
                         </a>
                     </li>
 
+                    <li class="nav-item">
+                        <a href="{{ route('bukuBesar.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-book-open"></i>
+                            <p>Buku Besar</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('neraca.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-balance-scale"></i>
+                            <p>Neraca</p>
+                        </a>
+                    </li>
+
                 </ul>
             @endif
         </nav>

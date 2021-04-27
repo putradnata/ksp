@@ -16,6 +16,8 @@ use App\Http\Controllers\SimpananKhususController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SisaHasilUsahaController;
 use App\Http\Controllers\SukuBungaController;
+use App\Http\Controllers\BukuBesarController;
+use App\Http\Controllers\NeracaController;
 
 Route::get('/', function () {
     // return view('auth.login');
@@ -58,6 +60,14 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/sisa-hasil-usaha',[SisaHasilUsahaController::class,'index'])->name('sisaHasilUsaha.index');
             Route::post('/sisa-hasil-usaha',[SisaHasilUsahaController::class,'SHUDateBased'])->name('sisaHasilUsaha.shu-dateBased');
             Route::post('/sisa-hasil-usaha/cetak',[SisaHasilUsahaController::class,'cetakSHU'])->name('sisaHasilUsaha.cetak');
+
+            //buku besar
+            Route::get('/buku-besar',[BukuBesarController::class,'index'])->name('bukuBesar.index');
+            Route::post('/buku-besar',[BukuBesarController::class,'getAccountActivity'])->name('bukuBesar.show');
+
+            //neraca
+            Route::get('/neraca',[NeracaController::class,'index'])->name('neraca.index');
+            Route::post('/neraca',[NeracaController::class,'getNeraca'])->name('neraca.show');
 
             //All Resource Controller
             Route::resources([

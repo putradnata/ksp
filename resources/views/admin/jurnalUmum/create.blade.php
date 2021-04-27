@@ -27,6 +27,12 @@
         <form method="POST" action="{{ route('jurnal-umum.store') }}">
             @csrf
             <div class="row">
+                {{-- <div class="col-xl-12">
+                    <div class="form-group col-8">
+                        <label for="tanggal">Tanggal Pembayaran</label>
+                        <input type="date" class="form-control" id="tanggal" name="tanggal[]" onkeydown="return false">
+                    </div>
+                </div> --}}
                 <div class="col-xl-4">
                     <div class="form-group">
                         <label for="tanggal">Tanggal Pembayaran</label>
@@ -44,7 +50,6 @@
                         <label for="posisi">Posisi</label>
                         <select class="form-control" name="posisi[]">
                             <option value="DEBIT">DEBIT</option>
-                            <option value="KREDIT">KREDIT</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -77,7 +82,6 @@
                     <div class="form-group">
                         <label for="posisi">Posisi</label>
                         <select class="form-control" name="posisi[]">
-                            <option value="DEBIT">DEBIT</option>
                             <option value="KREDIT">KREDIT</option>
                         </select>
                     </div>

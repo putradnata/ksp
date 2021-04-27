@@ -57,11 +57,11 @@
                 @csrf
                 <div class="form-group mr-3">
                     <label class="mr-3">Dari Tanggal</label>
-                    <input type="date" name="dariTanggal" required>
+                    <input type="date" name="dariTanggal" class="form-control" required>
                 </div>
                 <div class="form-group mr-3">
                     <label class="mr-3">Sampai Tanggal</label>
-                    <input type="date" name="sampaiTanggal" required>
+                    <input type="date" name="sampaiTanggal" class="form-control" required>
                 </div>
 
                 <span class="tsb btn btn-success mr-4">
@@ -88,7 +88,7 @@
             <table class="shu text-left table table-borderless">
                 <thead>
                     <tr>
-                        <td colspan="2" class="text-center"><strong>Periode : {{ $dariTanggal.' - '.$sampaiTanggal }}</strong></td>
+                        <td colspan="2" class="text-center"><strong>Periode : {{ \Carbon\Carbon::parse($dariTanggal)->format('d-m-Y').' - '.\Carbon\Carbon::parse($sampaiTanggal)->format('d-m-Y') }}</strong></td>
                     </tr>
                 </thead>
                 <tbody>
