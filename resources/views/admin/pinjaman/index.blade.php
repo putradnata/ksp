@@ -56,6 +56,8 @@
                                     @foreach ($dataSisaPinjaman as $dsp)
                                         @if ($pinjaman->kode == $dsp->kodePinjaman)
                                             data-sisa="@currency($dsp->sisaHutang)"
+                                        @else
+                                            data-sisa="@currency($pinjaman->jumlah)"
                                         @endif
                                     @endforeach
                                 @else
