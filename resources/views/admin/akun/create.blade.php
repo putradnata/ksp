@@ -38,9 +38,9 @@
                 <label for="tipe">Tipe Akun</label>
                 <select name="tipe" class="form-control">
                     <option value="">-- Pilih Satu --</option>
-                    <optgroup label="Aset">
-                        <option value="Aset Lancar">Aset Lancar</option>
-                        <option value="Aset Tetap">Aset Tetap</option>
+                    <optgroup label="Aktiva">
+                        <option value="Aktiva Lancar">Aktiva Lancar</option>
+                        <option value="Aktiva Tetap">Aktiva Tetap</option>
                         <option value="Harta Tak Berwujud">Harta Tak Berwujud</option>
                     </optgroup>
                     <optgroup label="Pasiva">

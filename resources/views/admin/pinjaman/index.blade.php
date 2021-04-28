@@ -52,13 +52,15 @@
                                 data-administrasi="@currency($pinjaman->jumlah * (3/100))"
                                 data-materai="@currency(10000)"
                                 data-total="@currency($pinjaman->jumlah - (($pinjaman->jumlah * (3/100) + 10000)))"
-                                @foreach ($dataSisaPinjaman as $dsp)
-                                    @if ($pinjaman->kode == $dsp->kodePinjaman)
-                                        data-sisa="@currency($dsp->sisaHutang)"
-                                    @else
-                                        data-sisa="@currency($pinjaman->jumlah)"
-                                    @endif
-                                @endforeach
+                                @if ($dataSisaPinjaman != null)
+                                    @foreach ($dataSisaPinjaman as $dsp)
+                                        @if ($pinjaman->kode == $dsp->kodePinjaman)
+                                            data-sisa="@currency($dsp->sisaHutang)"
+                                        @endif
+                                    @endforeach
+                                @else
+                                    data-sisa="@currency($pinjaman->jumlah)"
+                                @endif
                                 data-target="#detailModal"><span class="fa fa-eye"></span></a>
                         </td>
                     </tr>
