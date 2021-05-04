@@ -185,4 +185,22 @@ class SimpananKhususController extends Controller
     {
         //
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\SimpananKhusus  $simpananKhusus
+     * @return \Illuminate\Http\Response
+     */
+    public function PrintReport($id)
+    {
+        $dataSimpananKhusus = DB::table('simpanan_khusus')
+                                ->join('anggota', 'simpanan_khusus.idAnggota', '=', 'anggota.id')
+                                ->select('simpanan_khusus.*','anggota.nama as namaAnggota','anggota.id as idAnggota')
+                                ->where('simpanan_khusus.kode',$id)
+                                ->first();
+        return view('admin/simpananKhusus.cetak',[
+            'simpananKhusus' => $dataSimpananKhusus
+        ]);
+    }
 }

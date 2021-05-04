@@ -55,6 +55,7 @@ Route::middleware(['auth'])->group(function () {
             //report
             Route::get('/simpanan-pokok/{id}', [SimpananPokokController::class, 'PrintReport'])->name('simpananPokok.report');
             Route::get('/simpanan-wajib/{id}', [SimpananWajibController::class, 'PrintReport'])->name('simpananWajib.report');
+            Route::get('/simpanan-khusus/{id}', [SimpananKhususController::class, 'PrintReport'])->name('simpananKhusus.report');
 
             //sisa hasil usaha
             Route::get('/sisa-hasil-usaha',[SisaHasilUsahaController::class,'index'])->name('sisaHasilUsaha.index');

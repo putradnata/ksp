@@ -73,7 +73,7 @@
                 </div>
 
                 <span class="tsb btn btn-success mr-4">
-                    <i class="fas fa-search"></i> <input type="submit" name="cari" value="Cari" id="cari">
+                    <i class="fas fa-search"></i> <input type="submit" class="cari" name="cari" value="Cari" id="cari">
                 </span>
 
             </form>
@@ -140,7 +140,7 @@
     <!-- Onclick Action -->
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#cari").on('click',function () {
+            $(".cari").onClick(function () {
 
                 $("#tbody").html(
                     "<tr><td colspan=7 class='text-center'><img src='/images/load.gif'></td></tr>"
