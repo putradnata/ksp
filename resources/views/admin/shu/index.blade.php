@@ -20,9 +20,15 @@
             padding: 0;
         }
 
-        @media screen and (min-width:768px){
+        @media screen and (min-width:1440px){
             .col-12.text-center.result-shu {
                 padding: 0 32em;
+            }
+        }
+
+        @media screen and (min-width:1360px){
+            .col-12.text-center.result-shu {
+                padding: 0 15em !important;
             }
         }
 

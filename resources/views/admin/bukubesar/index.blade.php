@@ -83,7 +83,7 @@
 
 <div class="card">
     <div class="card-body">
-        <table class="table table-stripped" id="tabelData">
+        <table class="table table-stripped table-responsive-sm" id="tabelData">
             <thead>
                 <th>Tanggal</th>
                 <th>Kode Jurnal</th>

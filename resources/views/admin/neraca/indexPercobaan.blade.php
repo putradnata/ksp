@@ -20,6 +20,21 @@
             padding: 0;
         }
 
+        @media print{
+            .frmz{
+                visibility: hidden !important;
+            }
+
+            .main-footer{
+                visibility: hidden !important;
+            }
+
+            .main-sidebar{
+                visibility: hidden !important;
+            }
+        }
+
+
         @media screen and (min-width:768px){
             .col-12.text-center.result-shu {
                 padding: 0 32em;
@@ -48,7 +63,7 @@
 
 @section('contentHere')
 <div class="card">
-    <div class="card-header">
+    <div class="card-header frmz">
         <h3 class="card-title">Neraca Percobaan</h3>
 
         <div class="card-tools">
@@ -59,19 +74,19 @@
                 <i class="fas fa-times"></i></button>
         </div>
     </div>
-    <div class="card-body">
+    <div class="card-body frmz">
         <div class="row mb-5">
             <form class="form-inline form-horizontal" method="POST" id="neracaform">
                 @csrf
                 <div class="form-group mr-3">
                     <label class="mr-3">Periode</label>
-                    <input type="date" name="dariTanggal" class="form-control" required>
+                    <input type="month" name="dariTanggal" class="form-control" required>
                 </div>
                 <span class="tsb btn btn-success mr-4">
                     <i class="fas fa-search"></i> <input type="submit" class="cari" name="cari" value="Cari" id="cari">
                 </span>
-                <span class="tsb btn btn-primary mr-4">
-                    <i class="fas fa-print"></i> <input type="submit" name="cetak" value="Cetak">
+                <span class="tsb">
+                    <button type="button" class="btn btn-primary mr-4" onclick="window.print()"><i class="fas fa-print"></i> Cetak</button>
                 </span>
 
             </form>
@@ -85,13 +100,12 @@
             <div class="col-12 text-center">
                 <img class="kop-koperasi" src="{{ asset('images/kop-ksp.png') }}" >
 
-                <div class="text-center"><strong>Periode : {{ \Carbon\Carbon::parse($dariTanggal)->format('M-Y') }}</strong></div>
+                <div class="text-center"><strong>Periode : {{ \Carbon\Carbon::parse($dariTanggal)->format('M-Y') }}</strong></div><br>
             </div>
-
         </div>
 
         @if (@isset($akun) && @isset($akunNow))
-            <table class="table table-bordered">
+            <table class="table table-bordered table-responsive-sm">
                 <thead>
                     <tr>
                         <th rowspan="2" style="vertical-align: middle !important; text-align: center;">No. Akun</th>

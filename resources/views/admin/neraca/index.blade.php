@@ -19,12 +19,47 @@
             border: 0;
             padding: 0;
         }
+        .testprint{
+            display: none;
+        }
+        .printBorder{
+                display: none;
+        }
 
-        @media screen and (min-width:768px){
-            .col-12.text-center.result-shu {
-                padding: 0 32em;
+
+        @media print{
+            .frmz{
+                visibility: hidden !important;
             }
 
+            .main-footer{
+                visibility: hidden !important;
+            }
+
+            .main-sidebar{
+                visibility: hidden !important;
+            }
+
+            .testprint{
+                display: block;
+                width:6.5em;
+            }
+
+            .col61{
+                margin-right: -150px;
+                border:solid 0px !important;
+            }
+
+            .printBorder{
+                display: block;
+                height: auto;
+                border-right:2px solid black;
+                margin-left:1.5em;
+            }
+        }
+
+
+        @media screen and (min-width:1440px){
             .neracaWrapper{
                 padding:1rem 31rem 3rem 31rem;
             }
@@ -32,6 +67,22 @@
             .neracaWrapper.headz{
                 padding:1rem 31rem 0rem 31rem;
             }
+        }
+
+        @media screen and (min-width:1360px){
+            .neracaWrapper{
+                padding:1rem 10rem 3rem 10rem;
+            }
+
+            .neracaWrapper.headz{
+                padding:1rem 10rem 0rem 10rem;
+            }
+        }
+
+        @media screen and (min-width:768px){
+            /* .col-12.text-center.result-shu {
+                padding: 0 32em;
+            } */
         }
 
         @media screen and (max-width:767px){
@@ -48,7 +99,7 @@
 
 @section('contentHere')
 <div class="card">
-    <div class="card-header">
+    <div class="card-header frmz">
         <h3 class="card-title">Neraca</h3>
 
         <div class="card-tools">
@@ -59,7 +110,7 @@
                 <i class="fas fa-times"></i></button>
         </div>
     </div>
-    <div class="card-body">
+    <div class="card-body frmz">
         <div class="row mb-5">
             <form class="form-inline form-horizontal" method="POST" id="neracaform">
                 @csrf
@@ -76,8 +127,8 @@
                     <i class="fas fa-search"></i> <input type="submit" class="cari" name="cari" value="Cari" id="cari">
                 </span>
 
-                <span class="tsb btn btn-primary mr-4">
-                    <i class="fas fa-print"></i> <input type="submit" name="cetak" value="Cetak">
+                <span class="tsb">
+                    <button type="button" class="btn btn-primary mr-4" onclick="window.print()"><i class="fas fa-print"></i> Cetak</button>
                 </span>
 
             </form>
@@ -88,7 +139,7 @@
 <div class="card">
     <div class="card-body">
         <div class="row">
-            <div class="col-12 text-center">
+            <div class="col-12 text-center p">
                 <img class="kop-koperasi" src="{{ asset('images/kop-ksp.png') }}" >
 
                 <div class="text-center"><strong>Periode : {{ \Carbon\Carbon::parse($dariTanggal)->format('d-m-Y').' - '.\Carbon\Carbon::parse($sampaiTanggal)->format('d-m-Y') }}</strong></div>
@@ -106,7 +157,10 @@
         </div>
         @if (@isset($akun))
             <div class="row neracaWrapper">
-                <div class="col-6" style="border-right: solid 2px;padding-left: 4em;">
+                <div class="testprint">
+                    &nbsp;
+                </div>
+                <div class="col-6 col61" style="border-right: solid 2px;padding-left: 4em;">
                     <table>
                         <tr>
                             <th>Aktiva Lancar</th>
@@ -197,6 +251,9 @@
                             </td>
                         </tr>
                     </table>
+                </div>
+                <div class="printBorder">
+                    &nbsp;
                 </div>
                 <div class="col-6" style="padding-left: 4em;">
                     <table>
