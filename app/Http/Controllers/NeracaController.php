@@ -77,7 +77,7 @@ class NeracaController extends Controller
                     $noAkun[$key1]['statusAkun'] = 'DEBIT';
                 }
             }
-            if (@$filterParent2[0]->tipeAkun == 'Pendapatan' ) {
+            if (@$filterParent2[0]->tipeAkun == 'Pendapatan') {
                 $noAkun[$key1]['noAkun'] = $ns->noAkun;
                 $noAkun[$key1]['hasilAkhir'] = $filterParent[0]->testJumlah;
                 $noAkun[$key1]['tipeAkun'] = $filterParent[0]->tipeAkun;
@@ -144,15 +144,31 @@ class NeracaController extends Controller
         }
 
         $totalSimpanan = $totalSimpanan + $simpananPokok + $simpananWajib + $simpananKhusus;
+
         $count = count($noAkun);
 
-        for($x=0;$x<$count;$x++){
-            if($noAkun[$x]['namaAkun'] == 'Kas'){
-                $total = $noAkun[$x]['hasilAkhir'];
-                $totalAkhir = $total + $totalSimpanan;
-                $noAkun[$x]['hasilAkhir'] = $totalAkhir;
+        $key = 'Kas';
+        $result = collect($noAkun)->contains('namaAkun', 'Kas');
+
+        if ($result == true){
+            for($x=0;$x<$count;$x++){
+                if($noAkun[$x]['namaAkun'] == 'Kas'){
+                    $total = $noAkun[$x]['hasilAkhir'];
+                    $totalAkhir = $total + $totalSimpanan;
+                    $noAkun[$x]['hasilAkhir'] = $totalAkhir;
+                }
             }
+            $res = 'masuk sini';
+        } else {
+            $noAkun[$count]['noAkun'] = 111;
+            $noAkun[$count]['hasilAkhir'] = $totalSimpanan;
+            $noAkun[$count]['tipeAkun'] = 'Aktiva Lancar';
+            $noAkun[$count]['namaAkun'] = 'Kas';
+            $noAkun[$count]['statusAkun'] = 'DEBIT';
+            $res = 'masuk sina';
         }
+
+        $count = count($noAkun);
 
         if($pinjaman != 0){
             $noAkun[$count]['noAkun'] = 11111;
@@ -161,6 +177,8 @@ class NeracaController extends Controller
             $noAkun[$count]['namaAkun'] = 'Pinjaman Anggota';
             $noAkun[$count]['statusAkun'] = 'KREDIT';
         }
+
+        $noAkun = array_values($noAkun);
 
         return view('admin/neraca.index',[
             'akun' => $noAkun,

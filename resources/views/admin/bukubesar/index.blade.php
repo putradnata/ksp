@@ -72,9 +72,7 @@
                     <input type="date" class="form-control" name="sampaiTanggal" id="sampaiTanggal" required>
                 </div>
 
-                <span class="tsb btn btn-success mr-4">
-                    <i class="fas fa-search"></i> <input type="submit" class="cari" name="cari" value="Cari" id="cari">
-                </span>
+                <button type="submit" class="btn btn-success mr-4 cari"><i class="fas fa-search"></i> Cari</button>
 
             </form>
         </div>
@@ -134,29 +132,4 @@
         </table>
     </div>
 </div>
-@endsection
-
-@section('scriptPlace')
-    <!-- Onclick Action -->
-    <script type="text/javascript">
-        $("#bookform").on('submit', function () {
-
-            $("#tbody").html(
-                "<tr><td colspan=7 class='text-center'><img src='/images/load.gif'></td></tr>"
-                )
-            $.ajax({
-                url: "{{ url('/buku-besar') }}",
-                type: "POST",
-                dataType: 'json',
-                headers: {
-                    'X-CSRF-Token': '{{ csrf_token() }}',
-                },
-                data: $("#bookform").serialize(),
-
-                success: function (msg) {
-
-                }
-            });
-        });
-    </script>
 @endsection

@@ -26,7 +26,6 @@
                 display: none;
         }
 
-
         @media print{
             .frmz{
                 visibility: hidden !important;
@@ -112,7 +111,7 @@
     </div>
     <div class="card-body frmz">
         <div class="row mb-5">
-            <form class="form-inline form-horizontal" method="POST" id="neracaform">
+            <form class="form-inline form-horizontal" method="POST" id="neracaform" action="{{ route('neraca.show') }}">
                 @csrf
                 <div class="form-group mr-3">
                     <label class="mr-3">Dari Tanggal</label>
@@ -123,9 +122,10 @@
                     <input type="date" name="sampaiTanggal" class="form-control" required>
                 </div>
 
-                <span class="tsb btn btn-success mr-4">
-                    <i class="fas fa-search"></i> <input type="submit" class="cari" name="cari" value="Cari" id="cari">
-                </span>
+                <button type="submit" class="btn btn-success mr-4 cari"><i class="fas fa-search"></i> Cari</button>
+                {{-- <span class="tsb"> --}}
+                    {{-- <input type="submit" class="btn btn-success mr-4 cari" name="cari" value="Cari"> --}}
+                {{-- </span> --}}
 
                 <span class="tsb">
                     <button type="button" class="btn btn-primary mr-4" onclick="window.print()"><i class="fas fa-print"></i> Cetak</button>
@@ -235,7 +235,7 @@
                             <td>
                                 <strong>Total Aktiva Tetap :</strong>
                             </td>
-                            <td>@currency($data['at'])</td>
+                            <td>@currency($totalAktivaTetap)</td>
                         </tr>
                         <tr>
                             <td>&nbsp;</td>
@@ -244,7 +244,7 @@
                             <th>Total Keseluruhan :</th>
                             <td>
                                 @php
-                                    $rs = $data['at']+$totalAktivaLancar - $pendapatan;
+                                    $rs = $totalAktivaTetap + $totalAktivaLancar - $pendapatan;
                                 @endphp
 
                                 @currency($rs)
@@ -274,11 +274,9 @@
                                     'pd' => $pd[$i],
                                     ];
 
-
                                 @endphp
                                 @endif
                         @endfor
-
                         <tr>
                             <td>
                                 <strong>Total Kewajiban :</strong>
@@ -286,7 +284,7 @@
                             @php
                                 $totalKewajiban+=$data['pd'];
                             @endphp
-                            <td>@currency($data['pd'])</td>
+                            <td>@currency($totalPendapatan)</td>
                         </tr>
                         <tr>
                             <td>&nbsp;</td>
@@ -314,7 +312,7 @@
                             <td>
                                 <strong>Jumlah Modal Sendiri :</strong>
                             </td>
-                            <td>@currency($data['ts'])</td>
+                            <td>@currency($totalModalSendiri)</td>
                         </tr>
                         <tr>
                             <td>&nbsp;</td>
@@ -323,7 +321,7 @@
                             <th>Total Keseluruhan :</th>
                             <td>
                                 @php
-                                    $pasivaKeseluruhan = $data['ts']+$totalKewajiban;
+                                    $pasivaKeseluruhan = $totalModalSendiri+$totalKewajiban;
                                 @endphp
                                 @currency($pasivaKeseluruhan)
                             </td>
@@ -339,7 +337,7 @@
 @section('scriptPlace')
     <!-- Onclick Action -->
     <script type="text/javascript">
-        $("#neracaform").on('submit', function () {
+        $("#neracaform").submit(function () {
             $("#tbody").html(
                 "<tr><td colspan=7 class='text-center'><img src='/images/load.gif'></td></tr>"
                 )

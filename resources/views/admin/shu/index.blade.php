@@ -70,14 +70,11 @@
                     <input type="date" name="sampaiTanggal" class="form-control" required>
                 </div>
 
-                <span class="tsb btn btn-success mr-4">
-                    <i class="fas fa-search"></i> <input type="submit" name="cari" value="Cari">
-                </span>
+                <button type="submit" class="btn btn-success mr-4 cari"><i class="fas fa-search"></i> Cari</button>
 
                 <span class="tsb btn btn-primary mr-4">
                     <i class="fas fa-print"></i> <input type="submit" name="cetak" value="Cetak">
                 </span>
-
             </form>
         </div>
     </div>

@@ -76,15 +76,15 @@
     </div>
     <div class="card-body frmz">
         <div class="row mb-5">
-            <form class="form-inline form-horizontal" method="POST" id="neracaform">
+            <form class="form-inline form-horizontal" method="POST" action="{{ route('neracaPercobaan.show') }}" id="neracaform">
                 @csrf
                 <div class="form-group mr-3">
                     <label class="mr-3">Periode</label>
                     <input type="month" name="dariTanggal" class="form-control" required>
                 </div>
-                <span class="tsb btn btn-success mr-4">
-                    <i class="fas fa-search"></i> <input type="submit" class="cari" name="cari" value="Cari" id="cari">
-                </span>
+
+                <button type="submit" class="btn btn-success mr-4 cari"><i class="fas fa-search"></i> Cari</button>
+
                 <span class="tsb">
                     <button type="button" class="btn btn-primary mr-4" onclick="window.print()"><i class="fas fa-print"></i> Cetak</button>
                 </span>
@@ -169,12 +169,12 @@
 @section('scriptPlace')
     <!-- Onclick Action -->
     <script type="text/javascript">
-        $("#neracaform").on('submit', function () {
+        $("#neracaform").submit(function () {
             $("#tbody").html(
                 "<tr><td colspan=7 class='text-center'><img src='/images/load.gif'></td></tr>"
                 )
             $.ajax({
-                url: "{{ url('/neraca') }}",
+                url: "{{ url('/neracaPercobaan') }}",
                 type: "POST",
                 dataType: 'json',
                 headers: {
