@@ -69,6 +69,8 @@ Route::middleware(['auth'])->group(function () {
             //neraca
             Route::get('/neraca',[NeracaController::class,'index'])->name('neraca.index');
             Route::post('/neraca',[NeracaController::class,'getNeraca'])->name('neraca.show');
+            Route::get('/neracaPercobaan',[NeracaController::class,'indexPercobaan'])->name('neracaPercobaan.index');
+            Route::post('/neracaPercobaan',[NeracaController::class,'getNeracaPercobaan'])->name('neracaPercobaan.show');
 
             //All Resource Controller
             Route::resources([

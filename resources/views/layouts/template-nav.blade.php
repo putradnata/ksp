@@ -147,6 +147,13 @@
                         </a>
                     </li>
 
+                    <li class="nav-item">
+                        <a href="{{ route('neracaPercobaan.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-file-invoice"></i>
+                            <p>Neraca Percobaan</p>
+                        </a>
+                    </li>
+
                 </ul>
             @endif
         </nav>

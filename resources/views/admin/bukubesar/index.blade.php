@@ -139,27 +139,23 @@
 @section('scriptPlace')
     <!-- Onclick Action -->
     <script type="text/javascript">
-        $(document).ready(function () {
-            $(".cari").onClick(function () {
+        $("#bookform").on('submit', function () {
 
-                $("#tbody").html(
-                    "<tr><td colspan=7 class='text-center'><img src='/images/load.gif'></td></tr>"
-                    )
-                $.ajax({
-                    url: "{{ url('/buku-besar') }}",
-                    type: "POST",
-                    dataType: 'json',
-                    headers: {
-                        'X-CSRF-Token': '{{ csrf_token() }}',
-                    },
-                    data: $("#bookform").serialize(),
+            $("#tbody").html(
+                "<tr><td colspan=7 class='text-center'><img src='/images/load.gif'></td></tr>"
+                )
+            $.ajax({
+                url: "{{ url('/buku-besar') }}",
+                type: "POST",
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-Token': '{{ csrf_token() }}',
+                },
+                data: $("#bookform").serialize(),
 
-                    success: function (msg) {
+                success: function (msg) {
 
-                    }
-                });
-
-                console.log('mas-uk');
+                }
             });
         });
     </script>

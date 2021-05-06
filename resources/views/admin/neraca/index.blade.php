@@ -120,12 +120,25 @@
                         $totalModalSendiri = 0;
                         $totalKewajiban = 0;
                         $pasivaKeseluruhan = 0;
+                        $pendapatan = 0;
                         @endphp
+                        @for ($a = 0; $a < $z; $a++)
+                        @if ($akun[$a]['statusAkun'] == 'KREDIT' )
+                            @php
+                                $pendapatan+=$akun[$a]['hasilAkhir'];
+                            @endphp
+                        @endif
+                        @endfor
+
                         @for ($i = 0; $i < $z; $i++)
                             @if ($akun[$i]['tipeAkun'] === 'Aktiva Lancar')
                             <tr>
                                 <td style="width:10em">{{ $akun[$i]['namaAkun'] }}</td>
-                                <td>@currency($akun[$i]['hasilAkhir'])</td>
+                                @if ($akun[$i]['namaAkun'] == "Kas")
+                                    <td>@currency($akun[$i]['hasilAkhir'] - $pendapatan)</td>
+                                @else
+                                    <td>@currency($akun[$i]['hasilAkhir'])</td>
+                                @endif
                             </tr>
                             @php
                                 $akn[$i] = $totalAktivaLancar+=$akun[$i]['hasilAkhir'];
@@ -133,8 +146,6 @@
                                 $data = [
                                     'al' => $akn[$i],
                                 ];
-
-                                $totalAktivaTetap2 = $data['al'];
                             @endphp
                             @endif
                         @endfor
@@ -142,7 +153,7 @@
                             <td>
                                 <strong>Total Aktiva Lancar :</strong>
                             </td>
-                            <td>@currency($data['al'])</td>
+                            <td>@currency($totalAktivaLancar - $pendapatan)</td>
                         </tr>
                         <tr>
                             <td>&nbsp;</td>
@@ -179,7 +190,7 @@
                             <th>Total Keseluruhan :</th>
                             <td>
                                 @php
-                                    $rs = $data['at']+$totalAktivaLancar;
+                                    $rs = $data['at']+$totalAktivaLancar - $pendapatan;
                                 @endphp
 
                                 @currency($rs)
@@ -208,12 +219,6 @@
 
 
                                 @endphp
-                                @else
-                                    @php
-                                        $data = [
-                                        'pd' => 0,
-                                        ];
-                                    @endphp
                                 @endif
                         @endfor
 
@@ -226,7 +231,9 @@
                             @endphp
                             <td>@currency($data['pd'])</td>
                         </tr>
-
+                        <tr>
+                            <td>&nbsp;</td>
+                        </tr>
                         @php
                             $bg = count($modalSendiri);
                         @endphp
@@ -253,6 +260,9 @@
                             <td>@currency($data['ts'])</td>
                         </tr>
                         <tr>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
                             <th>Total Keseluruhan :</th>
                             <td>
                                 @php
@@ -272,24 +282,21 @@
 @section('scriptPlace')
     <!-- Onclick Action -->
     <script type="text/javascript">
-        $(document).ready(function () {
-            $(".cari").onClick(function () {
+        $("#neracaform").on('submit', function () {
+            $("#tbody").html(
+                "<tr><td colspan=7 class='text-center'><img src='/images/load.gif'></td></tr>"
+                )
+            $.ajax({
+                url: "{{ url('/neraca') }}",
+                type: "POST",
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-Token': '{{ csrf_token() }}',
+                },
+                data: $("#neracaform").serialize(),
 
-                $("#tbody").html(
-                    "<tr><td colspan=7 class='text-center'><img src='/images/load.gif'></td></tr>"
-                    )
-                $.ajax({
-                    url: "{{ url('/buku-besar') }}",
-                    type: "POST",
-                    dataType: 'json',
-                    headers: {
-                        'X-CSRF-Token': '{{ csrf_token() }}',
-                    },
-                    data: $("#neracaform").serialize(),
-
-                    success: function (msg) {
-                    }
-                });
+                success: function (msg) {
+                }
             });
         });
     </script>

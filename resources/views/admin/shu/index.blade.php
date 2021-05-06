@@ -78,6 +78,7 @@
 </div>
 
 <div class="card">
+    @if (@isset($filter))
     <div class="row">
         <div class="col-12 text-center">
             <img class="kop-koperasi" src="{{ asset('images/kop-ksp.png') }}" >
@@ -103,7 +104,7 @@
                     @foreach ($filter as $shu)
                         @if ($shu->tipeAkun == 'Pendapatan')
                             <tr>
-                                <td>{{ $shu->namaAkun }}</td>
+                                <td>{{ $shu->keterangan }}</td>
                                 <td>@currency($shu->jumlah)</td>
                             </tr>
                             @php
@@ -111,6 +112,20 @@
                             @endphp
                         @endif
                     @endforeach
+                    <tr>
+                        <td>Bunga pinjaman</td>
+                        <td>@currency($bunga)</td>
+                        @php
+                            $totalPendapatan+=$bunga;
+                        @endphp
+                    </tr>
+                    <tr>
+                        <td>Denda pinjaman</td>
+                        <td>@currency($denda)</td>
+                        @php
+                            $totalPendapatan+=$denda;
+                        @endphp
+                    </tr>
                     <tr>
                         <td><strong>Total Pendapatan</strong></td>
                         <td>@currency($totalPendapatan)</td>
@@ -122,7 +137,7 @@
                     @foreach ($filter as $shu)
                         @if ($shu->tipeAkun == 'Beban')
                             <tr>
-                                <td>{{ $shu->namaAkun }}</td>
+                                <td>{{ $shu->keterangan }}</td>
                                 <td>@currency($shu->jumlah)</td>
                             </tr>
                             @php
@@ -130,6 +145,13 @@
                             @endphp
                         @endif
                     @endforeach
+                    <tr>
+                        <td>Suku bunga simpanan</td>
+                        <td>@currency($bungaSimpanan)</td>
+                        @php
+                            $totalBeban+=$bungaSimpanan;
+                        @endphp
+                    </tr>
                     <tr>
                         <td><strong>Total Beban</strong></td>
                         <td>@currency($totalBeban)</td>
@@ -143,6 +165,6 @@
             </table>
         </div>
     </div>
-
+    @endif
 </div>
 @endsection

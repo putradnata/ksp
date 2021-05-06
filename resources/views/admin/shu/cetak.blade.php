@@ -138,6 +138,20 @@ div.cls_009 {
                         @endif
                     @endforeach
                     <tr>
+                        <td>Bunga pinjaman</td>
+                        <td>@currency($bunga)</td>
+                        @php
+                            $totalPendapatan+=$bunga;
+                        @endphp
+                    </tr>
+                    <tr>
+                        <td>Denda pinjaman</td>
+                        <td>@currency($denda)</td>
+                        @php
+                            $totalPendapatan+=$denda;
+                        @endphp
+                    </tr>
+                    <tr>
                         <td><strong>Total Pendapatan</strong></td>
                         <td>@currency($totalPendapatan)</td>
                     </tr>
@@ -156,6 +170,13 @@ div.cls_009 {
                             @endphp
                         @endif
                     @endforeach
+                    <tr>
+                        <td>Suku bunga simpanan</td>
+                        <td>@currency($bungaSimpanan)</td>
+                        @php
+                            $totalBeban+=$bungaSimpanan;
+                        @endphp
+                    </tr>
                     <tr>
                         <td><strong>Total Beban</strong></td>
                         <td>@currency($totalBeban)</td>
