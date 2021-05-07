@@ -195,11 +195,7 @@
                                 @endif
                             </tr>
                             @php
-                                $akn[$i] = $totalAktivaLancar+=$akun[$i]['hasilAkhir'];
-
-                                $data = [
-                                    'al' => $akn[$i],
-                                ];
+                                $totalAktivaLancar+=$akun[$i]['hasilAkhir'];
                             @endphp
                             @endif
                         @endfor
@@ -223,11 +219,7 @@
                             </tr>
 
                             @php
-                                $akt[$i] = $totalAktivaTetap+=$akun[$i]['hasilAkhir'];
-
-                                $data = [
-                                    'at' => $akt[$i],
-                                ];
+                                $totalAktivaTetap+=$akun[$i]['hasilAkhir'];
                             @endphp
                             @endif
                         @endfor
@@ -267,13 +259,7 @@
                                     <td>@currency($akun[$i]['hasilAkhir'])</td>
                                 </tr>
                                 @php
-                                    $pd[$i] = $totalPendapatan+=$akun[$i]['hasilAkhir'];
-
-
-                                    $data = [
-                                    'pd' => $pd[$i],
-                                    ];
-
+                                    $totalPendapatan+=$akun[$i]['hasilAkhir'];
                                 @endphp
                                 @endif
                         @endfor
@@ -282,7 +268,7 @@
                                 <strong>Total Kewajiban :</strong>
                             </td>
                             @php
-                                $totalKewajiban+=$data['pd'];
+                                $totalKewajiban+=$totalPendapatan;
                             @endphp
                             <td>@currency($totalPendapatan)</td>
                         </tr>
@@ -301,11 +287,7 @@
                                 <td>@currency($modalSendiri[$st]['jumlah'])</td>
                             </tr>
                             @php
-                                $tms = $totalModalSendiri+=$modalSendiri[$st]['jumlah'];
-
-                                $data = [
-                                    'ts' => $tms,
-                                ];
+                                $totalModalSendiri+=$modalSendiri[$st]['jumlah'];
                             @endphp
                         @endfor
                         <tr>

@@ -83,8 +83,13 @@ class NeracaController extends Controller
                 $noAkun[$key1]['tipeAkun'] = $filterParent[0]->tipeAkun;
                 $noAkun[$key1]['namaAkun'] = $filterParent[0]->namaAkun;
                 $noAkun[$key1]['statusAkun'] = 'KREDIT';
+                if(@$filterParent[0]->testJumlah == null){
+                    $noAkun[$key1]['hasilAkhir'] = 0;
+                }
             }
         }
+
+        $noAkun = array_values($noAkun);
 
         $dataSimpanan = DB::select('
             SELECT
@@ -145,8 +150,6 @@ class NeracaController extends Controller
 
         $totalSimpanan = $totalSimpanan + $simpananPokok + $simpananWajib + $simpananKhusus;
 
-        $count = count($noAkun);
-
         $key = 'Kas';
         $result = collect($noAkun)->contains('namaAkun', 'Kas');
 
@@ -158,21 +161,19 @@ class NeracaController extends Controller
                     $noAkun[$x]['hasilAkhir'] = $totalAkhir;
                 }
             }
-            $res = 'masuk sini';
         } else {
+            $count = count($noAkun);
             $noAkun[$count]['noAkun'] = 111;
             $noAkun[$count]['hasilAkhir'] = $totalSimpanan;
             $noAkun[$count]['tipeAkun'] = 'Aktiva Lancar';
             $noAkun[$count]['namaAkun'] = 'Kas';
             $noAkun[$count]['statusAkun'] = 'DEBIT';
-            $res = 'masuk sina';
         }
 
-        $count = count($noAkun);
-
         if($pinjaman != 0){
+            $count = count($noAkun);
             $noAkun[$count]['noAkun'] = 11111;
-            $noAkun[$count]['hasilAkhir'] = $pinjaman;
+            $noAkun[$count]['hasilAkhir'] = (int)$pinjaman;
             $noAkun[$count]['tipeAkun'] = 'Aktiva Lancar';
             $noAkun[$count]['namaAkun'] = 'Pinjaman Anggota';
             $noAkun[$count]['statusAkun'] = 'KREDIT';
