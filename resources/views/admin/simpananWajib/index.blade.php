@@ -46,7 +46,7 @@
                         <td>{{ $simpananWajib->syarat }}</td>
                         <td>@currency($simpananWajib->jumlah)</td>
                         <td>
-                            <a class="btn btn-sm btn-warning light-s" href="{{ route('simpananWajib.edit', $simpananWajib->kode) }}"><span class="fas fa-pencil-alt"></span></a>
+                            {{-- <a class="btn btn-sm btn-warning light-s" href="{{ route('simpananWajib.edit', $simpananWajib->kode) }}"><span class="fas fa-pencil-alt"></span></a> --}}
                             <a class="btn btn-sm btn-primary light-s" href="{{ route('simpananWajib.report', $simpananWajib->kode) }}" target="blank"><span class="fas fa-print"></span></a>
                         </td>
                     </tr>

@@ -175,6 +175,7 @@
                         $totalKewajiban = 0;
                         $pasivaKeseluruhan = 0;
                         $pendapatan = 0;
+                        $kewajiban = 0;
                         @endphp
                         @for ($a = 0; $a < $z; $a++)
                         @if ($akun[$a]['statusAkun'] == 'KREDIT' )
@@ -183,12 +184,11 @@
                             @endphp
                         @endif
                         @endfor
-
                         @for ($i = 0; $i < $z; $i++)
                             @if ($akun[$i]['tipeAkun'] === 'Aktiva Lancar')
                             <tr>
                                 <td style="width:10em">{{ $akun[$i]['namaAkun'] }}</td>
-                                @if ($akun[$i]['namaAkun'] == "Kas")
+                                @if ($akun[$i]['namaAkun'] == "Kas" )
                                     <td>@currency($akun[$i]['hasilAkhir'] - $pendapatan)</td>
                                 @else
                                     <td>@currency($akun[$i]['hasilAkhir'])</td>

@@ -46,7 +46,7 @@
                         <td>@currency($simpananKhusus->jumlah)</td>
                         <td>@currency($simpananKhusus->saldo)</td>
                         <td>
-                            <a class="btn btn-sm btn-warning light-s" href="{{ route('simpananKhusus.edit', $simpananKhusus->kode) }}"><span class="fas fa-pencil-alt"></span></a>
+                            {{-- <a class="btn btn-sm btn-warning light-s" href="{{ route('simpananKhusus.edit', $simpananKhusus->kode) }}"><span class="fas fa-pencil-alt"></span></a> --}}
                             <a class="btn btn-sm btn-primary light-s" href="{{ route('simpananKhusus.report', $simpananKhusus->kode) }}" target="blank"><span class="fas fa-print"></span></a>
                         </td>
                     </tr>

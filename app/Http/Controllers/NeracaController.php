@@ -67,6 +67,9 @@ class NeracaController extends Controller
             if (@$filterParent[0]->testJumlah != null ) {
                 $noAkun[$key1]['noAkun'] = $ns->noAkun;
                 $noAkun[$key1]['hasilAkhir'] = $filterParent[0]->testJumlah - $filterParent2[0]->testJumlah;
+                if(@$filterParent[0]->status == 'DEBIT' && @$filterParent[0]->tipeAkun == 'Kewajiban'){
+                    $noAkun[0]['hasilAkhir'] += $filterParent[0]->testJumlah;
+                }
                 $noAkun[$key1]['tipeAkun'] = $filterParent[0]->tipeAkun;
                 $noAkun[$key1]['namaAkun'] = $filterParent[0]->namaAkun;
                 $noAkun[$key1]['statusAkun'] = $filterParent[0]->status;
@@ -77,7 +80,7 @@ class NeracaController extends Controller
                     $noAkun[$key1]['statusAkun'] = 'DEBIT';
                 }
             }
-            if (@$filterParent2[0]->tipeAkun == 'Pendapatan') {
+            if (@$filterParent[0]->tipeAkun == 'Pendapatan') {
                 $noAkun[$key1]['noAkun'] = $ns->noAkun;
                 $noAkun[$key1]['hasilAkhir'] = $filterParent[0]->testJumlah;
                 $noAkun[$key1]['tipeAkun'] = $filterParent[0]->tipeAkun;
@@ -150,7 +153,6 @@ class NeracaController extends Controller
 
         $totalSimpanan = $totalSimpanan + $simpananPokok + $simpananWajib + $simpananKhusus;
 
-        $key = 'Kas';
         $result = collect($noAkun)->contains('namaAkun', 'Kas');
 
         if ($result == true){
@@ -181,6 +183,8 @@ class NeracaController extends Controller
 
         $noAkun = array_values($noAkun);
 
+
+
         return view('admin/neraca.index',[
             'akun' => $noAkun,
             'modalSendiri' => $modalSendiri,
@@ -202,6 +206,7 @@ class NeracaController extends Controller
     public function getNeracaPercobaan(Request $request){
 
         $bulan = Carbon::parse($request->dariTanggal)->format('m');
+        $tahun = Carbon::parse($request->dariTanggal)->format('Y');
         $dariTanggal = $request->sampaiTanggal;
 
         $noAkun = [];
@@ -224,6 +229,7 @@ class NeracaController extends Controller
             ->selectRaw('cast(sum(jurnal_umum.jumlah)as UNSIGNED) as testJumlah')
             ->where('jurnal_umum.noAkun', $ns->noAkun)
             ->whereMonth('jurnal_umum.tanggal', '<', $bulan)
+            ->whereYear('jurnal_umum.tanggal', '<=', $tahun)
             ->get();
 
             if (@$filterParent[0]->testJumlah != null ) {
@@ -247,6 +253,62 @@ class NeracaController extends Controller
             }
         }
 
+        $noAkun = array_values($noAkun);
+
+        $denda = DB::table('angsuran')
+                            ->whereMonth('tanggalBayar', '<', $bulan)
+                            ->whereYear('tanggalBayar', '<=', $tahun)
+                            ->sum('denda');
+
+        $bunga = DB::table('angsuran')
+                        ->whereMonth('tanggalBayar', '<', $bulan)
+                        ->whereYear('tanggalBayar', '<=', $tahun)
+                        ->sum('bunga');
+
+        $bungaSimpanan = DB::table('detail_simpanan')
+                        ->where('keterangan','CRB')
+                        ->whereMonth('tanggal', '<', $bulan)
+                        ->whereYear('tanggal', '<=', $tahun)
+                        ->sum('jumlah');
+
+        $result = collect($noAkun)->contains('namaAkun', 'Beban bunga simpanan');
+
+        if ($result == true){
+            for($x=0;$x<$count;$x++){
+                if($noAkun[$x]['namaAkun'] == 'Beban bunga simpanan'){
+                    $total = $noAkun[$x]['hasilAkhir'];
+                    $totalAkhir = $total + $bungaSimpanan;
+                    $noAkun[$x]['hasilAkhir'] = $totalAkhir;
+                }
+            }
+        } else {
+            $count = count($noAkun);
+            $noAkun[$count]['noAkun'] = 514;
+            $noAkun[$count]['hasilAkhir'] = $bungaSimpanan;
+            $noAkun[$count]['tipeAkun'] = 'Beban';
+            $noAkun[$count]['namaAkun'] = 'Beban bunga simpanan';
+            $noAkun[$count]['status'] = 'KREDIT';
+        }
+
+        $result = collect($noAkun)->contains('namaAkun', 'Pendapatan');
+
+        if ($result == true){
+            for($x=0;$x<$count;$x++){
+                if($noAkun[$x]['namaAkun'] == 'Pendapatan'){
+                    $total = $noAkun[$x]['hasilAkhir'];
+                    $totalAkhir = $total + $denda + $bunga;
+                    $noAkun[$x]['hasilAkhir'] = $totalAkhir;
+                }
+            }
+        } else {
+            $count = count($noAkun);
+            $noAkun[$count]['noAkun'] = 400;
+            $noAkun[$count]['hasilAkhir'] = $bungaSimpanan;
+            $noAkun[$count]['tipeAkun'] = 'Beban';
+            $noAkun[$count]['namaAkun'] = 'Pendapatan';
+            $noAkun[$count]['status'] = 'KREDIT';
+        }
+
         $noAkunNow = [];
         $noAkun_search = DB::table('akun')->orderBy('noAkun', 'asc')->get();
 
@@ -267,6 +329,7 @@ class NeracaController extends Controller
             ->selectRaw('cast(sum(jurnal_umum.jumlah)as UNSIGNED) as testJumlah')
             ->where('jurnal_umum.noAkun', $ns->noAkun)
             ->whereMonth('jurnal_umum.tanggal', $bulan)
+            ->whereYear('jurnal_umum.tanggal', '<=', $tahun)
             ->get();
 
             if (@$filterParent[0]->testJumlah != null ) {
@@ -288,6 +351,62 @@ class NeracaController extends Controller
                     $noAkunNow[$key1]['status'] = 'KREDIT';
                 }
             }
+        }
+
+        $noAkunNow = array_values($noAkunNow);
+
+        $denda = DB::table('angsuran')
+                        ->whereMonth('tanggalBayar', '<', $bulan)
+                        ->whereYear('tanggalBayar', '<=', $tahun)
+                        ->sum('denda');
+
+        $bunga = DB::table('angsuran')
+                        ->whereMonth('tanggalBayar', '<', $bulan)
+                        ->whereYear('tanggalBayar', '<=', $tahun)
+                        ->sum('bunga');
+
+        $bungaSimpanan = DB::table('detail_simpanan')
+                        ->where('keterangan','CRB')
+                        ->whereMonth('tanggal', '<', $bulan)
+                        ->whereYear('tanggal', '<=', $tahun)
+                        ->sum('jumlah');
+
+        $result = collect($noAkunNow)->contains('namaAkun', 'Beban bunga simpanan');
+
+        if ($result == true){
+            for($x=0;$x<$count;$x++){
+                if($noAkunNow[$x]['namaAkun'] == 'Beban bunga simpanan'){
+                    $total = $noAkunNow[$x]['hasilAkhir'];
+                    $totalAkhir = $total + $bungaSimpanan;
+                    $noAkunNow[$x]['hasilAkhir'] = $totalAkhir;
+                }
+            }
+        } else {
+            $count = count($noAkunNow);
+            $noAkunNow[$count]['noAkun'] = 514;
+            $noAkunNow[$count]['hasilAkhir'] = $bungaSimpanan;
+            $noAkunNow[$count]['tipeAkun'] = 'Beban';
+            $noAkunNow[$count]['namaAkun'] = 'Beban bunga simpanan';
+            $noAkunNow[$count]['status'] = 'KREDIT';
+        }
+
+        $result = collect($noAkunNow)->contains('namaAkun', 'Pendapatan');
+
+        if ($result == true){
+            for($x=0;$x<$count;$x++){
+                if($noAkunNow[$x]['namaAkun'] == 'Pendapatan'){
+                    $total = $noAkunNow[$x]['hasilAkhir'];
+                    $totalAkhir = $total + $denda + $bunga;
+                    $noAkunNow[$x]['hasilAkhir'] = $totalAkhir;
+                }
+            }
+        } else {
+            $count = count($noAkunNow);
+            $noAkunNow[$count]['noAkun'] = 400;
+            $noAkunNow[$count]['hasilAkhir'] = $bungaSimpanan;
+            $noAkunNow[$count]['tipeAkun'] = 'Beban';
+            $noAkunNow[$count]['namaAkun'] = 'Pendapatan';
+            $noAkunNow[$count]['status'] = 'KREDIT';
         }
 
         return view('admin/neraca.indexPercobaan',[

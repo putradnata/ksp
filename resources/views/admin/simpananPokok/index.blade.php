@@ -46,7 +46,7 @@
                         <td>{{ $simpananPokok->syarat }}</td>
                         <td>@currency($simpananPokok->jumlah)</td>
                         <td>
-                            <a class="btn btn-sm btn-warning light-s" href="{{ route('simpananPokok.edit', $simpananPokok->kode) }}"><span class="fas fa-pencil-alt"></span></a>
+                            {{-- <a class="btn btn-sm btn-warning light-s" href="{{ route('simpananPokok.edit', $simpananPokok->kode) }}"><span class="fas fa-pencil-alt"></span></a> --}}
                             <a class="btn btn-sm btn-primary light-s" href="{{ route('simpananPokok.report', $simpananPokok->kode) }}" target="blank"><span class="fas fa-print"></span></a>
                         </td>
                     </tr>

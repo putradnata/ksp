@@ -149,7 +149,7 @@
                         @endif
                     @endforeach
                     <tr>
-                        <td>Suku bunga simpanan</td>
+                        <td>Beban bunga simpanan</td>
                         <td>@currency($bungaSimpanan)</td>
                         @php
                             $totalBeban+=$bungaSimpanan;
