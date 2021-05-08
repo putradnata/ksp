@@ -166,29 +166,33 @@
                             <th>Aktiva Lancar</th>
                         </tr>
                         @php
-                        $z = count($akun);
-                        $totalAktivaLancar = 0;
-                        $totalAktivaTetap = 0;
-                        $totalPendapatan = 0;
-                        $totalBeban = 0;
-                        $totalModalSendiri = 0;
-                        $totalKewajiban = 0;
-                        $pasivaKeseluruhan = 0;
-                        $pendapatan = 0;
-                        $kewajiban = 0;
+                            $countAkun = count($akun);
+                            $totalAktivaLancar = 0;
+                            $totalAktivaTetap = 0;
+                            $totalPendapatan = 0;
+                            $totalBeban = 0;
+                            $totalModalSendiri = 0;
+                            $totalKewajiban = 0;
+                            $pasivaKeseluruhan = 0;
+                            $pendapatan = 0;
+                            $kewajiban = 0;
                         @endphp
-                        @for ($a = 0; $a < $z; $a++)
-                        @if ($akun[$a]['statusAkun'] == 'KREDIT' )
-                            @php
-                                $pendapatan+=$akun[$a]['hasilAkhir'];
-                            @endphp
-                        @endif
-                        @endfor
-                        @for ($i = 0; $i < $z; $i++)
+
+                        {{-- @for ($a = 0; $a < $countAkun; $a++)
+                            @if ($akun[$a]['statusAkun'] == 'KREDIT' )
+                                @php
+                                    $pendapatan += $akun[$a]['hasilAkhir'];
+                                @endphp
+                            @endif
+                        @endfor --}}
+                        @for ($i = 0; $i < $countAkun; $i++)
                             @if ($akun[$i]['tipeAkun'] === 'Aktiva Lancar')
                             <tr>
                                 <td style="width:10em">{{ $akun[$i]['namaAkun'] }}</td>
                                 @if ($akun[$i]['namaAkun'] == "Kas" )
+                                    @php
+                                        // echo $pendapatan;
+                                    @endphp
                                     <td>@currency($akun[$i]['hasilAkhir'] - $pendapatan)</td>
                                 @else
                                     <td>@currency($akun[$i]['hasilAkhir'])</td>
@@ -211,7 +215,7 @@
                         <tr>
                             <th>Aktiva Tetap</th>
                         </tr>
-                        @for ($i = 0; $i < $z; $i++)
+                        @for ($i = 0; $i < $countAkun; $i++)
                             @if ($akun[$i]['tipeAkun'] === 'Aktiva Tetap')
                             <tr>
                                 <td style="width:10em">{{ $akun[$i]['namaAkun'] }}</td>
@@ -252,7 +256,7 @@
                         <tr>
                             <th>Kewajiban</th>
                         </tr>
-                        @for ($i = 0; $i < $z; $i++)
+                        @for ($i = 0; $i < $countAkun; $i++)
                                 @if ($akun[$i]['tipeAkun'] == 'Kewajiban')
                                 <tr>
                                     <td style="width:10em">{{ $akun[$i]['namaAkun'] }}</td>

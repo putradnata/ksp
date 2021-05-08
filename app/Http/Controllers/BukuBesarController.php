@@ -25,6 +25,7 @@ class BukuBesarController extends Controller
                             'jurnal_umum.tanggal as Tanggal',
                             'jurnal_umum.noTransaksi as NoTransaksi',
                             'akun.nama as Akun',
+                            'akun.tipe as Tipe',
                             'jurnal_umum.keterangan as Keterangan',
                             'jurnal_umum.jumlah as JumlahTransaksi',
                             'jurnal_umum.status as Posisi'

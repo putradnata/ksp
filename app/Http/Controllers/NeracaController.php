@@ -29,6 +29,25 @@ class NeracaController extends Controller
 
         foreach ($noAkun_search as $key1 => $ns) {
 
+            // echo 'asd '.$key1;
+
+            // $filterParent = DB::table('jurnal_umum')
+            // ->join('akun','jurnal_umum.noAkun','=','akun.noAkun')
+            // ->select(
+            //     'jurnal_umum.id as IDJurnal',
+            //     'jurnal_umum.noTransaksi',
+            //     'jurnal_umum.tanggal',
+            //     'jurnal_umum.status',
+            //     'jurnal_umum.keterangan',
+            //     'jurnal_umum.noAkun',
+            //     'akun.nama as namaAkun',
+            //     'akun.tipe as tipeAkun',
+            // )
+            // ->selectRaw('cast(sum(jurnal_umum.jumlah)as UNSIGNED) as testJumlah')
+            // ->where('jurnal_umum.noAkun', $ns->noAkun)
+            // ->whereBetween('jurnal_umum.tanggal',[$request->dariTanggal,$request->sampaiTanggal])
+            // ->get();
+
             $filterParent = DB::table('jurnal_umum')
             ->join('akun','jurnal_umum.noAkun','=','akun.noAkun')
             ->select(
@@ -40,11 +59,19 @@ class NeracaController extends Controller
                 'jurnal_umum.noAkun',
                 'akun.nama as namaAkun',
                 'akun.tipe as tipeAkun',
+                'jurnal_umum.jumlah as testJumlah'
             )
-            ->selectRaw('cast(sum(jurnal_umum.jumlah)as UNSIGNED) as testJumlah')
-            ->where('jurnal_umum.noAkun', $ns->noAkun)
+            ->where('jurnal_umum.noAkun',$ns->noAkun)
             ->whereBetween('jurnal_umum.tanggal',[$request->dariTanggal,$request->sampaiTanggal])
             ->get();
+
+            // $ddz = $filterParent->toSql();
+            // $binding = $filterParent->getBindings();
+
+            // echo "<pre>";
+            // var_dump($filterParent);
+            // print_r($ns);
+            // echo " =========================================================== </pre>";
 
             $filterParent2 = DB::table('jurnal_umum')
             ->join('akun','jurnal_umum.noAkun','=','akun.noAkun')
@@ -64,22 +91,53 @@ class NeracaController extends Controller
             ->whereBetween('jurnal_umum.tanggal',[$request->dariTanggal,$request->sampaiTanggal])
             ->get();
 
-            if (@$filterParent[0]->testJumlah != null ) {
-                $noAkun[$key1]['noAkun'] = $ns->noAkun;
-                $noAkun[$key1]['hasilAkhir'] = $filterParent[0]->testJumlah - $filterParent2[0]->testJumlah;
-                if(@$filterParent[0]->status == 'DEBIT' && @$filterParent[0]->tipeAkun == 'Kewajiban'){
-                    $noAkun[0]['hasilAkhir'] += $filterParent[0]->testJumlah;
-                }
-                $noAkun[$key1]['tipeAkun'] = $filterParent[0]->tipeAkun;
-                $noAkun[$key1]['namaAkun'] = $filterParent[0]->namaAkun;
-                $noAkun[$key1]['statusAkun'] = $filterParent[0]->status;
-                if(@$filterParent[0]->tipeAkun == "Aktiva Tetap"){
-                    $noAkun[$key1]['statusAkun'] = 'KREDIT';
-                }
-                if(@$filterParent[0]->namaAkun == "Kas"){
-                    $noAkun[$key1]['statusAkun'] = 'DEBIT';
+
+            $noAkun[$key1]['hasilAkhir'] = 0;
+            foreach ($filterParent as $value) {
+                if ($value->testJumlah != null ) {
+                    $noAkun[$key1]['noAkun'] = $ns->noAkun;
+
+                    // print_r('<= '.$value->testJumlah.' => ');
+                    if(
+                        $value->tipeAkun == 'Aktiva Lancar' ||
+                        $value->tipeAkun == 'Aktiva Tetap' ||
+                        $value->tipeAkun == 'Harta Tak Berwujud' ||
+                        $value->tipeAkun == 'Beban'
+                    ) {
+                        if($value->status == 'DEBIT') {
+                            $noAkun[$key1]['hasilAkhir'] += $value->testJumlah;
+                        }
+                        if($value->status == 'KREDIT') {
+                            $noAkun[$key1]['hasilAkhir'] -= $value->testJumlah;
+                        }
+                        $noAkun[$key1]['statusAkun'] = 'DEBIT';
+                    }
+
+                    if(
+                        $value->tipeAkun == 'Kewajiban' ||
+                        $value->tipeAkun == 'Ekuitas' ||
+                        $value->tipeAkun == 'Pendapatan'
+                    ) {
+                        // echo $value->testJumlah.' <=> '.$noAkun[$key1]['hasilAkhir'];
+
+                        if($value->status == 'DEBIT') {
+                            $noAkun[$key1]['hasilAkhir'] -= $value->testJumlah;
+                        }
+                        if($value->status == 'KREDIT') {
+                            $noAkun[$key1]['hasilAkhir'] += $value->testJumlah;
+                        }
+                        $noAkun[$key1]['statusAkun'] = 'KREDIT';
+                    }
+
+
+                    $noAkun[$key1]['tipeAkun'] = $value->tipeAkun;
+                    $noAkun[$key1]['namaAkun'] = $value->namaAkun;
+                    // if(@$value->namaAkun == "Kas"){
+                    //     $noAkun[$key1]['statusAkun'] = 'DEBIT';
+                    // }
                 }
             }
+
             if (@$filterParent[0]->tipeAkun == 'Pendapatan') {
                 $noAkun[$key1]['noAkun'] = $ns->noAkun;
                 $noAkun[$key1]['hasilAkhir'] = $filterParent[0]->testJumlah;
@@ -93,6 +151,8 @@ class NeracaController extends Controller
         }
 
         $noAkun = array_values($noAkun);
+
+        dd($noAkun);
 
         $dataSimpanan = DB::select('
             SELECT
@@ -182,8 +242,6 @@ class NeracaController extends Controller
         }
 
         $noAkun = array_values($noAkun);
-
-
 
         return view('admin/neraca.index',[
             'akun' => $noAkun,

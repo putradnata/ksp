@@ -108,17 +108,43 @@
                         <td>{{ $accountActivity->Akun }}</td>
                         <td>{{ $accountActivity->Keterangan }}</td>
                         @php
+                            // Aktiva
+                            if(
+                                $accountActivity->Tipe == 'Aktiva Lancar' ||
+                                $accountActivity->Tipe == 'Aktiva Tetap' ||
+                                $accountActivity->Tipe == 'Harta Tak Berwujud' ||
+                                $accountActivity->Tipe == 'Beban'
+                            ) {
+                                if($accountActivity->Posisi == 'DEBIT'){
+                                    $saldo += $accountActivity->JumlahTransaksi;
+                                    echo "<td>Rp.".number_format($accountActivity->JumlahTransaksi, 0,",",".")."</td>";
+                                    echo "<td> - </td>";
+                                }
 
-                            if($accountActivity->Posisi == 'DEBIT'){
-                                $saldo+=$accountActivity->JumlahTransaksi;
-                                echo "<td>Rp.".number_format($accountActivity->JumlahTransaksi, 0,",",".")."</td>";
-                                echo "<td> - </td>";
+                                if($accountActivity->Posisi == 'KREDIT'){
+                                    $saldo -= $accountActivity->JumlahTransaksi;
+                                    echo "<td> - </td>";
+                                    echo "<td>Rp.".number_format($accountActivity->JumlahTransaksi, 0,",",".")."</td>";
+                                }
                             }
 
-                            if($accountActivity->Posisi == 'KREDIT'){
-                                $saldo-=$accountActivity->JumlahTransaksi;
-                                echo "<td> - </td>";
-                                echo "<td>Rp.".number_format($accountActivity->JumlahTransaksi, 0,",",".")."</td>";
+                            // Pasiva
+                            if(
+                                $accountActivity->Tipe == 'Kewajiban' ||
+                                $accountActivity->Tipe == 'Ekuitas' ||
+                                $accountActivity->Tipe == 'Pendapatan'
+                            ) {
+                                if($accountActivity->Posisi == 'DEBIT'){
+                                    $saldo -= $accountActivity->JumlahTransaksi;
+                                    echo "<td>Rp.".number_format($accountActivity->JumlahTransaksi, 0,",",".")."</td>";
+                                    echo "<td> - </td>";
+                                }
+
+                                if($accountActivity->Posisi == 'KREDIT'){
+                                    $saldo += $accountActivity->JumlahTransaksi;
+                                    echo "<td> - </td>";
+                                    echo "<td>Rp.".number_format($accountActivity->JumlahTransaksi, 0,",",".")."</td>";
+                                }
                             }
                         @endphp
 
