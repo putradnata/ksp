@@ -119,7 +119,7 @@ div.cls_009 {
             <table class="shu" style="width: 100%">
                 <tbody>
                     <tr>
-                        <td colspan="2"><strong>Pendapatan</strong></td>
+                        <td><strong>Pendapatan</strong></td>
                     </tr>
                     @php
                         $totalPendapatan = 0;
@@ -138,56 +138,32 @@ div.cls_009 {
                         @endif
                     @endforeach
                     <tr>
-                        <td>Bunga pinjaman</td>
-                        <td>@currency($bunga)</td>
-                        @php
-                            $totalPendapatan+=$bunga;
-                        @endphp
-                    </tr>
-                    <tr>
-                        <td>Denda pinjaman</td>
-                        <td>@currency($denda)</td>
-                        @php
-                            $totalPendapatan+=$denda;
-                        @endphp
-                    </tr>
-                    <tr>
                         <td><strong>Total Pendapatan</strong></td>
                         <td>@currency($totalPendapatan)</td>
                     </tr>
 
                     <tr>
-                        <td colspan="2"><strong>Beban</strong></td>
+                        <td><strong>Beban</strong></td>
                     </tr>
-                    @foreach ($filter as $shu)
-                        @if ($shu->tipeAkun == 'Beban')
+                    @foreach ($filter2 as $shu2)
+                        @if ($shu2->tipeAkun == 'Beban')
                             <tr>
-                                <td>{{ $shu->namaAkun }}</td>
-                                <td>@currency($shu->jumlah)</td>
+                                <td>{{ $shu2->namaAkun }}</td>
+                                <td>@currency($shu2->jumlah)</td>
                             </tr>
                             @php
-                                    $totalBeban+=$shu->jumlah;
+                                    $totalBeban+=$shu2->jumlah;
                             @endphp
                         @endif
                     @endforeach
                     <tr>
-                        <td>Suku bunga simpanan</td>
-                        <td>@currency($bungaSimpanan)</td>
-                        @php
-                            $totalBeban+=$bungaSimpanan;
-                        @endphp
-                    </tr>
-                    <tr>
                         <td><strong>Total Beban</strong></td>
                         <td>@currency($totalBeban)</td>
                     </tr>
-                    <tr>
-                        <td colspan="2">
-                            <hr>
-                        </td>
-                    </tr>
+
                 </tbody>
-                <tfoot style="border-top:solid 4px">
+
+                <tfoot style="border-top:solid 4px !important;">
                     <td><strong>Total SHU</strong></td>
                     <td>@currency($totalPendapatan - $totalBeban)</td>
                 </tfoot>

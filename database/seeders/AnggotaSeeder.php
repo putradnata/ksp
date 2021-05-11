@@ -16,9 +16,9 @@ class AnggotaSeeder extends Seeder
     {
         DB::table('anggota')->insert([
             'id'=> 'A001',
-            'nama' => 'Laswi Raden Saragih',
-            'alamat' => 'Psr. Bagas Pati No. 578',
-            'tempatLahir' => 'Banda Aceh',
+            'nama' => 'Wayan Kusuma Putra',
+            'alamat' => 'Jl. Raya Guwang No. 55, Sukawati',
+            'tempatLahir' => 'Gianyar',
             'tanggalLahir' => '1964-01-01',
             'jenisKelamin' => 'P',
             'pekerjaan' => 'Admin',
@@ -30,9 +30,9 @@ class AnggotaSeeder extends Seeder
 
         DB::table('anggota')->insert([
             'id'=> 'A002',
-            'nama' => 'Kania Riyanti',
-            'alamat' => 'Jln. Bagonwoto No. 686',
-            'tempatLahir' => 'Sulawesi Selatan',
+            'nama' => 'Ni Putu Kania Riyanti',
+            'alamat' => 'Jl. Pantai Purnama, Banjar Palak, Sukawati',
+            'tempatLahir' => 'Gianyar',
             'tanggalLahir' => '1980-11-23',
             'jenisKelamin' => 'P',
             'pekerjaan' => 'Kasir',
@@ -44,9 +44,9 @@ class AnggotaSeeder extends Seeder
 
         DB::table('anggota')->insert([
             'id'=> 'A003',
-            'nama' => 'Harto Gadang Prasasta',
-            'alamat' => 'Psr. Basket No. 233',
-            'tempatLahir' => 'Sulawesi Utara',
+            'nama' => 'I Made Subagia',
+            'alamat' => 'Jl. Margapati No.15, Sukawati',
+            'tempatLahir' => 'Gianyar',
             'tanggalLahir' => '1970-03-19',
             'jenisKelamin' => 'L',
             'pekerjaan' => 'HRD',
@@ -58,8 +58,8 @@ class AnggotaSeeder extends Seeder
 
         DB::table('anggota')->insert([
             'id'=> 'A004',
-            'nama' => 'Yessi Prastuti',
-            'alamat' => 'Ki. Haji No. 976',
+            'nama' => 'Ni Nyoman Yessi Prastuti',
+            'alamat' => 'Jl. Padma No.3, Sukawati',
             'tempatLahir' => 'Tangerang',
             'tanggalLahir' => '1987-04-05',
             'jenisKelamin' => 'P',
@@ -72,8 +72,8 @@ class AnggotaSeeder extends Seeder
 
         DB::table('anggota')->insert([
             'id'=> 'A005',
-            'nama' => 'Gandi Saputra',
-            'alamat' => 'Dk. Suharso No. 432',
+            'nama' => 'I Gede Gandi Saputra',
+            'alamat' => 'Jl. Sersan Wayan Pugig No.10, Sukawati',
             'tempatLahir' => 'Padang',
             'tanggalLahir' => '1990-07-12',
             'jenisKelamin' => 'L',

@@ -16,7 +16,7 @@ class CreateAkunsTable extends Migration
         Schema::create('akun', function (Blueprint $table) {
             $table->id('noAkun');
             $table->string('nama', 50);
-            $table->string('tipe', 50);
+            $table->enum('tipe', ['Aktiva Lancar', 'Aktiva Tetap', 'Harta Tak Berwujud', 'Kewajiban', 'Ekuitas', 'Pendapatan', 'Beban']);
             $table->bigInteger('saldo');
             $table->timestamps();
         });

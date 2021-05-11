@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\SimpananWajib;
+use App\Models\JurnalUmum;
 use Illuminate\Http\Request;
 use DB;
 
@@ -69,6 +70,10 @@ class SimpananWajibController extends Controller
      */
     public function store(Request $request)
     {
+        $checkerAnggota = DB::table('anggota')
+            ->where('id', $request->idAnggota)
+            ->value('anggota.nama');
+
         $messages = array(
             'tanggal.required' => 'Tanggal simpanan tidak boleh kosong!',
             'idAnggota.required' => 'Nama anggota tidak boleh kosong!',
@@ -92,6 +97,34 @@ class SimpananWajibController extends Controller
         ];
 
         $insertData = SimpananWajib::create($data);
+
+        $lastNo = JurnalUmum::select('noTransaksi')->orderByDesc('noTransaksi')->first();
+        $lastNo=(int)substr($lastNo , -5);
+        $newgeneratedNo = "JU-".str_pad($lastNo+1, 5, "0", STR_PAD_LEFT);
+
+        $data1 = [
+            'noTransaksi' => $newgeneratedNo,
+            'noAkun' => 111,
+            'tanggal' => $request->tanggal,
+            'jumlah' => $request->jumlah,
+            'status' => 'DEBIT',
+            'keterangan' => 'Setoran simpanan wajib '.$checkerAnggota,
+            'idAdmin' => auth()->user()->id
+        ];
+
+        $insertJurnal1 = JurnalUmum::create($data1);
+
+        $data2 = [
+            'noTransaksi' => $newgeneratedNo,
+            'noAkun' => 314,
+            'tanggal' => $request->tanggal,
+            'jumlah' => $request->jumlah,
+            'status' => 'KREDIT',
+            'keterangan' => 'Setoran simpanan wajib '.$checkerAnggota,
+            'idAdmin' => auth()->user()->id
+        ];
+
+        $insertJurnal2 = JurnalUmum::create($data2);
 
         if($insertData){
             return redirect('admin/simpananWajib')->with('success','Data Berhasil Disimpan');

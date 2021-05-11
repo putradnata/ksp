@@ -101,6 +101,20 @@
                     @php
                     $saldo = 0;
                     @endphp
+                    {{-- @foreach ($showSaldoAwal as $showSaldoAwal)
+                    <tr>
+                        <td>&ensp;</td>
+                        <td>&ensp;</td>
+                        <td>{{ $showSaldoAwal->namaAkun }}</td>
+                        <td>Saldo awal</td>
+                        <td>&ensp;</td>
+                        <td>&ensp;</td>
+                        @php
+                            $saldo += $showSaldoAwal->saldoAwal;
+                        @endphp
+                        <td>@currency($saldo)</td>
+                    </tr>
+                    @endforeach --}}
                     @foreach ($accountActivities as $accountActivity)
                     <tr>
                         <td>{{ $accountActivity->Tanggal }}</td>

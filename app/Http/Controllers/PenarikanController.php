@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Penarikan;
+use App\Models\JurnalUmum;
 use Illuminate\Http\Request;
 use DB;
 
@@ -59,7 +60,7 @@ class PenarikanController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->saldoAkhir == "Saldo tidak mencukupi!"){
+        if($request->saldoAkhir == "Saldo tidak mencukupi!" || $request->jumlah <= 0){
             return redirect('admin/penarikan/create')->withErrors('Saldo anggota tidak mencukupi !');
         }else{
             $request->saldo = intval(preg_replace('/[^0-9]+/', '', $request->saldo), 10);
@@ -83,6 +84,11 @@ class PenarikanController extends Controller
         $new +=1;
         $kodeDetailSimpanan = $code.sprintf("%03d", $new);
 
+        $checkerAnggota = DB::table('simpanan')
+            ->join('anggota', 'anggota.id','simpanan.idAnggota')
+            ->where('kode', $request->kodeSimpanan)
+            ->value('anggota.nama');
+
         $data = [
             'kode'=> $kodeDetailSimpanan,
             'kodeSimpanan' => $request->kodeSimpanan,
@@ -93,6 +99,34 @@ class PenarikanController extends Controller
         ];
 
         $insertData = Penarikan::create($data);
+
+        $lastNo = JurnalUmum::select('noTransaksi')->orderByDesc('noTransaksi')->first();
+        $lastNo=(int)substr($lastNo , -5);
+        $newgeneratedNo = "JU-".str_pad($lastNo+1, 5, "0", STR_PAD_LEFT);
+
+        $data1 = [
+            'noTransaksi' => $newgeneratedNo,
+            'noAkun' => 223,
+            'tanggal' => $request->tanggal,
+            'jumlah' => $request->jumlah,
+            'status' => 'DEBIT',
+            'keterangan' => 'Penarikan simpanan harian '.$checkerAnggota,
+            'idAdmin' => auth()->user()->id
+        ];
+
+        $insertJurnal1 = JurnalUmum::create($data1);
+
+        $data2 = [
+            'noTransaksi' => $newgeneratedNo,
+            'noAkun' => 111,
+            'tanggal' => $request->tanggal,
+            'jumlah' => $request->jumlah,
+            'status' => 'KREDIT',
+            'keterangan' => 'Penarikan simpanan harian '.$checkerAnggota,
+            'idAdmin' => auth()->user()->id
+        ];
+
+        $insertJurnal2 = JurnalUmum::create($data2);
 
         if($insertData){
             return redirect('admin/simpanan')->with('success','Data Berhasil Disimpan');

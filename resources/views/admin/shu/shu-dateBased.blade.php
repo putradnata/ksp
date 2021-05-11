@@ -87,14 +87,14 @@
                     <tr>
                         <td><strong>Beban</strong></td>
                     </tr>
-                    @foreach ($filter as $shu)
-                        @if ($shu->tipeAkun == 'Beban')
+                    @foreach ($filter2 as $shu2)
+                        @if ($shu2->tipeAkun == 'Beban')
                             <tr>
-                                <td>{{ $shu->namaAkun }}</td>
-                                <td>@currency($shu->jumlah)</td>
+                                <td>{{ $shu2->namaAkun }}</td>
+                                <td>@currency($shu2->jumlah)</td>
                             </tr>
                             @php
-                                    $totalBeban+=$shu->jumlah;
+                                    $totalBeban+=$shu2->jumlah;
                             @endphp
                         @endif
                     @endforeach

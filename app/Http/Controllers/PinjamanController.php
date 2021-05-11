@@ -99,6 +99,10 @@ class PinjamanController extends Controller
             'jumlah' => 'required'
         ],$messages);
 
+        $checkerAnggota = DB::table('anggota')
+            ->where('id', $request->idAnggota)
+            ->value('anggota.nama');
+
         $data = [
             'kode'=> $request->kode,
             'idAnggota' => $request->idAnggota,
@@ -119,11 +123,11 @@ class PinjamanController extends Controller
 
         $data1 = [
             'noTransaksi' => $newgeneratedNo,
-            'noAkun' => '111',
+            'noAkun' => 117,
             'tanggal' => $request->tanggal,
-            'jumlah' => $request->administrasi + $request->materai,
+            'jumlah' => $request->jumlah,
             'status' => 'DEBIT',
-            'keterangan' => 'Administrasi pinjaman',
+            'keterangan' => 'Pinjaman anggota '.$checkerAnggota,
             'idAdmin' => auth()->user()->id
         ];
 
@@ -131,11 +135,67 @@ class PinjamanController extends Controller
 
         $data2 = [
             'noTransaksi' => $newgeneratedNo,
-            'noAkun' => '400',
+            'noAkun' => 111,
             'tanggal' => $request->tanggal,
-            'jumlah' => $request->administrasi + $request->materai,
+            'jumlah' => $request->jumlah,
             'status' => 'KREDIT',
-            'keterangan' => 'Administrasi pinjaman',
+            'keterangan' => 'Pinjaman anggota '.$checkerAnggota,
+            'idAdmin' => auth()->user()->id
+        ];
+
+        $insertJurnal2 = JurnalUmum::create($data2);
+
+        $lastNo = JurnalUmum::select('noTransaksi')->orderByDesc('noTransaksi')->first();
+        $lastNo=(int)substr($lastNo , -5);
+        $newgeneratedNo = "JU-".str_pad($lastNo+1, 5, "0", STR_PAD_LEFT);
+
+        $data1 = [
+            'noTransaksi' => $newgeneratedNo,
+            'noAkun' => 111,
+            'tanggal' => $request->tanggal,
+            'jumlah' => $request->administrasi,
+            'status' => 'DEBIT',
+            'keterangan' => 'Pendapatan administrasi pinjaman ('.$request->kode.')'.' '. $checkerAnggota,
+            'idAdmin' => auth()->user()->id
+        ];
+
+        $insertJurnal1 = JurnalUmum::create($data1);
+
+        $data2 = [
+            'noTransaksi' => $newgeneratedNo,
+            'noAkun' => 414,
+            'tanggal' => $request->tanggal,
+            'jumlah' => $request->administrasi,
+            'status' => 'KREDIT',
+            'keterangan' => 'Pendapatan administrasi pinjaman ('.$request->kode.')'.' '. $checkerAnggota,
+            'idAdmin' => auth()->user()->id
+        ];
+
+        $insertJurnal2 = JurnalUmum::create($data2);
+
+        $lastNo = JurnalUmum::select('noTransaksi')->orderByDesc('noTransaksi')->first();
+        $lastNo=(int)substr($lastNo , -5);
+        $newgeneratedNo = "JU-".str_pad($lastNo+1, 5, "0", STR_PAD_LEFT);
+
+        $data1 = [
+            'noTransaksi' => $newgeneratedNo,
+            'noAkun' => 111,
+            'tanggal' => $request->tanggal,
+            'jumlah' => $request->materai,
+            'status' => 'DEBIT',
+            'keterangan' => 'Pendapatan materai pinjaman ('.$request->kode.')'.' '. $checkerAnggota,
+            'idAdmin' => auth()->user()->id
+        ];
+
+        $insertJurnal1 = JurnalUmum::create($data1);
+
+        $data2 = [
+            'noTransaksi' => $newgeneratedNo,
+            'noAkun' => 415,
+            'tanggal' => $request->tanggal,
+            'jumlah' => $request->materai,
+            'status' => 'KREDIT',
+            'keterangan' => 'Pendapatan materai pinjaman ('.$request->kode.')'.' '. $checkerAnggota,
             'idAdmin' => auth()->user()->id
         ];
 

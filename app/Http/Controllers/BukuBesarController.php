@@ -19,6 +19,8 @@ class BukuBesarController extends Controller
 
         $showAkun = DB::table('akun')->select('noAkun','nama')->get();
 
+        $showSaldoAwal = DB::table('akun')->select('saldo as saldoAwal', 'nama as namaAkun')->where('noAkun',$request->akun)->get();
+
         $selectData = DB::table('jurnal_umum')
                         ->join('akun','akun.noAkun','=','jurnal_umum.noAkun')
                         ->select(
@@ -26,6 +28,7 @@ class BukuBesarController extends Controller
                             'jurnal_umum.noTransaksi as NoTransaksi',
                             'akun.nama as Akun',
                             'akun.tipe as Tipe',
+                            'akun.saldo as saldoAwal',
                             'jurnal_umum.keterangan as Keterangan',
                             'jurnal_umum.jumlah as JumlahTransaksi',
                             'jurnal_umum.status as Posisi'
@@ -34,10 +37,9 @@ class BukuBesarController extends Controller
                         ->whereBetween('jurnal_umum.tanggal',[$request->dariTanggal,$request->sampaiTanggal])
                         ->get();
 
-        // $data = $request->all();
-
         return view('admin/bukubesar.index')
             ->with('accountActivities', $selectData,true)
+            ->with('showSaldoAwal', $showSaldoAwal)
             ->with('akun',$showAkun);
     }
 }

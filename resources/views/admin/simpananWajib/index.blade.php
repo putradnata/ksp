@@ -12,6 +12,17 @@
 @endsection
 
 @section('contentHere')
+@if (Session::has('success'))
+    <div class="alert alert-success" style="margin-bottom: 20px;">
+        {{ Session::get('success') }}
+    </div>
+@endif
+@if (Session::has('error'))
+    <div class="alert alert-danger" style="margin-bottom: 20px;">
+        {{ Session::get('error') }}
+    </div>
+@endif
+
 <div class="card">
     <div class="card-header">
         <h3 class="card-title">Data Simpanan Wajib</h3>
@@ -61,6 +72,10 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('#tabelData').DataTable();
+
+            $(".alert").fadeTo(3000, 500).slideUp(500, function(){
+                $(".alert").slideUp(500);
+            });
         });
     </script>
 @endsection

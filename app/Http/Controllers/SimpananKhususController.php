@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\SimpananKhusus;
+use App\Models\JurnalUmum;
 use Illuminate\Http\Request;
 use DB;
 
@@ -70,10 +71,14 @@ class SimpananKhususController extends Controller
     public function store(Request $request)
     {
         $lastSimpananKhusus = DB::table('simpanan_khusus')
-                        ->select('kode','idAnggota','saldo')
-                        ->where('idAnggota', $request->idAnggota)
-                        ->orderBy('kode','desc')
-                        ->first();
+            ->select('kode','idAnggota','saldo')
+            ->where('idAnggota', $request->idAnggota)
+            ->orderBy('kode','desc')
+            ->first();
+
+        $checkerAnggota = DB::table('anggota')
+            ->where('id', $request->idAnggota)
+            ->value('anggota.nama');
 
         if($lastSimpananKhusus != null){
             $Totalsaldo = $lastSimpananKhusus->saldo + $request->jumlah;
@@ -102,6 +107,34 @@ class SimpananKhususController extends Controller
         ];
 
         $insertData = SimpananKhusus::create($data);
+
+        $lastNo = JurnalUmum::select('noTransaksi')->orderByDesc('noTransaksi')->first();
+        $lastNo=(int)substr($lastNo , -5);
+        $newgeneratedNo = "JU-".str_pad($lastNo+1, 5, "0", STR_PAD_LEFT);
+
+        $data1 = [
+            'noTransaksi' => $newgeneratedNo,
+            'noAkun' => 111,
+            'tanggal' => $request->tanggal,
+            'jumlah' => $request->jumlah,
+            'status' => 'DEBIT',
+            'keterangan' => 'Setoran simpanan khusus '.$checkerAnggota,
+            'idAdmin' => auth()->user()->id
+        ];
+
+        $insertJurnal1 = JurnalUmum::create($data1);
+
+        $data2 = [
+            'noTransaksi' => $newgeneratedNo,
+            'noAkun' => 315,
+            'tanggal' => $request->tanggal,
+            'jumlah' => $request->jumlah,
+            'status' => 'KREDIT',
+            'keterangan' => 'Setoran simpanan khusus '.$checkerAnggota,
+            'idAdmin' => auth()->user()->id
+        ];
+
+        $insertJurnal2 = JurnalUmum::create($data2);
 
         if($insertData){
             return redirect('admin/simpananKhusus')->with('success','Data Berhasil Disimpan');

@@ -73,8 +73,15 @@
 </div>
 <!-- /.row -->
 
+@if (Session::has('success'))
+    <div class="alert alert-success" style="margin-bottom: 20px;">
+        <center>{{ Session::get('success') }} {{Auth::user()->name}} !</center>
+    </div>
+@endif
+
 <div class="card">
     <div class="card-header">
+
         <h3 class="card-title">Grafik Penambahan Anggota Baru</h3>
 
         <div class="card-tools">
@@ -93,6 +100,12 @@
 
 @section('scriptPlace')
     <script type="text/javascript">
+        $(document).ready(function(){
+            $(".alert").fadeTo(3000, 500).slideUp(500, function(){
+                $(".alert").slideUp(500);
+            });
+        });
+
         Highcharts.chart('container', {
             chart: {
                 type: 'column'

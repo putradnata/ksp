@@ -70,7 +70,7 @@
                     <input type="date" name="sampaiTanggal" class="form-control" required>
                 </div>
 
-                <button type="submit" class="btn btn-success mr-4 cari"><i class="fas fa-search"></i> Cari</button>
+                <button type="submit" name="cari" value="cari" class="btn btn-success mr-4 cari"><i class="fas fa-search"></i> Cari</button>
 
                 <span class="tsb btn btn-primary mr-4">
                     <i class="fas fa-print"></i> <input type="submit" name="cetak" value="Cetak">
@@ -107,7 +107,7 @@
                     @foreach ($filter as $shu)
                         @if ($shu->tipeAkun == 'Pendapatan')
                             <tr>
-                                <td>{{ $shu->keterangan }}</td>
+                                <td>{{ $shu->namaAkun }}</td>
                                 <td>@currency($shu->jumlah)</td>
                             </tr>
                             @php
@@ -116,20 +116,6 @@
                         @endif
                     @endforeach
                     <tr>
-                        <td>Bunga pinjaman</td>
-                        <td>@currency($bunga)</td>
-                        @php
-                            $totalPendapatan+=$bunga;
-                        @endphp
-                    </tr>
-                    <tr>
-                        <td>Denda pinjaman</td>
-                        <td>@currency($denda)</td>
-                        @php
-                            $totalPendapatan+=$denda;
-                        @endphp
-                    </tr>
-                    <tr>
                         <td><strong>Total Pendapatan</strong></td>
                         <td>@currency($totalPendapatan)</td>
                     </tr>
@@ -137,24 +123,17 @@
                     <tr>
                         <td><strong>Beban</strong></td>
                     </tr>
-                    @foreach ($filter as $shu)
-                        @if ($shu->tipeAkun == 'Beban')
+                    @foreach ($filter2 as $shu2)
+                        @if ($shu2->tipeAkun == 'Beban')
                             <tr>
-                                <td>{{ $shu->keterangan }}</td>
-                                <td>@currency($shu->jumlah)</td>
+                                <td>{{ $shu2->namaAkun }}</td>
+                                <td>@currency($shu2->jumlah)</td>
                             </tr>
                             @php
-                                    $totalBeban+=$shu->jumlah;
+                                    $totalBeban+=$shu2->jumlah;
                             @endphp
                         @endif
                     @endforeach
-                    <tr>
-                        <td>Beban bunga simpanan</td>
-                        <td>@currency($bungaSimpanan)</td>
-                        @php
-                            $totalBeban+=$bungaSimpanan;
-                        @endphp
-                    </tr>
                     <tr>
                         <td><strong>Total Beban</strong></td>
                         <td>@currency($totalBeban)</td>

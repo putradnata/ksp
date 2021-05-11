@@ -174,40 +174,25 @@
                             $totalModalSendiri = 0;
                             $totalKewajiban = 0;
                             $pasivaKeseluruhan = 0;
-                            $pendapatan = 0;
-                            $kewajiban = 0;
                         @endphp
 
-                        {{-- @for ($a = 0; $a < $countAkun; $a++)
-                            @if ($akun[$a]['statusAkun'] == 'KREDIT' )
-                                @php
-                                    $pendapatan += $akun[$a]['hasilAkhir'];
-                                @endphp
-                            @endif
-                        @endfor --}}
                         @for ($i = 0; $i < $countAkun; $i++)
-                            @if ($akun[$i]['tipeAkun'] === 'Aktiva Lancar')
+                            @if ($akun[$i]['tipeAkun'] === 'Aktiva Lancar' && $akun[$i]['hasilAkhir'] != 0)
                             <tr>
                                 <td style="width:10em">{{ $akun[$i]['namaAkun'] }}</td>
-                                @if ($akun[$i]['namaAkun'] == "Kas" )
-                                    @php
-                                        // echo $pendapatan;
-                                    @endphp
-                                    <td>@currency($akun[$i]['hasilAkhir'] - $pendapatan)</td>
-                                @else
-                                    <td>@currency($akun[$i]['hasilAkhir'])</td>
-                                @endif
+                                <td>@currency($akun[$i]['hasilAkhir'])</td>
                             </tr>
                             @php
-                                $totalAktivaLancar+=$akun[$i]['hasilAkhir'];
+                                $totalAktivaLancar += $akun[$i]['hasilAkhir'];
                             @endphp
                             @endif
                         @endfor
+
                         <tr>
                             <td>
                                 <strong>Total Aktiva Lancar :</strong>
                             </td>
-                            <td>@currency($totalAktivaLancar - $pendapatan)</td>
+                            <td>@currency($totalAktivaLancar)</td>
                         </tr>
                         <tr>
                             <td>&nbsp;</td>
@@ -215,18 +200,20 @@
                         <tr>
                             <th>Aktiva Tetap</th>
                         </tr>
+
                         @for ($i = 0; $i < $countAkun; $i++)
-                            @if ($akun[$i]['tipeAkun'] === 'Aktiva Tetap')
+                            @if ($akun[$i]['tipeAkun'] === 'Aktiva Tetap' && $akun[$i]['hasilAkhir'] != 0)
                             <tr>
                                 <td style="width:10em">{{ $akun[$i]['namaAkun'] }}</td>
                                 <td>@currency($akun[$i]['hasilAkhir'])</td>
                             </tr>
 
                             @php
-                                $totalAktivaTetap+=$akun[$i]['hasilAkhir'];
+                                $totalAktivaTetap += $akun[$i]['hasilAkhir'];
                             @endphp
                             @endif
                         @endfor
+
                         <tr>
                             <td>
                                 <strong>Total Aktiva Tetap :</strong>
@@ -240,7 +227,7 @@
                             <th>Total Keseluruhan :</th>
                             <td>
                                 @php
-                                    $rs = $totalAktivaTetap + $totalAktivaLancar - $pendapatan;
+                                    $rs = $totalAktivaTetap + $totalAktivaLancar;
                                 @endphp
 
                                 @currency($rs)
@@ -256,44 +243,44 @@
                         <tr>
                             <th>Kewajiban</th>
                         </tr>
+
                         @for ($i = 0; $i < $countAkun; $i++)
-                                @if ($akun[$i]['tipeAkun'] == 'Kewajiban')
+                                @if ($akun[$i]['tipeAkun'] == 'Kewajiban' && $akun[$i]['hasilAkhir'] != 0)
                                 <tr>
                                     <td style="width:10em">{{ $akun[$i]['namaAkun'] }}</td>
                                     <td>@currency($akun[$i]['hasilAkhir'])</td>
                                 </tr>
                                 @php
-                                    $totalPendapatan+=$akun[$i]['hasilAkhir'];
+                                    $totalKewajiban += $akun[$i]['hasilAkhir'];
                                 @endphp
                                 @endif
                         @endfor
+
                         <tr>
                             <td>
                                 <strong>Total Kewajiban :</strong>
                             </td>
-                            @php
-                                $totalKewajiban+=$totalPendapatan;
-                            @endphp
-                            <td>@currency($totalPendapatan)</td>
+                            <td>@currency($totalKewajiban)</td>
                         </tr>
                         <tr>
                             <td>&nbsp;</td>
                         </tr>
-                        @php
-                            $bg = count($modalSendiri);
-                        @endphp
                         <tr>
                             <th>Modal Sendiri</th>
                         </tr>
-                        @for ($st = 0; $st < $bg; $st++)
-                            <tr>
-                                <td>{{$modalSendiri[$st]['namaAkun']}}</td>
-                                <td>@currency($modalSendiri[$st]['jumlah'])</td>
-                            </tr>
-                            @php
-                                $totalModalSendiri+=$modalSendiri[$st]['jumlah'];
-                            @endphp
+
+                        @for ($i = 0; $i < $countAkun; $i++)
+                            @if ($akun[$i]['tipeAkun'] == 'Ekuitas')
+                                <tr>
+                                    <td style="width:10em">{{ $akun[$i]['namaAkun'] }}</td>
+                                    <td>@currency($akun[$i]['hasilAkhir'])</td>
+                                </tr>
+                                @php
+                                    $totalModalSendiri += $akun[$i]['hasilAkhir'];
+                                @endphp
+                            @endif
                         @endfor
+
                         <tr>
                             <td>
                                 <strong>Jumlah Modal Sendiri :</strong>
@@ -303,11 +290,41 @@
                         <tr>
                             <td>&nbsp;</td>
                         </tr>
+
+                        <tr>
+                            <th>SHU Berjalan</th>
+                        </tr>
+                        @for ($i = 0; $i < $countAkun; $i++)
+                            @if (($akun[$i]['tipeAkun'] == 'Pendapatan' || $akun[$i]['tipeAkun'] == 'Beban') && $akun[$i]['hasilAkhir'] != 0)
+                                <tr>
+                                    <td style="width:10em">{{ $akun[$i]['namaAkun'] }}</td>
+                                    <td>@currency($akun[$i]['hasilAkhir'])</td>
+                                </tr>
+                            @php
+                                if($akun[$i]['tipeAkun'] == 'Pendapatan'){
+                                    $totalPendapatan += $akun[$i]['hasilAkhir'];
+                                }else {
+                                    $totalPendapatan -= $akun[$i]['hasilAkhir'];
+                                }
+                            @endphp
+                            @endif
+                        @endfor
+
+                        <tr>
+                            <td>
+                                <strong>Jumlah SHU :</strong>
+                            </td>
+                            <td>@currency($totalPendapatan)</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                        </tr>
+
                         <tr>
                             <th>Total Keseluruhan :</th>
                             <td>
                                 @php
-                                    $pasivaKeseluruhan = $totalModalSendiri+$totalKewajiban;
+                                    $pasivaKeseluruhan = $totalModalSendiri + $totalKewajiban + $totalPendapatan;
                                 @endphp
                                 @currency($pasivaKeseluruhan)
                             </td>

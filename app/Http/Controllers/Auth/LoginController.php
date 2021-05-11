@@ -55,12 +55,12 @@ class LoginController extends Controller
 
         if (auth()->attempt(array('username' => $input['username'], 'password' => $input['password']))) {
             if (auth()->user()->jabatan == 'K') {
-                return redirect()->route('indexKetua');
+                return redirect()->route('indexKetua')->with('success','Selamat datang ');
             } else if (auth()->user()->jabatan == 'A') {
-                return redirect()->route('dashboard.staff');
+                return redirect()->route('dashboard.staff')->with('success','Selamat datang ');
             }
         }else{
-            return redirect()->route('login');
+            return redirect()->route('login')->with('error','Username / password salah!');
         }
     }
 
