@@ -55,6 +55,10 @@
                 border-right:2px solid black;
                 margin-left:1.5em;
             }
+
+            .p{
+                margin-top: -250px;
+            }
         }
 
 

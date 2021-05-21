@@ -181,9 +181,9 @@ class AnggotaController extends Controller
                             ->update($data);
 
         if($insertData){
-            return redirect('admin/anggota')->with('success','Data Berhasil Disimpan');
+            return redirect('admin/anggota')->with('success','Data Berhasil Diubah');
         }else{
-            return redirect('admin/anggota/edit')->with('error','Data Gagal Disimpan');
+            return redirect('admin/anggota/edit')->with('error','Data Gagal Diubah');
         }
     }
 

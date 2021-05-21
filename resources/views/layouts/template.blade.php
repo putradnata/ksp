@@ -90,7 +90,7 @@
         </div>
         <!-- /.content-wrapper -->
 
-        <footer class="main-footer">
+        <footer class="main-footer hide">
             <div class="float-right d-none d-sm-block">
 
             </div>

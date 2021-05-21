@@ -3,8 +3,8 @@
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
         <img src="{{ asset('images/Logo-Koperasi-1.png') }}" alt="logo ksp"
-            class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light"><center><small>Artha Rahayu Sejahtera<br>Abadi</small></center></span>
+            class="brand-image img-circle elevation-3" style="opacity: .8; margin-top: 12px;">
+        <span class="brand-text font-weight-light"><center><small>Artha Rahayu Sejahtera <br> <div style="margin-right: 25px;">Abadi</div></small></center></span>
     </a>
 
     <!-- Sidebar -->
@@ -24,11 +24,40 @@
             @if(Auth::user()->jabatan == 'K')
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-th"></i>
+                        <a href="{{ route('dashboard.ketua')}}" class="nav-link">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>Dashboard</p>
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('sisaHasilUsaha.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-dollar-sign"></i>
+                            <p>Sisa Hasil Usaha</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('bukuBesar.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-book-open"></i>
+                            <p>Buku Besar</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('neraca.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-balance-scale"></i>
+                            <p>Neraca</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('neracaPercobaan.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-file-invoice"></i>
+                            <p>Neraca Percobaan</p>
+                        </a>
+                    </li>
+
                 </ul>
             @elseif(Auth::user()->jabatan == 'A')
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -123,34 +152,6 @@
                         <a href="{{ route('jurnal-umum.index') }}" class="nav-link">
                             <i class="nav-icon fas fa-book-open"></i>
                             <p>Jurnal Umum</p>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="{{ route('sisaHasilUsaha.index') }}" class="nav-link">
-                            <i class="nav-icon fas fa-dollar-sign"></i>
-                            <p>Sisa Hasil Usaha</p>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="{{ route('bukuBesar.index') }}" class="nav-link">
-                            <i class="nav-icon fas fa-book-open"></i>
-                            <p>Buku Besar</p>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="{{ route('neraca.index') }}" class="nav-link">
-                            <i class="nav-icon fas fa-balance-scale"></i>
-                            <p>Neraca</p>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="{{ route('neracaPercobaan.index') }}" class="nav-link">
-                            <i class="nav-icon fas fa-file-invoice"></i>
-                            <p>Neraca Percobaan</p>
                         </a>
                     </li>
 

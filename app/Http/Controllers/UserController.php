@@ -151,9 +151,9 @@ class UserController extends Controller
                             ->update($data);
 
         if($insertData){
-            return redirect('admin/staff')->with('success','Data Berhasil Disimpan');
+            return redirect('admin/staff')->with('success','Data Berhasil Diubah');
         }else{
-            return redirect('admin/staff/edit')->with('error','Data Gagal Disimpan');
+            return redirect('admin/staff/edit')->with('error','Data Gagal Diubah');
         }
     }
 }

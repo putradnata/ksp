@@ -27,6 +27,8 @@ class JurnalUmumController extends Controller
                     'jurnal_umum.status',
                     'akun.nama as namaAkun'
                     )
+            ->orderBy('jurnal_umum.noTransaksi', 'DESC')
+            ->orderBy('jurnal_umum.status', 'ASC')
             ->get();
 
         return view('admin.jurnalUmum/index',[

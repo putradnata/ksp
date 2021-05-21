@@ -43,6 +43,7 @@
         <a class="btn btn-primary" id="tambahButton" href="{{ route('jurnal-umum.create') }}"> <i class="fa fa-book"></i> Tambah Jurnal </a>
         <table class="table table-stripped" id="tabelData">
             <thead>
+                <th>No</th>
                 <th>Tanggal</th>
                 <th>Kode Jurnal</th>
                 <th>Keterangan</th>
@@ -58,11 +59,12 @@
                     $totalKredit = 0;
                 @endphp
 
-                @foreach ($showJurnal as $jurnal)
+                @foreach ($showJurnal as $j => $jurnal)
                     @php
                         $parsedDate = Carbon::parse($jurnal->tanggal)->locale('id');
                     @endphp
                     <tr>
+                        <td>{{ ++$j }}</td>
                         <td>{{ $parsedDate->isoFormat('DD-MM-YYYY') }}</td>
                         <td>{{ $jurnal->noTransaksi }}</td>
                         <td>{{ $jurnal->keterangan }}</td>

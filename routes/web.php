@@ -34,10 +34,24 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['ketua'])->group(function () {
         //give 'ketua' prefix into url
         Route::prefix('ketua')->group(function () {
-            //index ketua
-                Route::get('/', function () {
-                    return view('ketua.index');
-                })->name('indexKetua');
+
+            //dashboard
+            Route::get('/', [DashboardController::class, 'indexAdmin'])->name('dashboard.ketua');
+
+            //sisa hasil usaha
+            Route::get('/sisa-hasil-usaha',[SisaHasilUsahaController::class,'index'])->name('sisaHasilUsaha.index');
+            Route::post('/sisa-hasil-usaha',[SisaHasilUsahaController::class,'SHUDateBased'])->name('sisaHasilUsaha.shu-dateBased');
+            Route::post('/sisa-hasil-usaha/cetak',[SisaHasilUsahaController::class,'cetakSHU'])->name('sisaHasilUsaha.cetak');
+
+            //buku besar
+            Route::get('/buku-besar',[BukuBesarController::class,'index'])->name('bukuBesar.index');
+            Route::post('/buku-besar',[BukuBesarController::class,'getAccountActivity'])->name('bukuBesar.show');
+
+            //neraca
+            Route::get('/neraca',[NeracaController::class,'index'])->name('neraca.index');
+            Route::post('/neraca',[NeracaController::class,'getNeraca'])->name('neraca.show');
+            Route::get('/neracaPercobaan',[NeracaController::class,'indexPercobaan'])->name('neracaPercobaan.index');
+            Route::post('/neracaPercobaan',[NeracaController::class,'getNeracaPercobaan'])->name('neracaPercobaan.show');
         });
     });
 
@@ -56,21 +70,6 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/simpanan-pokok/{id}', [SimpananPokokController::class, 'PrintReport'])->name('simpananPokok.report');
             Route::get('/simpanan-wajib/{id}', [SimpananWajibController::class, 'PrintReport'])->name('simpananWajib.report');
             Route::get('/simpanan-khusus/{id}', [SimpananKhususController::class, 'PrintReport'])->name('simpananKhusus.report');
-
-            //sisa hasil usaha
-            Route::get('/sisa-hasil-usaha',[SisaHasilUsahaController::class,'index'])->name('sisaHasilUsaha.index');
-            Route::post('/sisa-hasil-usaha',[SisaHasilUsahaController::class,'SHUDateBased'])->name('sisaHasilUsaha.shu-dateBased');
-            Route::post('/sisa-hasil-usaha/cetak',[SisaHasilUsahaController::class,'cetakSHU'])->name('sisaHasilUsaha.cetak');
-
-            //buku besar
-            Route::get('/buku-besar',[BukuBesarController::class,'index'])->name('bukuBesar.index');
-            Route::post('/buku-besar',[BukuBesarController::class,'getAccountActivity'])->name('bukuBesar.show');
-
-            //neraca
-            Route::get('/neraca',[NeracaController::class,'index'])->name('neraca.index');
-            Route::post('/neraca',[NeracaController::class,'getNeraca'])->name('neraca.show');
-            Route::get('/neracaPercobaan',[NeracaController::class,'indexPercobaan'])->name('neracaPercobaan.index');
-            Route::post('/neracaPercobaan',[NeracaController::class,'getNeracaPercobaan'])->name('neracaPercobaan.show');
 
             //All Resource Controller
             Route::resources([

@@ -207,6 +207,7 @@
                         denda = (((pokok / months) + (bunga / months)) * 5/100) * months;
                         jumlah = pokok + bunga + denda;
                     }else {
+                        months +=1;
                         pokok = pokok * months;
                         if(pokok>sisaHutang){
                             pokok = parseInt(sisaHutang);

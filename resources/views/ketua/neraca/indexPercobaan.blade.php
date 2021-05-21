@@ -32,6 +32,10 @@
             .main-sidebar{
                 visibility: hidden !important;
             }
+
+            .p{
+                margin-top: -250px;
+            }
         }
 
 
@@ -97,7 +101,7 @@
 <div class="card">
     <div class="card-body">
         <div class="row">
-            <div class="col-12 text-center">
+            <div class="col-12 text-center p">
                 <img class="kop-koperasi" src="{{ asset('images/kop-ksp.png') }}" >
 
                 <div class="text-center"><strong>Periode : {{ \Carbon\Carbon::parse($dariTanggal)->format('M-Y') }}</strong></div><br>

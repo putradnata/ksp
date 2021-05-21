@@ -10,7 +10,7 @@ class BukuBesarController extends Controller
     public function index(){
         $showAkun = DB::table('akun')->select('noAkun','nama')->get();
 
-        return view('admin/bukubesar.index',[
+        return view('ketua/bukubesar.index',[
             'akun' => $showAkun
         ]);
     }
@@ -35,10 +35,11 @@ class BukuBesarController extends Controller
                             )
                         ->where('akun.noAkun',$request->akun)
                         ->whereBetween('jurnal_umum.tanggal',[$request->dariTanggal,$request->sampaiTanggal])
+                        ->orderBy('jurnal_umum.noTransaksi', 'ASC')
                         ->get();
 
-        return view('admin/bukubesar.index')
-            ->with('accountActivities', $selectData,true)
+        return view('ketua/bukubesar.index')
+            ->with('accountActivities', $selectData)
             ->with('showSaldoAwal', $showSaldoAwal)
             ->with('akun',$showAkun);
     }

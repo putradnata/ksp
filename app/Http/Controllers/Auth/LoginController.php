@@ -55,7 +55,7 @@ class LoginController extends Controller
 
         if (auth()->attempt(array('username' => $input['username'], 'password' => $input['password']))) {
             if (auth()->user()->jabatan == 'K') {
-                return redirect()->route('indexKetua')->with('success','Selamat datang ');
+                return redirect()->route('dashboard.ketua')->with('success','Selamat datang ');
             } else if (auth()->user()->jabatan == 'A') {
                 return redirect()->route('dashboard.staff')->with('success','Selamat datang ');
             }

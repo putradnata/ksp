@@ -13,7 +13,7 @@ class NeracaController extends Controller
 
         $convertedDate = $mytime->toDateString();
 
-        return view('admin/neraca.index',[
+        return view('ketua/neraca.index',[
             'dariTanggal' => $convertedDate,
             'sampaiTanggal' => $convertedDate,
         ]);
@@ -115,7 +115,7 @@ class NeracaController extends Controller
 
         $noAkun = array_values($noAkun);
 
-        return view('admin/neraca.index',[
+        return view('ketua/neraca.index',[
             'akun' => $noAkun,
             'dariTanggal' => $dariTanggal,
             'sampaiTanggal' => $sampaiTanggal,
@@ -127,7 +127,7 @@ class NeracaController extends Controller
 
         $convertedDate = $mytime->toDateString();
 
-        return view('admin/neraca.indexPercobaan',[
+        return view('ketua/neraca.indexPercobaan',[
             'dariTanggal' => $convertedDate
         ]);
     }
@@ -322,7 +322,7 @@ class NeracaController extends Controller
 
         $noAkunNow = array_values($noAkunNow);
 
-        return view('admin/neraca.indexPercobaan',[
+        return view('ketua/neraca.indexPercobaan',[
             'akun' => $noAkun,
             'akunNow' => $noAkunNow,
             'dariTanggal' => $dariTanggal,

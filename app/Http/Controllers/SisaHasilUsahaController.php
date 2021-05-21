@@ -14,7 +14,7 @@ class SisaHasilUsahaController extends Controller
 
         $convertedDate = $mytime->toDateString();
 
-        return view('admin/shu.index',[
+        return view('ketua/shu.index',[
             'dariTanggal' => $convertedDate,
             'sampaiTanggal' => $convertedDate,
         ]);
@@ -62,14 +62,14 @@ class SisaHasilUsahaController extends Controller
             ->get();
 
         if($request->cetak != null){
-            return view('admin/shu.cetak',[
+            return view('ketua/shu.cetak',[
                 'filter' => $filterDate,
                 'filter2' => $filterDate2,
                 'dariTanggal' => $request->dariTanggal,
                 'sampaiTanggal' => $request->sampaiTanggal,
             ]);
         }else{
-            return view('admin/shu.index',[
+            return view('ketua/shu.index',[
                 'filter' => $filterDate,
                 'filter2' => $filterDate2,
                 'dariTanggal' => $request->dariTanggal,

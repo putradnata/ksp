@@ -20,6 +20,22 @@
             padding: 0;
         }
 
+        @media print{
+            .hide{
+                display:none;
+            }
+
+            .kop-koperasi{
+                display: block !important;
+                margin-bottom:40px;
+                margin-top:-120px !important;
+            }
+        }
+
+        .kop-koperasi{
+            display: none;
+        }
+
         @media screen and (min-width:768px){
             .col-12.text-center.result-shu {
                 padding: 0 32em;
@@ -40,7 +56,7 @@
 
 @section('contentHere')
 <div class="card">
-    <div class="card-header">
+    <div class="card-header hide">
         <h3 class="card-title">Buku Besar</h3>
 
         <div class="card-tools">
@@ -52,27 +68,32 @@
         </div>
     </div>
     <div class="card-body">
-        <div class="row mb-5">
-            <form class="form-inline form-horizontal" method="POST" action="{{ route('bukuBesar.show') }}" id="bookform">
+        <div class="row mb-5 hide">
+            <form class="form-horizontal" method="POST" action="{{ route('bukuBesar.show') }}" id="bookform">
                 @csrf
-                <div class="form-group mr-3">
-                    <label class="mr-3">Akun</label>
-                    <select class="form-control" name="akun" id="akun">
-                        @foreach ($akun as $ak)
-                            <option value="{{ $ak->noAkun }}">{{ $ak->nama }}</option>
-                        @endforeach
-                    </select>
+                <div class="form-inline">
+                    <div class="form-group mr-3">
+                        <label class="mr-3">Akun</label>
+                        <select class="form-control" name="akun" id="akun">
+                            @foreach ($akun as $ak)
+                                <option value="{{ $ak->noAkun }}">{{ $ak->nama }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group mr-3">
+                        <label class="mr-3">Dari Tanggal</label>
+                        <input type="date" class="form-control" name="dariTanggal" id="dariTanggal" required>
+                    </div>
+                    <div class="form-group mr-3">
+                        <label class="mr-3">Sampai Tanggal</label>
+                        <input type="date" class="form-control" name="sampaiTanggal" id="sampaiTanggal" required>
+                    </div>
                 </div>
-                <div class="form-group mr-3">
-                    <label class="mr-3">Dari Tanggal</label>
-                    <input type="date" class="form-control" name="dariTanggal" id="dariTanggal" required>
-                </div>
-                <div class="form-group mr-3">
-                    <label class="mr-3">Sampai Tanggal</label>
-                    <input type="date" class="form-control" name="sampaiTanggal" id="sampaiTanggal" required>
-                </div>
+                <div class="mt-4 mb-0 ml-5">
+                    <button type="submit" class="btn btn-success mr-4 cari"><i class="fas fa-search"></i> Cari</button>
 
-                <button type="submit" class="btn btn-success mr-4 cari"><i class="fas fa-search"></i> Cari</button>
+                    <button type="button" class="btn btn-primary mr-4" onclick="window.print()"><i class="fas fa-print"></i> Cetak</button>
+                </div>
 
             </form>
         </div>
@@ -81,6 +102,9 @@
 
 <div class="card">
     <div class="card-body">
+        <center>
+                <img class="kop-koperasi" src="{{ asset('images/kop-ksp.png') }}" >
+        </center>
         <table class="table table-stripped table-responsive-sm" id="tabelData">
             <thead>
                 <th>Tanggal</th>
