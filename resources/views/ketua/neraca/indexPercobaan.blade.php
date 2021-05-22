@@ -80,7 +80,11 @@
     </div>
     <div class="card-body frmz">
         <div class="row mb-5">
-            <form class="form-inline form-horizontal" method="POST" action="{{ route('neracaPercobaan.show') }}" id="neracaform">
+            @if(Auth::user()->jabatan == 'K')
+                <form class="form-inline form-horizontal" method="POST" action="{{ route('neracaPercobaan.show') }}" id="neracaform">
+            @elseif(Auth::user()->jabatan == 'A')
+                <form class="form-inline form-horizontal" method="POST" action="{{ route('neracaPercobaanAdmin.show') }}" id="neracaform">
+            @endif
                 @csrf
                 <div class="form-group mr-3">
                     <label class="mr-3">Periode</label>

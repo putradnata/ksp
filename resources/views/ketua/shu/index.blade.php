@@ -59,7 +59,11 @@
     </div>
     <div class="card-body">
         <div class="row mb-5">
-            <form class="form-inline form-horizontal" method="POST" action="{{ route('sisaHasilUsaha.shu-dateBased') }}">
+            @if(Auth::user()->jabatan == 'K')
+                <form class="form-inline form-horizontal" method="POST" action="{{ route('sisaHasilUsaha.shu-dateBased') }}">
+            @elseif(Auth::user()->jabatan == 'A')
+                <form class="form-inline form-horizontal" method="POST" action="{{ route('sisaHasilUsahaAdmin.shu-dateBased') }}">
+            @endif
                 @csrf
                 <div class="form-group mr-3">
                     <label class="mr-3">Dari Tanggal</label>
@@ -72,9 +76,11 @@
 
                 <button type="submit" name="cari" value="cari" class="btn btn-success mr-4 cari"><i class="fas fa-search"></i> Cari</button>
 
-                <span class="tsb btn btn-primary mr-4">
+                <button type="submit" name="cetak" value="Cetak" class="btn btn-primary mr-4 cetak"><i class="fas fa-print"></i> Cetak</button>
+
+                {{-- <span class="tsb btn btn-primary mr-4">
                     <i class="fas fa-print"></i> <input type="submit" name="cetak" value="Cetak">
-                </span>
+                </span> --}}
             </form>
         </div>
     </div>

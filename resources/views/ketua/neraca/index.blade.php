@@ -115,7 +115,11 @@
     </div>
     <div class="card-body frmz">
         <div class="row mb-5">
-            <form class="form-inline form-horizontal" method="POST" id="neracaform" action="{{ route('neraca.show') }}">
+            @if(Auth::user()->jabatan == 'K')
+                <form class="form-inline form-horizontal" method="POST" id="neracaform" action="{{ route('neraca.show') }}">
+            @elseif(Auth::user()->jabatan == 'A')
+                <form class="form-inline form-horizontal" method="POST" id="neracaform" action="{{ route('neracaAdmin.show') }}">
+            @endif
                 @csrf
                 <div class="form-group mr-3">
                     <label class="mr-3">Dari Tanggal</label>

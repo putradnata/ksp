@@ -155,6 +155,34 @@
                         </a>
                     </li>
 
+                    <li class="nav-item">
+                        <a href="{{ route('sisaHasilUsahaAdmin.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-dollar-sign"></i>
+                            <p>Sisa Hasil Usaha</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('bukuBesarAdmin.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-book-open"></i>
+                            <p>Buku Besar</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('neracaAdmin.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-balance-scale"></i>
+                            <p>Neraca</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('neracaPercobaanAdmin.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-file-invoice"></i>
+                            <p>Neraca Percobaan</p>
+                        </a>
+                    </li>
+
                 </ul>
             @endif
         </nav>

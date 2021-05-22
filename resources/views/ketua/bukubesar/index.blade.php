@@ -69,7 +69,11 @@
     </div>
     <div class="card-body">
         <div class="row mb-5 hide">
-            <form class="form-horizontal" method="POST" action="{{ route('bukuBesar.show') }}" id="bookform">
+            @if(Auth::user()->jabatan == 'K')
+                <form class="form-horizontal" method="POST" action="{{ route('bukuBesar.show') }}" id="bookform">
+            @elseif(Auth::user()->jabatan == 'A')
+                <form class="form-horizontal" method="POST" action="{{ route('bukuBesarAdmin.show') }}" id="bookform">
+            @endif
                 @csrf
                 <div class="form-inline">
                     <div class="form-group mr-3">

@@ -71,6 +71,21 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/simpanan-wajib/{id}', [SimpananWajibController::class, 'PrintReport'])->name('simpananWajib.report');
             Route::get('/simpanan-khusus/{id}', [SimpananKhususController::class, 'PrintReport'])->name('simpananKhusus.report');
 
+            //sisa hasil usaha
+            Route::get('/sisa-hasil-usaha',[SisaHasilUsahaController::class,'index'])->name('sisaHasilUsahaAdmin.index');
+            Route::post('/sisa-hasil-usaha',[SisaHasilUsahaController::class,'SHUDateBased'])->name('sisaHasilUsahaAdmin.shu-dateBased');
+            Route::post('/sisa-hasil-usaha/cetak',[SisaHasilUsahaController::class,'cetakSHU'])->name('sisaHasilUsahaAdmin.cetak');
+
+            //buku besar
+            Route::get('/buku-besar',[BukuBesarController::class,'index'])->name('bukuBesarAdmin.index');
+            Route::post('/buku-besar',[BukuBesarController::class,'getAccountActivity'])->name('bukuBesarAdmin.show');
+
+            //neraca
+            Route::get('/neraca',[NeracaController::class,'index'])->name('neracaAdmin.index');
+            Route::post('/neraca',[NeracaController::class,'getNeraca'])->name('neracaAdmin.show');
+            Route::get('/neracaPercobaan',[NeracaController::class,'indexPercobaan'])->name('neracaPercobaanAdmin.index');
+            Route::post('/neracaPercobaan',[NeracaController::class,'getNeracaPercobaan'])->name('neracaPercobaanAdmin.show');
+
             //All Resource Controller
             Route::resources([
                 'staff' => UserController::class, #Staff

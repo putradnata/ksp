@@ -20,7 +20,7 @@ class AnggotaSeeder extends Seeder
             'alamat' => 'Jl. Raya Guwang No. 55, Sukawati',
             'tempatLahir' => 'Gianyar',
             'tanggalLahir' => '1964-01-01',
-            'jenisKelamin' => 'P',
+            'jenisKelamin' => 'L',
             'pekerjaan' => 'Admin',
             'umur' => '57',
             'idAdmin' => '1',
