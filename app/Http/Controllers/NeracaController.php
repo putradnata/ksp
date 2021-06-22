@@ -266,7 +266,7 @@ class NeracaController extends Controller
             $noAkunNow[$key1]['noAkun'] = $ns->noAkun;
             $noAkunNow[$key1]['namaAkun'] = $ns->nama;
             $noAkunNow[$key1]['tipeAkun'] = $ns->tipe;
-            $noAkunNow[$key1]['hasilAkhir'] = 0;
+            $noAkunNow[$key1]['hasilAkhir'] = 0 + $ns->saldo;
 
             foreach ($filterParent as $value) {
                 if ($value->testJumlah != null ) {
